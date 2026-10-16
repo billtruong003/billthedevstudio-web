@@ -24,7 +24,7 @@ const mark = (key: string) => { try { sessionStorage.setItem(key, "1"); } catch 
  *  Open: a dialogue box like a visual novel, her pose follows the conversation (wave, think, explain).
  *  Her colours are her own (lavender and navy), not the studio amber. Answers come from the studio's Lucy service. */
 // asks about the form or about sending, not a message for Bill: never copied into the message box
-const DRAFTLESS = /form|mở|đâu|where|open|(gửi|send|email|mail).{0,24}(lời nhắn|tin|message|mail|email|cho (sếp )?bill|him)|^(ok|okay|vậy|thế)/i;
+const DRAFTLESS = /form|mở|đâu|where|open|(gửi|send|email|mail).{0,24}(lời nhắn|tin|message|mail|email|cho (sếp )?bill|him)|^(ok|okay|vậy|thế)\b/i;
 
 // an email, a phone number (7+ digits) or a Zalo/Telegram/Facebook handle; anything else cannot be answered
 const CONTACT = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$|(\d[\s.-]?){7,}|zalo|telegram|t\.me\/|@\w{3,}|fb\.com|facebook\.com/i;
