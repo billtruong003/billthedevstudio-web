@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from "framer-motion";
 import { COPY } from "@/content/copy";
 import { asset, SITE, type Locale } from "@/lib/site";
 import { Icon } from "./icons";
@@ -32,6 +33,8 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
   const [tease, setTease] = useState(false);
   const log = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
+  const reduce = useReducedMotion();
+  const talk = useAnimationControls();
 
   // phones: she waits until the visitor is past the first screen, so she never covers the hero
   useEffect(() => {
@@ -85,6 +88,12 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
   const pose = busy ? "think" : msgs.length === 1 ? "wave" : last.from === "lucy" ? "explain" : "present";
   const history = msgs.slice(0, msgs.length - (last.from === "lucy" ? 1 : 0)).slice(1);
 
+  // while her answer wipes in she bobs a few times, quick then settling, so it reads as talking
+  useEffect(() => {
+    if (!open || reduce || busy || msgs.length < 2 || last.from !== "lucy") return;
+    talk.start({ y: [0, -5, 0, -4, 0, -2.5, 0], transition: { duration: 0.95, ease: "easeInOut", times: [0, 0.14, 0.3, 0.46, 0.62, 0.8, 1] } });
+  }, [msgs.length, busy, open]); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <>
       {!open && (
@@ -97,17 +106,36 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
             </div>
           )}
           <button type="button" onClick={openIt} aria-label={`${t.ask}, ${t.role}`} tabIndex={shown ? 0 : -1} className="group block">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset("/img/lucy/lucy-wave.webp")} alt="" className="lucy-breathe -mb-3 block w-[104px] transition-transform duration-200 group-hover:-translate-y-1 sm:w-[140px]" />
+            <span className="lucy-sway block origin-bottom transition-transform duration-300 [transition-timing-function:cubic-bezier(.34,1.56,.64,1)] group-hover:-translate-y-2 group-hover:scale-105">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={asset("/img/lucy/lucy-wave.webp")} alt="" className="lucy-breathe -mb-3 block w-[104px] origin-bottom sm:w-[140px]" />
+            </span>
           </button>
         </div>
       )}
 
       {open && (
-        <section role="dialog" aria-label={`Lucy, ${t.ai}`}
-          className="lucy-rise fixed inset-x-2 bottom-2 z-[65] h-[min(600px,86vh)] overflow-hidden rounded-[18px] border border-[#3D3766] bg-gradient-to-b from-lav-deep from-0% to-navy to-60% shadow-[0_30px_80px_rgb(var(--c-shadow)/.6)] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[620px] sm:w-[440px]">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img key={pose} src={asset(`/img/lucy/lucy-${pose}.webp`)} alt="" className="lucy-swap pointer-events-none absolute -right-5 -top-6 w-[230px] sm:-right-6 sm:-top-2 sm:w-[320px]" />
+        <motion.section role="dialog" aria-label={`Lucy, ${t.ai}`}
+          initial={reduce ? false : { opacity: 0, y: 28, scale: 0.96 }} animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ type: "spring", stiffness: 380, damping: 30 }} style={{ transformOrigin: "100% 100%" }}
+          className="fixed inset-x-2 bottom-2 z-[65] h-[min(600px,86vh)] overflow-hidden rounded-[18px] border border-[#3D3766] bg-gradient-to-b from-lav-deep from-0% to-navy to-60% shadow-[0_30px_80px_rgb(var(--c-shadow)/.6)] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:h-[620px] sm:w-[440px]">
+          {/* Lucy: rises in a beat after the panel; idles (breath + sway on different clocks); tilts while thinking;
+              each new pose dips and springs back over the old one, which lifts away; bobs while she talks */}
+          <motion.div aria-hidden="true" className="pointer-events-none absolute -right-5 -top-6 w-[230px] sm:-right-6 sm:-top-2 sm:w-[320px]"
+            initial={reduce ? false : { y: 70, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.08 }}>
+            <motion.div animate={talk}>
+              <div className={busy ? "lucy-think" : "lucy-idle"}>
+                <div className="lucy-breathe-soft relative aspect-square origin-bottom">
+                  <AnimatePresence initial={false}>
+                    <motion.img key={pose} src={asset(`/img/lucy/lucy-${pose}.webp`)} alt="" className="absolute inset-0 h-full w-full origin-bottom"
+                      initial={reduce ? false : { opacity: 0, y: 12, scaleY: 0.96, scaleX: 1.03 }}
+                      animate={{ opacity: 1, y: 0, scaleY: 1, scaleX: 1, transition: { type: "spring", stiffness: 520, damping: 17, opacity: { duration: 0.12 } } }}
+                      exit={reduce ? undefined : { opacity: 0, y: -6, scale: 1.015, transition: { duration: 0.18, ease: "easeOut" } }} />
+                  </AnimatePresence>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
           <div className="absolute left-3 top-3.5 flex flex-col gap-0.5">
             <b className="text-[20px] font-black text-white">Lucy</b>
             <span className="text-[13px] text-[#CFC8FF]">{t.ai}</span>
@@ -148,7 +176,7 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
               <button type="submit" aria-label={t.send} disabled={busy} className="inline-flex h-[38px] w-[38px] flex-none items-center justify-center rounded-[10px] bg-lav text-[#1B1640] disabled:opacity-60"><Icon name="arrow" size={18} /></button>
             </form>
           </div>
-        </section>
+        </motion.section>
       )}
     </>
   );

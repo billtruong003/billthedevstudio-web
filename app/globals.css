@@ -71,6 +71,15 @@ a:hover { color: #FFB84D; }
 /* Lucy (timings from the motion board): she breathes, the bubble pops once, the dialog rises from her corner,
    her pose cross-fades, three dots wave while she thinks, the answer wipes in left to right. */
 .lucy-breathe { animation: lucy-breathe 4s ease-in-out infinite; }
+/* idle life: breath and sway on different clocks so the loop never lines up; a little wave every 7 s in the corner */
+.lucy-breathe-soft { animation: lucy-breathe-soft 3.6s ease-in-out infinite; }
+.lucy-idle { transform-origin: 50% 100%; animation: lucy-idle 5.3s ease-in-out infinite; }
+.lucy-think { transform-origin: 50% 100%; animation: lucy-think 1.6s ease-in-out infinite; }
+.lucy-sway { animation: lucy-wave-wiggle 7s cubic-bezier(.36, 0, .2, 1) 2.5s infinite; }
+@keyframes lucy-breathe-soft { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.006, 1.016); } }
+@keyframes lucy-idle { 0%, 100% { transform: rotate(-0.6deg) translateX(-1px); } 50% { transform: rotate(0.7deg) translateX(1px); } }
+@keyframes lucy-think { 0%, 100% { transform: rotate(-2.2deg) translateY(0); } 50% { transform: rotate(-1.4deg) translateY(-3px); } }
+@keyframes lucy-wave-wiggle { 0%, 78%, 100% { transform: rotate(0); } 82% { transform: rotate(-5deg) translateY(-3px); } 86% { transform: rotate(4deg); } 90% { transform: rotate(-3deg); } 94% { transform: rotate(1.5deg); } }
 .lucy-pop { animation: lucy-pop .24s cubic-bezier(.22, 1, .36, 1) both; }
 .lucy-rise { animation: lucy-rise .32s cubic-bezier(.22, 1, .36, 1) both; }
 .lucy-swap { animation: lucy-swap .18s ease-out both; }
@@ -83,4 +92,4 @@ a:hover { color: #FFB84D; }
 @keyframes lucy-swap { from { opacity: 0; transform: translateY(6px); } }
 @keyframes lucy-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes lucy-dot { 0%, 60%, 100% { opacity: .25; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
-@media (prefers-reduced-motion: reduce) { .lucy-breathe, .lucy-pop, .lucy-rise, .lucy-swap, .lucy-type, .lucy-dot { animation: none; } .lucy-dot { opacity: .8; } }
+@media (prefers-reduced-motion: reduce) { .lucy-breathe, .lucy-breathe-soft, .lucy-idle, .lucy-think, .lucy-sway, .lucy-pop, .lucy-rise, .lucy-swap, .lucy-type, .lucy-dot { animation: none; } .lucy-dot { opacity: .8; } }
