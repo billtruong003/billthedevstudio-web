@@ -34,6 +34,9 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
   const log = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
   const reduce = useReducedMotion();
+  // "Send to Bill": opens when the visitor wants to reach him (the service says so), or from the link under the chat
+  const [form, setForm] = useState<"closed" | "open" | "sending" | "sent" | "failed">("closed");
+  const [lead, setLead] = useState({ name: "", contact: "", message: "" });
   const talk = useAnimationControls();
 
   // phones: she waits until the visitor is past the first screen, so she never covers the hero
@@ -75,6 +78,7 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
       const r = await fetch(SITE.lucyApi, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ q: question, sid: sessionId(), lang: locale }), signal: AbortSignal.timeout(30_000) });
       const data = r.ok ? await r.json() : null;
       setMsgs((m) => [...m, { from: "lucy", text: data?.answer || (r.status === 429 ? t.busy : t.error) }]);
+      if (data?.handoff && form === "closed") { setLead((l) => ({ ...l, message: l.message || question })); setForm("open"); }
     } catch {
       setMsgs((m) => [...m, { from: "lucy", text: t.error }]);
     } finally {
@@ -82,10 +86,21 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
     }
   };
 
+  const sendLead = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!lead.contact.trim() || !lead.message.trim() || form === "sending") return;
+    setForm("sending");
+    try {
+      const r = await fetch(SITE.lucyApi.replace(/\/chat$/, "/lead"), { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...lead, sid: sessionId(), lang: locale, page }), signal: AbortSignal.timeout(20_000) });
+      setForm(r.ok ? "sent" : "failed");
+    } catch { setForm("failed"); }
+  };
+
   const last = msgs[msgs.length - 1];
   const lucyLine = [...msgs].reverse().find((m) => m.from === "lucy")!;
   const lastQuestion = [...msgs].reverse().find((m) => m.from === "me");
-  const pose = busy ? "think" : msgs.length === 1 ? "wave" : last.from === "lucy" ? "explain" : "present";
+  const pose = busy || form === "sending" ? "think" : form === "sent" ? "wave" : form === "open" ? "present" : msgs.length === 1 ? "wave" : last.from === "lucy" ? "explain" : "present";
   const history = msgs.slice(0, msgs.length - (last.from === "lucy" ? 1 : 0)).slice(1);
 
   // while her answer wipes in she bobs a few times, quick then settling, so it reads as talking
@@ -150,6 +165,36 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
             </div>
           )}
 
+          {form !== "closed" ? (
+            <form onSubmit={sendLead} className="lucy-rise absolute inset-x-2.5 bottom-2.5 flex flex-col gap-2 rounded-xl border-2 border-lav bg-[#141210]/95 px-3.5 pb-3.5 pt-6">
+              <span className="absolute -top-3.5 left-3.5 rounded-md bg-lav px-3 py-0.5 text-[14px] font-black tracking-[0.06em] text-[#1B1640]">{t.leave.title}</span>
+              {form === "sent" ? (
+                <p className="lucy-type m-0 py-2 text-[16px] leading-relaxed text-soft" aria-live="polite">{t.leave.sent} <b className="text-white">{lead.contact}</b>.</p>
+              ) : (
+                <>
+                  <label className="sr-only" htmlFor="lead-name">{t.leave.name}</label>
+                  <input id="lead-name" value={lead.name} onChange={(e) => setLead({ ...lead, name: e.target.value })} maxLength={80} placeholder={t.leave.name} autoComplete="name"
+                    className="min-h-[42px] rounded-lg border border-[#4A4370] bg-black/35 px-3 text-[16px] text-white placeholder:text-[#A39DC9] focus:border-lav focus:outline-none" />
+                  <label className="sr-only" htmlFor="lead-contact">{t.leave.contact}</label>
+                  <input id="lead-contact" required value={lead.contact} onChange={(e) => setLead({ ...lead, contact: e.target.value })} maxLength={120} placeholder={t.leave.contact} autoComplete="email"
+                    className="min-h-[42px] rounded-lg border border-[#4A4370] bg-black/35 px-3 text-[16px] text-white placeholder:text-[#A39DC9] focus:border-lav focus:outline-none" />
+                  <label className="sr-only" htmlFor="lead-message">{t.leave.message}</label>
+                  <textarea id="lead-message" required value={lead.message} onChange={(e) => setLead({ ...lead, message: e.target.value })} maxLength={1500} rows={3} placeholder={t.leave.message}
+                    className="resize-none rounded-lg border border-[#4A4370] bg-black/35 px-3 py-2 text-[16px] text-white placeholder:text-[#A39DC9] focus:border-lav focus:outline-none" />
+                  {form === "failed" && <p className="m-0 text-[14px] text-[#FFB4A8]">{t.leave.failed}</p>}
+                  <p className="m-0 text-[12px] leading-snug text-[#A39DC9]">{t.leave.note}</p>
+                </>
+              )}
+              <div className="flex items-center justify-between gap-3">
+                <button type="button" onClick={() => setForm("closed")} className="min-h-[40px] text-[14px] font-bold text-[#CFC8FF] underline underline-offset-4">{t.leave.back}</button>
+                {form !== "sent" && (
+                  <button type="submit" disabled={form === "sending"} className="inline-flex min-h-[42px] items-center rounded-[10px] bg-lav px-4 text-[15px] font-black text-[#1B1640] disabled:opacity-60">
+                    {form === "sending" ? t.leave.sending : t.leave.send}
+                  </button>
+                )}
+              </div>
+            </form>
+          ) : (
           <div className="absolute inset-x-2.5 bottom-2.5 flex flex-col gap-2.5">
             <div className="relative min-h-[132px] rounded-xl border-2 border-lav bg-[#141210]/95 px-4 pb-4 pt-6" aria-live="polite">
               <span className="absolute -top-3.5 left-3.5 rounded-md bg-lav px-3 py-0.5 text-[14px] font-black tracking-[0.06em] text-[#1B1640]">LUCY</span>
@@ -175,7 +220,11 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
                 className="min-h-[38px] min-w-0 flex-1 bg-transparent text-[16px] text-white placeholder:text-[#A39DC9] focus:outline-none" />
               <button type="submit" aria-label={t.send} disabled={busy} className="inline-flex h-[38px] w-[38px] flex-none items-center justify-center rounded-[10px] bg-lav text-[#1B1640] disabled:opacity-60"><Icon name="arrow" size={18} /></button>
             </form>
+            {msgs.length > 1 && (
+              <button type="button" onClick={() => setForm("open")} className="-mt-1 self-start text-[14px] font-bold text-[#CFC8FF] underline decoration-lav/60 underline-offset-4 hover:text-white">{t.leave.open}</button>
+            )}
           </div>
+          )}
         </motion.section>
       )}
     </>
