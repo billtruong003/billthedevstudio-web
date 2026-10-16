@@ -25,4 +25,4 @@ export const SOCIAL = [
 ];
 
 /** A photo of Bill for the studio section and the press kit, e.g. "/img/brand/bill.jpg". Empty: the fox stands in. */
-export const FOUNDER_PHOTO = "/img/brand/bill-portrait.png";
+export const FOUNDER_PHOTO = "/img/brand/bill-portrait.webp";
