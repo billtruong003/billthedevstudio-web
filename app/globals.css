@@ -1,0 +1,86 @@
+@tailwind base;
+
+/* Warm graphite. Painter's darks: no pure black, every neutral carries a little warmth (hue 70 in OKLCH, the
+   family of the amber and the fox), surfaces step up evenly in perceived lightness (L .185/.21/.255/.29/.33...), text
+   is an off-white, amber is the one accent and Lucy keeps her own lavender. Values are RGB channels for Tailwind. */
+:root {
+  --c-base: 20 18 16;     /* #141210 page */
+  --c-sheet: 26 24 21;    /* #1A1815 alternate band, sheets, footer */
+  --c-card: 37 34 31;     /* #25221F cards */
+  --c-raise: 46 43 39;    /* #2E2B27 hover, placeholders, chat bubbles */
+  --c-line: 56 53 49;     /* #383531 hairlines */
+  --c-line2: 72 68 64;    /* #484440 control borders */
+  --c-line3: 94 90 85;    /* #5E5A55 strong borders */
+  --c-faint: 134 127 119; /* #867F77 meta, "The" */
+  --c-muted: 177 169 162; /* #B1A9A2 secondary text */
+  --c-soft: 217 211 205;  /* #D9D3CD body text */
+  --c-text: 246 243 239;  /* #F6F3EF headings (off-white, never #FFF) */
+  --c-shadow: 4 3 2;      /* #040302 shadows and overlays */
+  --c-paper: 244 239 231; /* #F4EFE7 light tiles */
+  --c-label: 215 175 131; /* #D7AF83 quiet amber for small labels */
+}
+@tailwind components;
+@tailwind utilities;
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; color-scheme: dark; scrollbar-gutter: stable; scrollbar-color: rgb(var(--c-line2)) rgb(var(--c-base)); }
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.thin-scrollbar { scrollbar-width: thin; scrollbar-color: rgb(var(--c-line2)) transparent; }
+body { background: rgb(var(--c-base)); color: rgb(var(--c-text)); }
+/* links in running text: the text colour with an amber underline; amber itself only on hover */
+a { color: rgb(var(--c-text)); text-decoration-color: rgba(255, 184, 77, .6); text-underline-offset: 3px; }
+a:not([class]) { text-decoration-line: underline; font-weight: 700; }
+a:hover { color: #FFB84D; }
+/* white on amber, with a burnt-orange drop like the games' own titles; plain white on #FFB84D alone is 1.7:1 */
+/* a large amber fill under white text reads paler than amber type, so filled buttons use a deeper amber (picked 2026-10-16) */
+.on-amber { color: #FFFFFF; background-color: #FCA334; text-shadow: 0 2px 0 #B3631C, 0 0 1px #B3631C; }
+.on-amber svg { filter: drop-shadow(0 2px 0 #B3631C); }
+:focus-visible { outline: 3px solid #FFB84D; outline-offset: 3px; border-radius: 6px; }
+/* dialogs take focus when they open so keyboard users land inside; that focus is not a thing to highlight */
+[role="dialog"]:focus-visible { outline: none; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* the glint that crosses the fox's shades every few seconds */
+.fox-glint { animation: fox-glint 7s ease-in-out 1.4s infinite; }
+@keyframes fox-glint { 0% { transform: skewX(-20deg) translateX(0); } 14%, 100% { transform: skewX(-20deg) translateX(330px); } }
+@media (prefers-reduced-motion: reduce) { .fox-glint { animation: none; display: none; } }
+
+/* The hero title runs in CSS, so it plays as soon as the page paints, before any script has loaded. */
+.hero-up { animation: hero-up .7s cubic-bezier(.22,1,.36,1) both; }
+.hero-stamp { animation: hero-stamp .5s cubic-bezier(.34,1.56,.64,1) .55s both; }
+@keyframes hero-up { from { transform: translateY(105%); } to { transform: none; } }
+@keyframes hero-stamp { from { opacity: 0; transform: scale(1.35) rotate(-4deg); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .hero-up, .hero-stamp { animation: none; } }
+
+/* The three game screens in the hero: dealt in once on load, the hovered one lifts out of the hand, the rest dim.
+   fill-mode backwards, so after the deal the hover transition owns transform. */
+.hero-card { position: absolute; display: block; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 18px;
+  box-shadow: 0 24px 48px rgb(var(--c-shadow) / .55); transform: rotate(var(--rot));
+  transition: transform .45s cubic-bezier(.34, 1.56, .64, 1), filter .2s ease;
+  animation: hero-deal .7s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards; }
+.hero-card--l { --rot: -7deg; --delay: .3s; left: 0; top: 12%; width: 38%; }
+.hero-card--c { --rot: 2deg; --delay: .15s; left: 30%; top: 0; width: 40%; z-index: 2; outline: 3px solid #FFB84D; outline-offset: -3px; }
+.hero-card--r { --rot: 8deg; --delay: .45s; right: 0; top: 16%; width: 36%; }
+@keyframes hero-deal { from { opacity: 0; transform: translateY(80px) rotate(var(--rot)); } }
+@media (hover: hover) {
+  .hero-cards:hover .hero-card { filter: brightness(.7); }
+  .hero-cards .hero-card:hover { filter: none; z-index: 3; transform: translateY(-36px) scale(1.08) rotate(calc(var(--rot) * .2)); }
+}
+@media (prefers-reduced-motion: reduce) { .hero-card { animation: none; transition: filter .2s; } .hero-cards .hero-card:hover { transform: rotate(var(--rot)); } }
+
+/* Lucy (timings from the motion board): she breathes, the bubble pops once, the dialog rises from her corner,
+   her pose cross-fades, three dots wave while she thinks, the answer wipes in left to right. */
+.lucy-breathe { animation: lucy-breathe 4s ease-in-out infinite; }
+.lucy-pop { animation: lucy-pop .24s cubic-bezier(.22, 1, .36, 1) both; }
+.lucy-rise { animation: lucy-rise .32s cubic-bezier(.22, 1, .36, 1) both; }
+.lucy-swap { animation: lucy-swap .18s ease-out both; }
+.lucy-type { animation: lucy-type .9s steps(36) both; }
+.lucy-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #B7A6FF; animation: lucy-dot .9s ease-in-out infinite; }
+.lucy-dot:nth-child(2) { animation-delay: .15s; } .lucy-dot:nth-child(3) { animation-delay: .3s; }
+@keyframes lucy-breathe { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes lucy-pop { from { opacity: 0; transform: translateY(8px) scale(.96); } }
+@keyframes lucy-rise { from { opacity: 0; transform: translateY(24px); } }
+@keyframes lucy-swap { from { opacity: 0; transform: translateY(6px); } }
+@keyframes lucy-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes lucy-dot { 0%, 60%, 100% { opacity: .25; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
+@media (prefers-reduced-motion: reduce) { .lucy-breathe, .lucy-pop, .lucy-rise, .lucy-swap, .lucy-type, .lucy-dot { animation: none; } .lucy-dot { opacity: .8; } }
