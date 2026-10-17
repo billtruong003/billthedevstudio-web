@@ -108,14 +108,15 @@ export function Stats({ locale }: { locale: Locale }) {
   return (
     <section aria-label="In numbers">
       <Container>
-        <div className="flex flex-wrap items-baseline justify-between gap-x-10 gap-y-6 border-y border-line py-[30px]">
-          {[0, 2, 1, 3].map((i) => (
-            <span key={stats[i][1]} className="inline-flex items-baseline gap-2.5">
-              <CountUp value={stats[i][0]} className="text-[clamp(40px,4.4vw,60px)] font-black leading-none" />
-              <span className="max-w-[13ch] text-[15px] leading-tight text-muted">{stats[i][1]}</span>
-            </span>
+        {/* four equal columns, number over label, all on one top line; 2 × 2 on phones */}
+        <dl className="m-0 grid grid-cols-2 gap-y-8 border-y border-line py-[30px] md:grid-cols-4">
+          {[0, 2, 1, 3].map((i, n) => (
+            <div key={stats[i][1]} className={`flex flex-col gap-2.5 pr-4 ${n % 2 ? "pl-5 border-l border-line md:pl-6" : n ? "md:pl-6 md:border-l md:border-line" : ""}`}>
+              <dt className="order-2 m-0 max-w-[22ch] text-[15px] leading-snug text-muted">{stats[i][1]}</dt>
+              <dd className="order-1 m-0"><CountUp value={stats[i][0]} className="text-[clamp(40px,4.4vw,60px)] font-black leading-none" /></dd>
+            </div>
           ))}
-        </div>
+        </dl>
       </Container>
     </section>
   );
