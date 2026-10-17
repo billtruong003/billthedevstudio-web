@@ -27,6 +27,8 @@ export type Game = {
   /** A trailer hosted with the site (16:9 mp4), for games whose video is not on YouTube yet. */
   trailerFile?: string;
   playPackage?: string;
+  /** Announced but not in testing yet: the home list says "Coming soon" instead of "In testing". */
+  soon?: boolean;
   /** true once the Google Play page is public; until then the badge offers the test by email. */
   storeLive?: boolean;
   playUrl?: string;
@@ -106,6 +108,30 @@ export const GAMES: Game[] = [
     icon: "/img/games/bruh-arrows/icon.png", keyArt: "/img/games/bruh-arrows/feature.jpg", media: shots("bruh-arrows"),
     trailer: "BLJmR8OaI2I", playPackage: "com.billthedev.bruharrows", privacy: "/privacy/bruh-arrows/",
     info: { en: androidInfo(false), vi: androidInfo(true) },
+  },
+  {
+    slug: "duck-drip", name: "Duck Drip", soon: true, accent: "#FFC531", label: "#FFD25E", onAccent: "#111111", platform: "android",
+    status: { en: "Android · Coming soon to Google Play", vi: "Android · sắp ra mắt trên Google Play" },
+    genre: { en: "Water ripple puzzle", vi: "Puzzle gợn nước" },
+    tagline: { en: "Every drop counts.", vi: "Giọt nào cũng đáng giá." },
+    short: { en: "Yippy the rubber duck can't swim. Tap to drop water, ride the ripples and bring her three ducklings home past soap, mud, hair dryers and whirlpools.",
+             vi: "Vịt cao su Yippy không biết bơi. Chạm để nhỏ nước, cưỡi sóng gợn và đưa ba vịt con về nhà, vượt qua xà phòng, bùn, máy sấy và xoáy nước." },
+    about: {
+      en: ["Yippy is a rubber duck who can't swim, and one big splash has scattered her three ducklings across the tub.",
+           "Tap to drop a drip of water. Its ripples push her along: aim them past soap bars, mud, hair dryers and whirlpools, pick up the babies and float home to the swim ring. Do it within par and the crown is yours."],
+      vi: ["Yippy là một chú vịt cao su không biết bơi, và một cú té nước đã làm ba vịt con trôi tứ tán khắp bồn.",
+           "Chạm để nhỏ một giọt nước. Sóng gợn sẽ đẩy Yippy đi: canh cho sóng đưa cô vượt xà phòng, bùn, máy sấy và xoáy nước, đón các con rồi về tới phao. Về trong số giọt par là được vương miện."],
+    },
+    features: {
+      en: [["Real ripples", "Every drop sends out ripples. Where it lands decides where she floats."], ["200 levels, 10 worlds", "From the bathtub to the beach: soap, mud, hair dryers, whirlpools, tide pools."], ["Par crowns", "Bring all three babies home in par drops to win the crown."]],
+      vi: [["Sóng gợn thật", "Mỗi giọt nước tạo sóng gợn. Rơi chỗ nào quyết định vịt trôi về đâu."], ["200 màn, 10 thế giới", "Từ bồn tắm ra bãi biển: xà phòng, bùn, máy sấy, xoáy nước, vũng thuỷ triều."], ["Vương miện par", "Đưa đủ ba vịt con về trong số giọt par để nhận vương miện."]],
+    },
+    icon: "/img/games/duck-drip/icon.png", keyArt: "/img/games/duck-drip/feature.jpg", media: shots("duck-drip"),
+    trailerFile: "/video/duck-drip-trailer.mp4", playPackage: "com.billthedev.dripduck", privacy: "/privacy/duck-drip/",
+    info: {
+      en: [["Platform", "Android, on Google Play"], ["Price", "Free · contains ads · in-app purchases"], ["Players", "1"], ["Levels", "200 in 10 worlds"], ["Status", "Coming soon"], ["Developer", "Bill The Dev"]],
+      vi: [["Nền tảng", "Android, trên Google Play"], ["Giá", "Miễn phí · có quảng cáo · mua trong ứng dụng"], ["Người chơi", "1"], ["Số màn", "200 màn, 10 thế giới"], ["Trạng thái", "Sắp ra mắt"], ["Nhà phát triển", "Bill The Dev"]],
+    },
   },
   {
     slug: "slam-cards", name: "Flip Flop Slam", accent: "#D63C6E", label: "#F27AA0", onAccent: "#FFFFFF", platform: "web",
