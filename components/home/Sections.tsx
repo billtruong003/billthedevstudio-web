@@ -2,6 +2,7 @@ import Link from "next/link";
 import { COPY } from "@/content/copy";
 import { GAMES } from "@/content/games";
 import { COLLAB, CONTACTS, FOUNDER_PHOTO, SOCIAL } from "@/content/studio";
+import { FollowRow } from "../Social";
 import { asset, href, SITE, type Locale } from "@/lib/site";
 import { Fox } from "../Fox";
 import { CountUp, HeroTitle } from "../motion";
@@ -29,6 +30,7 @@ export function Hero({ locale }: { locale: Locale }) {
             <Button href="#games" size="lg">{t.hero.games}</Button>
             <TextLink href="#services" className="text-[17px]">{t.hero.hireLink}</TextLink>
           </div>
+          <FollowRow label={t.hero.follow} className="-ml-1 -mt-1" />
         </div>
         <div aria-hidden="true" className="hero-cards relative h-[clamp(380px,46vw,560px)] min-w-0 flex-[1_1_360px]">
           {cards.map(([src, cls]) => (

@@ -4,6 +4,7 @@ import { GAMES } from "@/content/games";
 import { COLLAB, CONTACTS, SOCIAL } from "@/content/studio";
 import { asset, href, SITE, type Locale } from "@/lib/site";
 import { Logo } from "./Header";
+import { BrandMark } from "./Social";
 import { Container, Slogan } from "./ui";
 
 function Col({ title, children }: { title: string; children: React.ReactNode }) {
@@ -37,7 +38,7 @@ export function Footer({ locale }: { locale: Locale }) {
           <a href={COLLAB.href} className={A}>Collab: {COLLAB.name}</a>
         </Col>
         <Col title={t.footer.contact}>{CONTACTS.map((c) => <a key={c.kind} href={c.href} className={A}>{c.name}</a>)}</Col>
-        <Col title={t.footer.follow}>{SOCIAL.map((s) => <a key={s.name} href={s.href} className={A}>{s.name}</a>)}</Col>
+        <Col title={t.footer.follow}>{SOCIAL.map((s) => <a key={s.name} href={s.href} className={`${A} gap-2.5`}><BrandMark name={s.name} size={18} />{s.name}</a>)}</Col>
         <Col title={t.footer.legal}><a href={asset("/privacy/")} className={A}>{t.footer.privacy}</a></Col>
       </Container>
       <Container><p className="m-0 pb-32 text-[14px] leading-relaxed text-faint sm:pb-10">{t.footer.note}</p></Container>
