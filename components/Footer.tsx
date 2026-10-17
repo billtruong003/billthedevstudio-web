@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { COPY } from "@/content/copy";
 import { GAMES } from "@/content/games";
-import { COLLAB, CONTACTS, STUDIO_YOUTUBE } from "@/content/studio";
+import { COLLAB, CONTACTS, SOCIAL } from "@/content/studio";
 import { asset, href, SITE, type Locale } from "@/lib/site";
 import { Logo } from "./Header";
 import { Container, Slogan } from "./ui";
@@ -22,7 +22,7 @@ export function Footer({ locale }: { locale: Locale }) {
   const home = href(locale);
   return (
     <footer className="border-t border-line bg-sheet">
-      <Container className="grid grid-cols-2 gap-x-5 gap-y-7 pb-6 pt-12 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+      <Container className="grid grid-cols-2 gap-x-5 gap-y-7 pb-6 pt-12 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr_1fr]">
         <div className="col-span-2 flex flex-col gap-3 md:col-span-1">
           <Logo locale={locale} size={22} />
           <span className="text-[15px] leading-normal text-muted">{t.footer.tagline}, {t.footer.place}.</span>
@@ -35,9 +35,9 @@ export function Footer({ locale }: { locale: Locale }) {
           <a href={SITE.portfolio} className={A}>{t.footer.devlog}</a>
           <Link href={href(locale, "/press/")} className={A}>{t.nav.press}</Link>
           <a href={COLLAB.href} className={A}>Collab: {COLLAB.name}</a>
-          <a href={STUDIO_YOUTUBE} className={A}>YouTube</a>
         </Col>
         <Col title={t.footer.contact}>{CONTACTS.map((c) => <a key={c.kind} href={c.href} className={A}>{c.name}</a>)}</Col>
+        <Col title={t.footer.follow}>{SOCIAL.map((s) => <a key={s.name} href={s.href} className={A}>{s.name}</a>)}</Col>
         <Col title={t.footer.legal}><a href={asset("/privacy/")} className={A}>{t.footer.privacy}</a></Col>
       </Container>
       <Container><p className="m-0 pb-32 text-[14px] leading-relaxed text-faint sm:pb-10">{t.footer.note}</p></Container>

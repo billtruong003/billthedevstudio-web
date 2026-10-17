@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { COPY } from "@/content/copy";
 import { GAMES } from "@/content/games";
-import { COLLAB, CONTACTS, FOUNDER_PHOTO } from "@/content/studio";
+import { COLLAB, CONTACTS, FOUNDER_PHOTO, SOCIAL } from "@/content/studio";
 import { asset, href, SITE, type Locale } from "@/lib/site";
 import { Fox } from "../Fox";
 import { CountUp, HeroTitle } from "../motion";
@@ -264,6 +264,7 @@ export function Contact({ locale }: { locale: Locale }) {
         <p className="m-0 text-[17px] leading-relaxed text-muted">
           {t.also}{" "}
           {others.map((c, i) => <span key={c.kind}>{i ? " · " : ""}<TextLink href={c.href}>{c.name}</TextLink></span>)}.{" "}
+          {t.follow} {SOCIAL.slice(0, 3).map((s, i) => <span key={s.name}>{i ? " · " : ""}<TextLink href={s.href}>{s.name}</TextLink></span>)}.{" "}
           {t.pressLead} <TextLink href={href(locale, "/press/")}>{t.pressLink}</TextLink>.
         </p>
       </Container>
