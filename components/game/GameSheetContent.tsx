@@ -19,21 +19,28 @@ function Cta({ game, locale, height = 54, short }: { game: Game; locale: Locale;
     : <a href={game.playUrl} className="inline-flex items-center rounded-full px-6 text-[18px] font-black text-white no-underline transition-transform active:scale-[0.97]" style={{ background: game.accent, minHeight: height }}>{short ? t.games.playShort : t.games.play}</a>;
 }
 
-/** Trailer poster that only loads YouTube when pressed (youtube-nocookie). */
+const PlayMark = () => (
+  <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="13" fill="#D63C6E" /><path d="M10.5 8.5v9l7-4.5z" fill="#fff" /></svg>
+);
+
+/** Trailer poster that only loads the video when pressed: YouTube (youtube-nocookie) or the site's own mp4. */
 function Trailer({ game, label }: { game: Game; label: string }) {
   const [playing, setPlaying] = useState(false);
+  const has = !!(game.trailer || game.trailerFile);
   return (
-    <div className="relative aspect-[1024/500] w-full overflow-hidden rounded-2xl bg-black">
-      {playing && game.trailer ? (
+    <div className={`relative ${game.trailerFile ? "aspect-video" : "aspect-[1024/500]"} w-full overflow-hidden rounded-2xl bg-black`}>
+      {playing && game.trailerFile ? (
+        <video className="h-full w-full" src={asset(game.trailerFile)} poster={asset(game.keyArt)} controls autoPlay playsInline preload="none" title={`${game.name} trailer`} />
+      ) : playing && game.trailer ? (
         <iframe className="h-full w-full" src={`https://www.youtube-nocookie.com/embed/${game.trailer}?autoplay=1&rel=0`} title={`${game.name} trailer`}
           allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
       ) : (
-        <button type="button" onClick={() => game.trailer && setPlaying(true)} aria-label={game.trailer ? `${label}: ${game.name}` : game.name} className="group block h-full w-full">
+        <button type="button" onClick={() => has && setPlaying(true)} aria-label={has ? `${label}: ${game.name}` : game.name} className="group block h-full w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset(game.keyArt)} alt="" className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
-          {game.trailer && (
+          <img src={asset(game.keyArt)} alt="" style={{ objectPosition: game.keyArtPos }} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+          {has && (
             <span className="absolute bottom-4 left-4 inline-flex min-h-[46px] items-center gap-2.5 rounded-full bg-[#141210]/85 pl-3 pr-4 text-[16px] font-bold text-white group-hover:bg-[#141210]">
-              <YouTubeMark width={30} />{label}
+              {game.trailer ? <YouTubeMark width={30} /> : <PlayMark />}{label}
             </span>
           )}
         </button>

@@ -18,10 +18,14 @@ export type Game = {
   features: Record<Locale, [string, string][]>;
   icon: string;
   keyArt: string;
+  /** Where a cropped key art keeps its focus (CSS object-position), when the title sits off-centre. */
+  keyArtPos?: string;
   /** Screens in the media rail; `wide` ones are landscape. */
   media: string[];
   wide?: boolean;
   trailer?: string;
+  /** A trailer hosted with the site (16:9 mp4), for games whose video is not on YouTube yet. */
+  trailerFile?: string;
   playPackage?: string;
   /** true once the Google Play page is public; until then the badge offers the test by email. */
   storeLive?: boolean;
@@ -104,28 +108,29 @@ export const GAMES: Game[] = [
     info: { en: androidInfo(false), vi: androidInfo(true) },
   },
   {
-    slug: "slam-cards", name: "Slam Cards", accent: "#D63C6E", label: "#F27AA0", onAccent: "#FFFFFF", platform: "web",
+    slug: "slam-cards", name: "Flip Flop Slam", accent: "#D63C6E", label: "#F27AA0", onAccent: "#FFFFFF", platform: "web",
     status: { en: "Web · 2–4 players · Beta", vi: "Web · 2–4 người · Beta" },
     genre: { en: "Party game for 2–4", vi: "Game nhóm 2–4 người" },
-    tagline: { en: "Slap the table. Flip the card.", vi: "Đập bàn. Lật bài." },
-    short: { en: "A schoolyard game from Vietnam, now online. Slap the table so the gust flips your card onto your friend's. Send a link and play in the browser.",
-             vi: "Trò chơi tuổi thơ Việt Nam, giờ chơi online. Đập bàn cho gió lật bài của bạn đè lên bài bạn bè. Gửi link là chơi trên trình duyệt." },
+    tagline: { en: "Slap the flip-flop. Flip the card.", vi: "Dép Lào Tuổi Thơ: đập dép, lật bài." },
+    short: { en: "The schoolyard card-slapping game from Vietnam, now online. Slam your flip-flop on the table, let the gust flip your card, and land it face up on a friend's. Send a link and play in the browser.",
+             vi: "Trò đập hình sân trường, giờ chơi online. Đập dép xuống bàn, gió lật bài của bạn, cho nó đáp ngửa đè lên bài úp của bạn bè là ăn hình. Gửi link là chơi trên trình duyệt." },
     about: {
-      en: ["A schoolyard game from Vietnam, now online. Everyone puts a card on the table and takes turns slapping it.",
-           "The gust of your slap flips your card. Land it on a friend's card and it's yours. Make a room, send the link, and play in the browser."],
-      vi: ["Trò chơi sân trường Việt Nam, giờ chơi online. Mỗi người đặt một lá bài lên bàn và lần lượt đập bàn.",
-           "Gió từ cú đập lật bài của bạn. Đè lên bài bạn bè là bài đó thuộc về bạn. Tạo phòng, gửi link, chơi ngay trên trình duyệt."],
+      en: ["The card-slapping game Vietnamese kids played at recess, now online. In Vietnam it is called Dép Lào Tuổi Thơ: the flip-flops of our childhood.",
+           "Slam your flip-flop near your card: the closer the hit, the harder the gust. Push your card toward a friend's, then land it face up on theirs while it lies face down, and the card is yours. Last player standing wins the round."],
+      vi: ["Trò đập hình giờ ra chơi của bao thế hệ học sinh Việt Nam, giờ chơi online với bạn bè.",
+           "Đập dép gần lá bài của mình: đập càng sát thì gió càng mạnh. Đẩy bài lại gần bài bạn, rồi cho nó đáp ngửa đè lên bài bạn đang úp là ăn hình. Ai trụ lại cuối cùng thì thắng ván."],
     },
     features: {
-      en: [["Slap the table", "Your slap's gust flips the card. Land it on a friend's card to win it."], ["2 to 4 players", "Make a room and send the link. Friends join from their browser."], ["No download", "Plays in the browser on phones and computers."]],
-      vi: [["Đập bàn", "Gió từ cú đập lật bài. Đè lên bài bạn bè là thắng lá đó."], ["2 đến 4 người", "Tạo phòng, gửi link. Bạn bè vào từ trình duyệt."], ["Không cần tải", "Chơi trên trình duyệt, cả điện thoại lẫn máy tính."]],
+      en: [["Slam the flip-flop", "No power bar: the closer you hit, the harder the gust. Face up on face down wins the card."], ["2 to 4 players", "Make a room, send the link, friends join from their browser. Public rooms too."], ["Your slipper, your pet", "Pick a flip-flop, paint it, and choose one of 24 pets to seal in your card."]],
+      vi: [["Đập dép", "Không có thanh lực: đập càng sát gió càng mạnh. Ngửa đè úp là ăn hình."], ["2 đến 4 người", "Tạo phòng, gửi link, bạn bè vào từ trình duyệt. Có cả phòng công khai."], ["Dép của bạn, pet của bạn", "Chọn dép, tô màu, và chọn 1 trong 24 pet nhốt vào lá bài."]],
     },
-    icon: "/img/games/slam-cards/icon.jpg", keyArt: "/img/games/slam-cards/slippers.jpg",
-    media: ["/img/games/slam-cards/table.jpg", "/img/games/slam-cards/slippers.jpg"], wide: true,
+    icon: "/img/games/flip-flop-slam/icon.jpg", keyArt: "/img/games/flip-flop-slam/feature.jpg", keyArtPos: "left",
+    media: [1, 2, 3].map((n) => `/img/games/flip-flop-slam/shot${n}.jpg`),
+    trailerFile: "/video/flip-flop-slam-trailer.mp4",
     playUrl: "https://billthedevstudio.io.vn/slam-cards/",
     info: {
-      en: [["Platform", "Web browser, phone or computer"], ["Price", "Free"], ["Players", "2–4, online"], ["Status", "Beta"], ["Developer", "Bill The Dev"]],
-      vi: [["Nền tảng", "Trình duyệt web, điện thoại hoặc máy tính"], ["Giá", "Miễn phí"], ["Người chơi", "2–4, online"], ["Trạng thái", "Beta"], ["Nhà phát triển", "Bill The Dev"]],
+      en: [["Platform", "Web browser, phone or computer"], ["Price", "Free"], ["Players", "2–4, online"], ["Also called", "Dép Lào Tuổi Thơ (Vietnam)"], ["Status", "Beta"], ["Developer", "Bill The Dev"]],
+      vi: [["Nền tảng", "Trình duyệt web, điện thoại hoặc máy tính"], ["Giá", "Miễn phí"], ["Người chơi", "2–4, online"], ["Tên tiếng Việt", "Dép Lào Tuổi Thơ"], ["Trạng thái", "Beta"], ["Nhà phát triển", "Bill The Dev"]],
     },
   },
 ];

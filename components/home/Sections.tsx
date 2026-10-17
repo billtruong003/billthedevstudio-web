@@ -41,7 +41,7 @@ export function Hero({ locale }: { locale: Locale }) {
   );
 }
 
-/** Slam Cards plays today, so it leads; the three games in testing are a list, not a grid of equal cards. */
+/** Flip Flop Slam plays today, so it leads; the three games in testing are a list, not a grid of equal cards. */
 export function Games({ locale }: { locale: Locale }) {
   const t = COPY[locale];
   const slam = game("slam-cards");
@@ -57,7 +57,7 @@ export function Games({ locale }: { locale: Locale }) {
           <article className="flex min-w-0 flex-[1.5_1_520px] flex-col gap-[18px]">
             <GameLink slug={slam.slug} locale={locale} className="block overflow-hidden rounded-2xl bg-[#F6EEDB]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset(slam.keyArt)} alt={`${slam.name} key art`} className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-[1.02]" />
+              <img src={asset(slam.keyArt)} alt={`${slam.name} key art`} style={{ objectPosition: slam.keyArtPos }} className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-[1.02]" />
             </GameLink>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-1.5">
