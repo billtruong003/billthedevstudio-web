@@ -31,10 +31,11 @@ export const founder = {
   "@id": PERSON_ID,
   name: "Bill Truong",
   alternateName: "Trương Ngọc Châu",
-  jobTitle: "Founder",
+  jobTitle: "Founder, Bill The Dev",
   url: "https://www.billthedev.com/",
   worksFor: { "@id": ORG_ID },
-  sameAs: ["https://www.linkedin.com/in/billtruong003/", "https://github.com/billtruong003"],
+  // the same profiles as the portfolio's Person markup (BillPortfolio data/resume.json socials)
+  sameAs: ["https://github.com/billtruong003", "https://www.linkedin.com/in/billtruong003/", "https://www.youtube.com/@BillTheDev", "https://www.facebook.com/billthedev/", "https://billtruong003.itch.io/"],
 };
 
 export const website = {
