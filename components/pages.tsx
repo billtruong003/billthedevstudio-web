@@ -11,7 +11,10 @@ import { ORG_ID, SITE_ID } from "@/lib/schema";
 import { loadPosts } from "@/lib/news";
 import { formatDate } from "@/lib/date";
 import { Lucy } from "./Lucy";
-import { breadcrumbs, founder, graph, organization, videoGame, website } from "@/lib/schema";
+import { breadcrumbs, founder, graph, organization, trailer, videoGame, website } from "@/lib/schema";
+
+/** When the trailers went up (the first trailer, 16/10/2026); a later one only moves this forward. */
+const TRAILER_DATE = "2026-10-16T09:00:00+07:00";
 
 /** Structured data for search engines (lib/schema.ts). */
 const JsonLd = ({ nodes }: { nodes: object[] }) => <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: graph(...nodes) }} />;
@@ -102,7 +105,11 @@ export function GamePage({ game, locale }: { game: Game; locale: Locale }) {
     <>
       <Header locale={locale} />
       <main>
-        <JsonLd nodes={[videoGame(game, locale, game.short[locale]), breadcrumbs(locale, [[COPY[locale].pages.games.title, "/games/"], [game.name, `/games/${game.slug}/`]])]} />
+        <JsonLd nodes={[
+          videoGame(game, locale, game.short[locale]),
+          breadcrumbs(locale, [[COPY[locale].pages.games.title, "/games/"], [game.name, `/games/${game.slug}/`]]),
+          ...[trailer(game, locale, TRAILER_DATE)].filter((v) => v !== null),
+        ]} />
         <GameSheetContent game={game} locale={locale} mode="page" />
       </main>
       <Footer locale={locale} />

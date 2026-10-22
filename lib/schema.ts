@@ -81,5 +81,23 @@ export function videoGame(game: Game, locale: Locale, description: string) {
   };
 }
 
+/** A game page's trailer (YouTube, or a file on this site), so it can show in video results.
+ *  `uploaded`: when it went up (the repo's date for a file; YouTube's for a video). */
+export function trailer(game: Game, locale: Locale, uploaded: string) {
+  const page = `${SITE.url}${href(locale, `/games/${game.slug}/`)}`;
+  const common = {
+    "@type": "VideoObject",
+    "@id": `${page}#trailer`,
+    name: `${game.name} trailer`,
+    description: game.short[locale],
+    thumbnailUrl: [`${SITE.url}${game.keyArt}`],
+    uploadDate: uploaded,
+    publisher: { "@id": ORG_ID },
+  };
+  if (game.trailer) return { ...common, embedUrl: `https://www.youtube.com/embed/${game.trailer}`, url: `https://www.youtube.com/watch?v=${game.trailer}` };
+  if (game.trailerFile) return { ...common, contentUrl: `${SITE.url}${game.trailerFile}` };
+  return null;
+}
+
 /** One <script type="application/ld+json"> body: several nodes in one graph. */
 export const graph = (...nodes: object[]) => JSON.stringify({ "@context": "https://schema.org", "@graph": nodes }).replace(/</g, "\\u003c");
