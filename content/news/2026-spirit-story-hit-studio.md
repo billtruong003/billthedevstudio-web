@@ -18,6 +18,6 @@ Bill The Dev has worked with HIT Studio on Spirit Story, HIT Studio's strategy a
 [A LINE FROM HIT STUDIO ABOUT WORKING TOGETHER, IF THEY WANT ONE.]
 :::
 
-Collaborations like this one sit next to the studio's own games: Bill The Dev joins a team for a defined part of a game and delivers it in weekly builds. Studios looking for the same can reach the studio at truongbill003@gmail.com.
+Collaborations like this one sit next to the studio's own games: Bill The Dev joins a team for a defined part of a game and delivers it in weekly builds. Studios looking for the same can reach the studio at bill@billthedevstudio.com.
 
 Spirit Story is a game by HIT Studio. Images are used with HIT Studio's permission.

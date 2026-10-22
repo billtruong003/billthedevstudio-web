@@ -1,7 +1,7 @@
 export const SITE = {
   url: "https://billthedevstudio.com",
   name: "Bill The Dev",
-  email: "truongbill003@gmail.com",
+  email: "bill@billthedevstudio.com",
   portfolio: "https://www.billthedev.com",
   lucyApi: "https://api.billthedevstudio.com/lucy/chat",
 };
