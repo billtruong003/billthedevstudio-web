@@ -24,10 +24,10 @@ export function Header({ locale }: { locale: Locale }) {
   const home = href(locale);
   const [menu, setMenu] = useState(false);
   const links: [string, string, string, boolean][] = [
-    [t.nav.games, `${home}#games`, t.menuHints.games, false],
+    [t.nav.games, href(locale, "/games/"), t.menuHints.games, false],
     [t.nav.services, `${home}#services`, t.menuHints.services, false],
-    [t.nav.studio, `${home}#studio`, t.menuHints.studio, false],
-    [t.nav.contact, `${home}#contact`, t.menuHints.contact, false],
+    [t.nav.studio, href(locale, "/about/"), t.menuHints.studio, false],
+    [t.nav.contact, href(locale, "/contact/"), t.menuHints.contact, false],
     [t.nav.news, href(locale, "/news/"), t.menuHints.news, false],
     [t.nav.press, href(locale, "/press/"), t.menuHints.press, false],
   ];
@@ -51,7 +51,7 @@ export function Header({ locale }: { locale: Locale }) {
                   : <Link key={label} href={to} className="text-soft no-underline hover:text-white">{label}</Link>)}
           </span>
           <LanguagePicker locale={locale} />
-          <Link href={`${home}#contact`} className="hidden min-h-[42px] items-center rounded-[10px] border-[1.5px] border-line3 px-4 font-bold text-white no-underline hover:border-amber hover:text-white lg:inline-flex">{t.nav.hire}</Link>
+          <Link href={href(locale, "/contact/")} className="hidden min-h-[42px] items-center rounded-[10px] border-[1.5px] border-line3 px-4 font-bold text-white no-underline hover:border-amber hover:text-white lg:inline-flex">{t.nav.hire}</Link>
           <button type="button" aria-label={t.nav.menu} aria-expanded={menu} onClick={() => setMenu(true)}
             className="inline-flex h-11 w-11 items-center justify-center rounded-[10px] border-[1.5px] border-line3 text-white lg:hidden">
             <Icon name="menu" />

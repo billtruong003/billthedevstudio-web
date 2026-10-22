@@ -37,7 +37,7 @@ function Trailer({ game, label }: { game: Game; label: string }) {
       ) : (
         <button type="button" onClick={() => has && setPlaying(true)} aria-label={has ? `${label}: ${game.name}` : game.name} className="group block h-full w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset(game.keyArt)} alt="" style={{ objectPosition: game.keyArtPos }} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+          <img src={asset(game.keyArt)} alt={`${game.name} key art`} style={{ objectPosition: game.keyArtPos }} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
           {has && (
             <span className="absolute bottom-4 left-4 inline-flex min-h-[46px] items-center gap-2.5 rounded-full bg-[#141210]/85 pl-3 pr-4 text-[16px] font-bold text-white group-hover:bg-[#141210]">
               {game.trailer ? <YouTubeMark width={30} /> : <PlayMark />}{label}

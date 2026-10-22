@@ -10,6 +10,7 @@ import { BlockView, GameCard } from "./Blocks";
 import { LiteYouTube } from "./LiteYouTube";
 import { NewsList, PostMeta, PostTile, type PostCard } from "./NewsList";
 import { ShareRow } from "./ShareRow";
+import { breadcrumbs, founder, graph, organization, ORG_ID, PERSON_ID } from "@/lib/schema";
 
 const card = (p: Post): PostCard => ({ slug: p.slug, title: p.title, dek: p.dek, date: p.date, category: p.category, cover: p.cover, minutes: p.minutes, draft: p.draft });
 
@@ -45,16 +46,19 @@ export function NewsArticlePage({ post, locale }: { post: Post; locale: Locale }
   const url = `${SITE.url}${href(locale, `/news/${post.slug}/`)}`;
   const video = post.hero.startsWith("youtube:") ? post.hero.slice(8) : "";
   const jsonLd = {
-    "@context": "https://schema.org", "@type": "NewsArticle", headline: post.title, description: post.dek,
-    datePublished: /^\d{4}-\d{2}-\d{2}$/.test(post.date) ? post.date : undefined, image: [`${SITE.url}${post.cover}`],
-    author: { "@type": "Person", name: "Trương Ngọc Châu (Bill)", jobTitle: "Founder", url: SITE.portfolio },
-    publisher: { "@type": "Organization", name: "Bill The Dev", url: SITE.url }, mainEntityOfPage: url, inLanguage: "en",
+    "@type": "NewsArticle", headline: post.title, description: post.dek,
+    // dates in Vietnam time; a story is not edited after it is out, so modified = published
+    ...(/^\d{4}-\d{2}-\d{2}$/.test(post.date) ? { datePublished: `${post.date}T09:00:00+07:00`, dateModified: `${post.date}T09:00:00+07:00` } : {}),
+    image: [`${SITE.url}${post.cover}`],
+    author: { "@type": "Person", "@id": PERSON_ID, name: founder.name, url: founder.url },
+    publisher: { "@id": ORG_ID, "@type": "Organization", name: organization.name, logo: organization.logo }, mainEntityOfPage: url, inLanguage: "en",
   };
+  const trail = breadcrumbs(locale, [[t.title, "/news/"], [post.title, `/news/${post.slug}/`]]);
   return (
     <>
       <Header locale={locale} />
       <main>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: graph(jsonLd, trail) }} />
         <article lang="en">
           <header className="mx-auto flex max-w-[760px] flex-col gap-[18px] px-4 pb-7 pt-8 sm:px-6">
             <span className="text-[14px] font-bold text-faint"><Link href={href(locale, "/news/")} className="text-faint no-underline hover:text-white">{t.back}</Link> / {t.cats[post.category] ?? post.category}</span>
@@ -74,7 +78,7 @@ export function NewsArticlePage({ post, locale }: { post: Post; locale: Locale }
               <LiteYouTube id={video} poster={asset(post.cover)} label={post.title} />
             ) : (
               // eslint-disable-next-line @next/next/no-img-element
-              <img src={asset(post.hero)} alt="" className="aspect-video w-full rounded-2xl object-cover object-top" />
+              <img src={asset(post.hero)} alt={post.title} className="aspect-video w-full rounded-2xl object-cover object-top" />
             )}
           </div>
           <div className="mx-auto flex max-w-[680px] flex-col gap-6 px-4 pb-4 pt-10 sm:px-6 [&_.wide]:-mx-4 sm:[&_.wide]:-mx-24">

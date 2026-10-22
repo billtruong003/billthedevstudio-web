@@ -23,8 +23,9 @@ export function Hero({ locale }: { locale: Locale }) {
     <section>
       <Container className="flex flex-wrap items-center gap-x-16 gap-y-10 pb-[clamp(48px,6vw,88px)] pt-[clamp(40px,6vw,80px)]">
         <div className="flex min-w-0 flex-[1.3_1_440px] flex-col items-start gap-[22px]">
-          <p className={T.small}>{t.hero.intro}</p>
-          <HeroTitle lines={[t.slogan[0], t.slogan[1]]} className={`${T.hero} whitespace-nowrap`} />
+          {/* the page's heading says what the studio is (for search engines and screen readers); the slogan stays the big line */}
+          <h1 className={T.small}>{t.hero.intro}</h1>
+          <HeroTitle as="p" lines={[t.slogan[0], t.slogan[1]]} className={`${T.hero} whitespace-nowrap`} />
           <p className={`${T.lead} max-w-[34ch]`}>{t.hero.lede}</p>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
             <Button href="#games" size="lg">{t.hero.games}</Button>
@@ -91,7 +92,7 @@ export function Games({ locale }: { locale: Locale }) {
             <p className="m-0 border-t border-line pt-[18px] text-[15px] leading-normal text-muted">{t.games.workbench}</p>
             <a href={COLLAB.href} className="mt-5 flex items-center gap-4 rounded-xl bg-card p-3 text-white no-underline hover:bg-raise hover:text-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset(COLLAB.image)} alt="" className="h-14 w-24 flex-none rounded-lg object-cover" />
+              <img src={asset(COLLAB.image)} alt={COLLAB.name} className="h-14 w-24 flex-none rounded-lg object-cover" />
               <span className="flex min-w-0 flex-col"><b className="text-[17px]">{COLLAB.name} <span className="font-normal text-muted">· {t.games.collabBy}</span></b>
                 <span className="text-[14px] leading-snug text-muted">{t.games.collabText}</span></span>
             </a>

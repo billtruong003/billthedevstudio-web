@@ -7,7 +7,7 @@ export const dynamicParams = false;
 export const generateStaticParams = () => GAMES.map((g) => ({ slug: g.slug }));
 export const generateMetadata = ({ params }: { params: { slug: string } }) => {
   const g = gameBySlug(params.slug);
-  return g ? pageMeta("vi", `/games/${g.slug}/`, g.name, `${g.tagline.vi} ${g.short.vi}`) : {};
+  return g ? pageMeta("vi", `/games/${g.slug}/`, g.name, `${g.tagline.vi} ${g.short.vi}`, g.keyArt) : {};
 };
 
 export default function Page({ params }: { params: { slug: string } }) {

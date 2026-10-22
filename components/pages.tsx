@@ -1,15 +1,20 @@
 import { COPY } from "@/content/copy";
 import { GAMES, type Game } from "@/content/games";
 import { CONTACTS, FOUNDER_PHOTO, SOCIAL, STUDIO_YOUTUBE } from "@/content/studio";
-import { asset, SITE, YOUTUBE_URL, type Locale } from "@/lib/site";
+import { asset, href, SITE, YOUTUBE_URL, type Locale } from "@/lib/site";
 import { Footer } from "./Footer";
 import { GameSheetContent } from "./game/GameSheetContent";
 import { SheetProvider } from "./game/SheetProvider";
 import { Header } from "./Header";
 import { Contact, Games, Hero, Latest, Services, Stats, Studio, Values } from "./home/Sections";
+import { ORG_ID, SITE_ID } from "@/lib/schema";
 import { loadPosts } from "@/lib/news";
 import { formatDate } from "@/lib/date";
 import { Lucy } from "./Lucy";
+import { breadcrumbs, founder, graph, organization, videoGame, website } from "@/lib/schema";
+
+/** Structured data for search engines (lib/schema.ts). */
+const JsonLd = ({ nodes }: { nodes: object[] }) => <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: graph(...nodes) }} />;
 import { Button, Container, FoxMedallion, T, TextLink, YouTubeMark } from "./ui";
 
 type Asset = { label: string; src: string; bg: string; fit: string; file: string };
@@ -24,7 +29,7 @@ function AssetGroup({ title, items }: { title: string; items: Asset[] }) {
           <a key={a.src} href={asset(a.src)} download className="group flex flex-col gap-2 text-white no-underline hover:text-white">
             <span className={`flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl ${a.bg} ring-amber/60 group-hover:ring-2`}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset(a.src)} alt="" loading="lazy" className={a.fit} />
+              <img src={asset(a.src)} alt={`${title}: ${a.label}`} loading="lazy" className={a.fit} />
             </span>
             <span className="flex items-baseline justify-between gap-2"><b className="text-[15px]">{a.label}</b><span className="text-[14px] font-bold text-label">{a.file} ↓</span></span>
           </a>
@@ -41,6 +46,7 @@ export function HomePage({ locale }: { locale: Locale }) {
     <SheetProvider locale={locale}>
       <Header locale={locale} />
       <main>
+        <JsonLd nodes={[website, organization, founder]} />
         <Hero locale={locale} />
         <Games locale={locale} />
         <Stats locale={locale} />
@@ -56,11 +62,47 @@ export function HomePage({ locale }: { locale: Locale }) {
   );
 }
 
+/** A page of its own for what the home page shows as a section (games, the studio, contact): its own
+ *  address and heading for search engines, the same section below. */
+function SectionPage({ locale, page, path, schemaType, children }: { locale: Locale; page: "games" | "about" | "contact"; path: string; schemaType: string; children: React.ReactNode }) {
+  const t = COPY[locale].pages[page];
+  const url = `${SITE.url}${href(locale, path)}`;
+  return (
+    <SheetProvider locale={locale}>
+      <Header locale={locale} />
+      <main>
+        <JsonLd nodes={[
+          { "@type": schemaType, "@id": `${url}#page`, url, name: t.title, description: t.meta, inLanguage: locale, isPartOf: { "@id": SITE_ID }, about: { "@id": ORG_ID } },
+          breadcrumbs(locale, [[t.title, path]]),
+        ]} />
+        <Container className="flex flex-col gap-3.5 pt-[clamp(40px,5vw,72px)]">
+          <h1 className={T.h1}>{t.title}</h1>
+          <p className={`${T.lead} max-w-[60ch]`}>{t.lede}</p>
+        </Container>
+        {children}
+      </main>
+      <Footer locale={locale} />
+      <Lucy locale={locale} />
+    </SheetProvider>
+  );
+}
+
+export const GamesPage = ({ locale }: { locale: Locale }) => (
+  <SectionPage locale={locale} page="games" path="/games/" schemaType="CollectionPage"><Games locale={locale} /></SectionPage>
+);
+export const AboutPage = ({ locale }: { locale: Locale }) => (
+  <SectionPage locale={locale} page="about" path="/about/" schemaType="AboutPage"><Studio locale={locale} /><Values locale={locale} /></SectionPage>
+);
+export const ContactPage = ({ locale }: { locale: Locale }) => (
+  <SectionPage locale={locale} page="contact" path="/contact/" schemaType="ContactPage"><Contact locale={locale} /></SectionPage>
+);
+
 export function GamePage({ game, locale }: { game: Game; locale: Locale }) {
   return (
     <>
       <Header locale={locale} />
       <main>
+        <JsonLd nodes={[videoGame(game, locale, game.short[locale]), breadcrumbs(locale, [[COPY[locale].pages.games.title, "/games/"], [game.name, `/games/${game.slug}/`]])]} />
         <GameSheetContent game={game} locale={locale} mode="page" />
       </main>
       <Footer locale={locale} />
@@ -80,6 +122,7 @@ export function PressPage({ locale }: { locale: Locale }) {
     <>
       <Header locale={locale} />
       <main>
+        <JsonLd nodes={[breadcrumbs(locale, [[t.kicker, "/press/"]])]} />
         <Container className="flex flex-wrap items-end justify-between gap-x-10 gap-y-5 pb-10 pt-[clamp(40px,5vw,72px)]">
           <div className="flex min-w-0 flex-[1_1_520px] flex-col gap-3.5">
             <h1 className={T.h1}>{t.kicker}</h1>
@@ -109,7 +152,7 @@ export function PressPage({ locale }: { locale: Locale }) {
             <div className="flex items-center gap-[18px]">
               {FOUNDER_PHOTO
                 // eslint-disable-next-line @next/next/no-img-element
-                ? <img src={asset(FOUNDER_PHOTO)} alt="" className="h-24 w-24 flex-none rounded-2xl bg-raise object-cover object-top" />
+                ? <img src={asset(FOUNDER_PHOTO)} alt="Bill (Trương Ngọc Châu), founder of Bill The Dev" className="h-24 w-24 flex-none rounded-2xl bg-raise object-cover object-top" />
                 : <FoxMedallion className="w-24 flex-none" />}
               <p className={T.body}>{t.founderText} <TextLink href={SITE.portfolio}>billthedev.com</TextLink></p>
             </div>

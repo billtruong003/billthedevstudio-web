@@ -20,7 +20,7 @@ function privacyPages(): string[] {
 export default function sitemap(): MetadataRoute.Sitemap {
   const built = new Date();
   const pages: { path: string; modified: Date }[] = [
-    ...["/", "/press/", "/news/", ...GAMES.map((g) => `/games/${g.slug}/`)].map((p) => ({ path: p, modified: built })),
+    ...["/", "/games/", "/about/", "/contact/", "/press/", "/news/", ...GAMES.map((g) => `/games/${g.slug}/`)].map((p) => ({ path: p, modified: built })),
     ...loadPosts({ drafts: false }).map((p) => ({ path: `/news/${p.slug}/`, modified: new Date(p.date) })),
   ];
   // every page in both languages, each naming its other language and x-default (English)

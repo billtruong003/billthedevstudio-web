@@ -4,6 +4,11 @@ import { SITE } from "@/lib/site";
 /** Every word on the site, per language. English is the source; Vietnamese is the first translation. */
 const en = {
   langName: "English",
+  pages: {
+    games: { title: "Games by Bill The Dev", lede: "Free games from a one-man studio in Ho Chi Minh City: three puzzle games for Android, Duck Drip on the way, and Flip Flop Slam, a party game you play in the browser with friends.", meta: "All Bill The Dev games: Meh Merge, Nah Blocks and Bruh Arrows for Android, Duck Drip, and the browser party game Flip Flop Slam (Dép Lào Tuổi Thơ)." },
+    about: { title: "About Bill The Dev", lede: "Bill The Dev is a one-man game studio in Ho Chi Minh City, Vietnam. Bill (Trương Ngọc Châu) designs, codes, draws and ships every game himself, and builds Unity, web and AI projects for other studios.", meta: "Bill The Dev is a one-man indie game studio in Ho Chi Minh City, Vietnam, run by Bill (Trương Ngọc Châu): its story, its games and how it works." },
+    contact: { title: "Contact Bill The Dev", lede: "For games, press, partnerships or client work, write to the studio. Bill answers himself, usually within a day.", meta: "Contact Bill The Dev, an indie game studio in Ho Chi Minh City: email, Zalo, Messenger, LinkedIn, Discord and Telegram." },
+  },
   nav: { games: "Games", services: "Services", studio: "Studio", news: "News", press: "Press kit", contact: "Contact", hire: "Hire the studio", menu: "Open the menu", close: "Close the menu" },
   menuHints: { games: "4 games · Android and web", services: "Unity, web, AI, tech art", studio: "One developer: Bill", contact: "Email, Zalo, Messenger…", news: "Studio news and launches", press: "Facts, logos, trailers" },
   slogan: ["Shades on.", "Ship it."],
@@ -111,6 +116,11 @@ export type Copy = typeof en;
 
 const vi: Copy = {
   langName: "Tiếng Việt",
+  pages: {
+    games: { title: "Game của Bill The Dev", lede: "Game miễn phí của một studio một người ở TP. Hồ Chí Minh: ba game puzzle trên Android, Duck Drip sắp ra, và Flip Flop Slam (Dép Lào Tuổi Thơ), game nhóm chơi ngay trên trình duyệt với bạn bè.", meta: "Tất cả game của Bill The Dev: Meh Merge, Nah Blocks, Bruh Arrows trên Android, Duck Drip, và game nhóm trên trình duyệt Dép Lào Tuổi Thơ (Flip Flop Slam)." },
+    about: { title: "Về Bill The Dev", lede: "Bill The Dev là studio game một người ở TP. Hồ Chí Minh. Bill (Trương Ngọc Châu) tự thiết kế, lập trình, vẽ và phát hành từng game, và nhận làm dự án Unity, web, AI cho các studio khác.", meta: "Bill The Dev là studio game indie một người ở TP. Hồ Chí Minh do Bill (Trương Ngọc Châu) làm: câu chuyện, các game và cách studio làm việc." },
+    contact: { title: "Liên hệ Bill The Dev", lede: "Về game, báo chí, hợp tác hay dự án thuê làm, cứ nhắn cho studio. Bill tự trả lời, thường trong một ngày.", meta: "Liên hệ Bill The Dev, studio game indie ở TP. Hồ Chí Minh: email, Zalo, Messenger, LinkedIn, Discord và Telegram." },
+  },
   nav: { games: "Game", services: "Dịch vụ", studio: "Studio", news: "Tin tức", press: "Press kit", contact: "Liên hệ", hire: "Thuê studio", menu: "Mở menu", close: "Đóng menu" },
   menuHints: { games: "4 game · Android và web", services: "Unity, web, AI, tech art", studio: "Một người: Bill", contact: "Email, Zalo, Messenger…", news: "Tin tức và ra mắt của studio", press: "Thông tin, logo, trailer" },
   slogan: ["Shades on.", "Ship it."],

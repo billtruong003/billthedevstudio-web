@@ -18,12 +18,12 @@ export function Reveal({ children, className, delay = 0, y = 16 }: { children: R
 }
 
 /** The hero title: "Shades on." slides up, then "Ship it." lands like a stamp. */
-export function HeroTitle({ lines, className }: { lines: [string, string]; className?: string }) {
+export function HeroTitle({ lines, className, as: Tag = "h1" }: { lines: [string, string]; className?: string; as?: "h1" | "p" }) {
   return (
-    <h1 className={className}>
+    <Tag className={className}>
       <span className="block overflow-hidden pb-[0.06em]"><span className="hero-up block">{lines[0]}</span></span>
       <span className="hero-stamp block text-amber">{lines[1]}</span>
-    </h1>
+    </Tag>
   );
 }
 

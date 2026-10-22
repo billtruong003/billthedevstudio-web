@@ -55,7 +55,7 @@ export function NewsList({ posts, categories, locale }: { posts: PostCard[]; cat
         <Reveal className="mt-7">
           <Link href={href(locale, `/news/${top.slug}/`)} className="group flex flex-wrap items-center gap-x-12 gap-y-6 text-white no-underline hover:text-white">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset(top.cover)} alt="" className="aspect-video w-full min-w-0 flex-[1.4_1_480px] rounded-2xl object-cover object-top" />
+            <img src={asset(top.cover)} alt={top.title} className="aspect-video w-full min-w-0 flex-[1.4_1_480px] rounded-2xl object-cover object-top" />
             <span className="flex min-w-0 flex-[1_1_340px] flex-col gap-3">
               <PostMeta p={top} locale={locale} />
               <b className="text-[clamp(30px,3.4vw,44px)] font-black leading-[1.02] group-hover:text-amber">{top.title}</b>
