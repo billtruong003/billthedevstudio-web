@@ -1,16 +1,16 @@
 ---
 title: "Meh Merge, Nah Blocks and Bruh Arrows enter testing on Google Play"
 dek: "Three free puzzle games for Android, each built around one idea you learn in seconds."
-date: "[DATE]"
+date: "2026-10-14"
 category: "Games"
 cover: "/img/games/meh-merge/feature.jpg"
 hero: "youtube:U5scIFVhbkg"
 tags: ["games", "android", "google-play"]
 games: ["meh-merge", "nah-blocks", "bruh-arrows"]
-draft: true
+draft: false
 ---
 
-Bill The Dev's first three games, Meh Merge, Nah Blocks and Bruh Arrows, are now in testing on Google Play. All three are free puzzle games for Android phones, available in English and Vietnamese. [HOW PLAYERS JOIN THE TEST]
+Bill The Dev's first three games, Meh Merge, Nah Blocks and Bruh Arrows, are now in testing on Google Play. All three are free puzzle games for Android phones, available in English and Vietnamese. Players who would like to join the test can write to support@billthedevstudio.com.
 
 In **Meh Merge**, players drop balls into a jar and two of the same merge into a bigger one, until the jar fills up. **Nah Blocks** is a block puzzle: drag blocks onto the board and fill a row or a column to clear it. In **Bruh Arrows**, each arrow flies off the board when its path is clear, so the puzzle is finding the right order.
 
@@ -20,7 +20,7 @@ Every build is played on real phones, from low-end devices to tablets, before it
 Platform: Android, on Google Play
 Price: Free, with ads and an option to remove them
 Languages: English, Tiếng Việt
-Status: In testing, full release [DATE]
+Status: In testing; full release once testing ends
 :::
 
 :::person Bill (Trương Ngọc Châu) | Founder, Bill The Dev
