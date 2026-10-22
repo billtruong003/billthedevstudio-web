@@ -9,6 +9,10 @@ const nunito = Nunito({ subsets: ["latin", "vietnamese"], variable: "--font-nuni
 export function Shell({ locale, children }: { locale: Locale; children: React.ReactNode }) {
   return (
     <html lang={locale} className={nunito.variable}>
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-6751218490710547" />
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6751218490710547" crossOrigin="anonymous" />
+      </head>
       <body className="min-h-screen overflow-x-clip bg-ink font-sans text-white antialiased">{children}</body>
     </html>
   );
