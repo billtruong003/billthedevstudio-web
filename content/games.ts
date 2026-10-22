@@ -153,7 +153,7 @@ export const GAMES: Game[] = [
     icon: "/img/games/flip-flop-slam/icon.jpg", keyArt: "/img/games/flip-flop-slam/feature.jpg", keyArtPos: "left",
     media: [1, 2, 3].map((n) => `/img/games/flip-flop-slam/shot${n}.jpg`),
     trailerFile: "/video/flip-flop-slam-trailer.mp4",
-    playUrl: "https://billthedevstudio.io.vn/slam-cards/",
+    playUrl: "https://play.billthedevstudio.com/slam-cards/",
     info: {
       en: [["Platform", "Web browser, phone or computer"], ["Price", "Free"], ["Players", "2–4, online"], ["Also called", "Dép Lào Tuổi Thơ (Vietnam)"], ["Status", "Beta"], ["Developer", "Bill The Dev"]],
       vi: [["Nền tảng", "Trình duyệt web, điện thoại hoặc máy tính"], ["Giá", "Miễn phí"], ["Người chơi", "2–4, online"], ["Tên tiếng Việt", "Dép Lào Tuổi Thơ"], ["Trạng thái", "Beta"], ["Nhà phát triển", "Bill The Dev"]],

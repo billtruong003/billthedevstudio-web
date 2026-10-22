@@ -10,7 +10,7 @@ export function pageMeta(locale: Locale, path: string, title?: string, descripti
     metadataBase: new URL(SITE.url),
     title: full,
     description: description ?? t.description,
-    alternates: { canonical: href(locale, path), languages: { en: href("en", path), vi: href("vi", path) } },
+    alternates: { canonical: href(locale, path), languages: { en: href("en", path), vi: href("vi", path), "x-default": href("en", path) } },
     openGraph: { title: full, description: description ?? t.description, url: href(locale, path), siteName: "Bill The Dev", type: "website", images: ["/img/brand/og.png"] },
     icons: { icon: "/favicon.svg" },
   };
