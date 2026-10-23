@@ -11,7 +11,7 @@
   --c-line: 56 53 49;     /* #383531 hairlines */
   --c-line2: 72 68 64;    /* #484440 control borders */
   --c-line3: 94 90 85;    /* #5E5A55 strong borders */
-  --c-faint: 134 127 119; /* #867F77 meta, "The" */
+  --c-faint: 149 142 134; /* #958E86 meta, "The" (4.5:1 on cards and sheets) */
   --c-muted: 177 169 162; /* #B1A9A2 secondary text */
   --c-soft: 217 211 205;  /* #D9D3CD body text */
   --c-text: 246 243 239;  /* #F6F3EF headings (off-white, never #FFF) */

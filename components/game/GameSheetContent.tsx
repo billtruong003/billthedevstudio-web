@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 import { COPY } from "@/content/copy";
 import { GAMES, type Game } from "@/content/games";
-import { asset, href, SITE, type Locale } from "@/lib/site";
+import { asset, href, SITE, webp, type Locale } from "@/lib/site";
 import { Icon } from "../icons";
 import { Button, PlayBadge, TextLink, YouTubeMark } from "../ui";
 import { Lightbox } from "./Lightbox";
@@ -30,14 +30,14 @@ function Trailer({ game, label }: { game: Game; label: string }) {
   return (
     <div className={`relative ${game.trailerFile ? "aspect-video" : "aspect-[1024/500]"} w-full overflow-hidden rounded-2xl bg-black`}>
       {playing && game.trailerFile ? (
-        <video className="h-full w-full" src={asset(game.trailerFile)} poster={asset(game.keyArt)} controls autoPlay playsInline preload="none" title={`${game.name} trailer`} />
+        <video className="h-full w-full" src={asset(game.trailerFile)} poster={asset(webp(game.keyArt))} controls autoPlay playsInline preload="none" title={`${game.name} trailer`} />
       ) : playing && game.trailer ? (
         <iframe className="h-full w-full" src={`https://www.youtube-nocookie.com/embed/${game.trailer}?autoplay=1&rel=0`} title={`${game.name} trailer`}
           allow="autoplay; encrypted-media; picture-in-picture" allowFullScreen />
       ) : (
         <button type="button" onClick={() => has && setPlaying(true)} aria-label={has ? `${label}: ${game.name}` : game.name} className="group block h-full w-full">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={asset(game.keyArt)} alt={`${game.name} key art`} style={{ objectPosition: game.keyArtPos }} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
+          <img src={asset(webp(game.keyArt))} alt={`${game.name} key art`} style={{ objectPosition: game.keyArtPos }} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]" />
           {has && (
             <span className="absolute bottom-4 left-4 inline-flex min-h-[46px] items-center gap-2.5 rounded-full bg-[#141210]/85 pl-3 pr-4 text-[16px] font-bold text-white group-hover:bg-[#141210]">
               {game.trailer ? <YouTubeMark width={30} /> : <PlayMark />}{label}
@@ -73,7 +73,7 @@ export function GameSheetContent({ game, locale, mode, onSelect, onClose }: Prop
     const on = g.slug === game.slug;
     const cls = clsx("inline-flex min-h-[44px] flex-none items-center gap-2 whitespace-nowrap rounded-[10px] border pl-[6px] pr-4 text-[15px] font-bold no-underline",
       on ? "border-white bg-white text-ink" : "border-line2 text-white hover:border-white/60");
-    const inner = (<>{/* eslint-disable-next-line @next/next/no-img-element */}<img src={asset(g.icon)} alt="" className="h-[30px] w-[30px] rounded-[8px] object-cover" />{g.name}</>);
+    const inner = (<>{/* eslint-disable-next-line @next/next/no-img-element */}<img src={asset(webp(g.icon))} alt="" className="h-[30px] w-[30px] rounded-[8px] object-cover" />{g.name}</>);
     return <button key={g.slug} type="button" role="tab" aria-selected={on} onClick={() => onSelect?.(g.slug)} className={cls}>{inner}</button>;
   };
   const copyBtn = (
@@ -103,7 +103,7 @@ export function GameSheetContent({ game, locale, mode, onSelect, onClose }: Prop
         <section className="flex flex-wrap items-center gap-x-14 gap-y-8">
           <div className="flex min-w-0 flex-[1_1_380px] flex-col items-start gap-4">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset(game.icon)} alt="" className="h-[clamp(72px,8vw,96px)] w-[clamp(72px,8vw,96px)] rounded-[24%] object-cover" />
+            <img src={asset(webp(game.icon))} alt="" className="h-[clamp(72px,8vw,96px)] w-[clamp(72px,8vw,96px)] rounded-[24%] object-cover" />
             {mode === "page"
               ? <h1 className="m-0 text-[clamp(40px,5.4vw,76px)] font-black leading-[0.95] tracking-[-0.02em]">{game.name}</h1>
               : <h2 className="m-0 text-[clamp(36px,4.6vw,60px)] font-black leading-[0.95] tracking-[-0.02em]">{game.name}</h2>}
@@ -131,7 +131,7 @@ export function GameSheetContent({ game, locale, mode, onSelect, onClose }: Prop
               <button key={src} type="button" onClick={() => setShot(i)} aria-label={`${game.name} screenshot ${i + 1} of ${game.media.length}`}
                 className={clsx("h-[clamp(300px,34vw,420px)] flex-none snap-start overflow-hidden rounded-[14px] bg-card", game.wide ? "aspect-video" : "aspect-[9/16]")}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={asset(src)} alt="" loading="lazy" className="h-full w-full cursor-zoom-in object-cover transition-transform duration-300 hover:scale-[1.03]" />
+                <img src={asset(webp(src))} alt="" loading="lazy" className="h-full w-full cursor-zoom-in object-cover transition-transform duration-300 hover:scale-[1.03]" />
               </button>
             ))}
           </div>
@@ -165,7 +165,7 @@ export function GameSheetContent({ game, locale, mode, onSelect, onClose }: Prop
           <h2 className="m-0 text-[clamp(24px,2.4vw,30px)] font-black leading-none">{t.sheet.more}</h2>
           <div className="flex flex-wrap gap-x-10">
             {others.map((g) => {
-              const inner = (<>{/* eslint-disable-next-line @next/next/no-img-element */}<img src={asset(g.icon)} alt="" className="h-14 w-14 flex-none rounded-[14px] object-cover" />
+              const inner = (<>{/* eslint-disable-next-line @next/next/no-img-element */}<img src={asset(webp(g.icon))} alt="" className="h-14 w-14 flex-none rounded-[14px] object-cover" />
                 <span className="flex min-w-0 flex-col text-left"><b className="text-[20px] font-black leading-tight group-hover:text-amber">{g.name}</b><span className="text-[14px] text-muted">{g.genre[locale]}</span></span></>);
               const cls = "group flex min-w-0 flex-[1_1_240px] items-center gap-3.5 border-t border-line py-3.5 text-white no-underline hover:text-white";
               return mode === "modal"

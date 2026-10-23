@@ -134,7 +134,7 @@ export const GAMES: Game[] = [
     },
   },
   {
-    slug: "slam-cards", name: "Flip Flop Slam", accent: "#D63C6E", label: "#F27AA0", onAccent: "#FFFFFF", platform: "web",
+    slug: "slam-cards", name: "Flip Flop Slam", accent: "#C2325F", label: "#F27AA0", onAccent: "#FFFFFF", platform: "web",
     status: { en: "Web · 2–4 players · Beta", vi: "Web · 2–4 người · Beta" },
     genre: { en: "Party game for 2–4", vi: "Game nhóm 2–4 người" },
     tagline: { en: "Slap the flip-flop. Flip the card.", vi: "Dép Lào Tuổi Thơ: đập dép, lật bài." },

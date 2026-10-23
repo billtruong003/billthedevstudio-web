@@ -2,7 +2,7 @@
 
 import { COPY } from "@/content/copy";
 import type { Game } from "@/content/games";
-import { asset, href, type Locale } from "@/lib/site";
+import { asset, href, webp, type Locale } from "@/lib/site";
 import { useOpenGame } from "../game/SheetProvider";
 import { Icon } from "../icons";
 import { PlayBadge } from "../ui";
@@ -34,7 +34,7 @@ export function GameCard({ game, locale }: { game: Game; locale: Locale }) {
     <article className="flex w-full flex-col overflow-hidden rounded-3xl border border-line bg-card">
       <GameLink slug={game.slug} locale={locale} aria-label={`${game.name}: ${t.games.details}`} className="block">
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={asset(game.keyArt)} alt={`${game.name} key art`} className="aspect-[1024/500] w-full object-cover" />
+        <img src={asset(webp(game.keyArt))} loading="lazy" alt={`${game.name} key art`} className="aspect-[1024/500] w-full object-cover" />
       </GameLink>
       <div className="flex flex-1 flex-col gap-2 px-[22px] pb-[22px] pt-5">
         <p className="m-0 text-[14px] font-extrabold uppercase tracking-[0.12em]" style={{ color: game.label }}>{game.genre[locale]} · {game.platform === "web" ? "Web" : "Android"}</p>

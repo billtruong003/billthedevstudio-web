@@ -3,7 +3,7 @@ import { COPY } from "@/content/copy";
 import { GAMES } from "@/content/games";
 import { COLLAB, CONTACTS, FOUNDER_PHOTO, SOCIAL } from "@/content/studio";
 import { FollowRow } from "../Social";
-import { asset, href, SITE, type Locale } from "@/lib/site";
+import { asset, href, SITE, webp, type Locale } from "@/lib/site";
 import { Fox } from "../Fox";
 import { CountUp, HeroTitle } from "../motion";
 import { Button, Container, T, TextLink } from "../ui";
@@ -36,7 +36,7 @@ export function Hero({ locale }: { locale: Locale }) {
         <div aria-hidden="true" className="hero-cards relative h-[clamp(380px,46vw,560px)] min-w-0 flex-[1_1_360px]">
           {cards.map(([src, cls]) => (
             // eslint-disable-next-line @next/next/no-img-element
-            <img key={src} src={asset(src)} alt="" className={cls} draggable={false} />
+            <img key={src} src={asset(webp(src, true))} alt="" width={360} height={640} className={cls} draggable={false} />
           ))}
         </div>
       </Container>
@@ -60,7 +60,7 @@ export function Games({ locale }: { locale: Locale }) {
           <article className="flex min-w-0 flex-[1.5_1_520px] flex-col gap-[18px]">
             <GameLink slug={slam.slug} locale={locale} className="block overflow-hidden rounded-2xl bg-[#F6EEDB]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset(slam.keyArt)} alt={`${slam.name} key art`} style={{ objectPosition: slam.keyArtPos }} className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-[1.02]" />
+              <img src={asset(webp(slam.keyArt))} width={1024} height={500} loading="lazy" alt={`${slam.name} key art`} style={{ objectPosition: slam.keyArtPos }} className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-[1.02]" />
             </GameLink>
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-1.5">
@@ -80,7 +80,7 @@ export function Games({ locale }: { locale: Locale }) {
             {testing.map((g) => (
               <GameLink key={g.slug} slug={g.slug} locale={locale} className="group flex items-center gap-[18px] border-t border-line py-[18px] text-white no-underline">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={asset(g.icon)} alt="" className="h-[72px] w-[72px] flex-none rounded-[18px] transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105" />
+                <img src={asset(webp(g.icon))} alt="" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] flex-none rounded-[18px] transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105" />
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                   <b className="text-[28px] font-black leading-[1.05] group-hover:text-amber">{g.name}</b>
                   <span className="text-[15px] text-muted">{g.genre[locale]} · Android</span>
@@ -92,7 +92,7 @@ export function Games({ locale }: { locale: Locale }) {
             <p className="m-0 border-t border-line pt-[18px] text-[15px] leading-normal text-muted">{t.games.workbench}</p>
             <a href={COLLAB.href} className="mt-5 flex items-center gap-4 rounded-xl bg-card p-3 text-white no-underline hover:bg-raise hover:text-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset(COLLAB.image)} alt={COLLAB.name} className="h-14 w-24 flex-none rounded-lg object-cover" />
+              <img src={asset(webp(COLLAB.image))} width={96} height={56} loading="lazy" alt={COLLAB.name} className="h-14 w-24 flex-none rounded-lg object-cover" />
               <span className="flex min-w-0 flex-col"><b className="text-[17px]">{COLLAB.name} <span className="font-normal text-muted">· {t.games.collabBy}</span></b>
                 <span className="text-[14px] leading-snug text-muted">{t.games.collabText}</span></span>
             </a>
@@ -161,7 +161,7 @@ export function Services({ locale }: { locale: Locale }) {
         <div className="flex flex-wrap items-start gap-x-14 gap-y-7">
           <article className="min-w-0 flex-[1.3_1_480px] overflow-hidden rounded-2xl bg-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={asset(game("meh-merge").keyArt)} alt="Meh Merge key art" className="aspect-[1024/500] w-full object-cover" />
+            <img src={asset(webp(game("meh-merge").keyArt))} width={1024} height={500} loading="lazy" alt="Meh Merge key art" className="aspect-[1024/500] w-full object-cover" />
             <div className="flex flex-col gap-3 px-[clamp(20px,3vw,32px)] pb-[30px] pt-[26px]">
               <span className="text-[14px] font-bold text-label">{t.mainLabel}</span>
               <h3 className="m-0 text-[clamp(32px,3.4vw,42px)] font-black leading-none">{main[0]}</h3>

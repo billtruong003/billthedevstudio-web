@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { COPY } from "@/content/copy";
 import { gameBySlug } from "@/content/games";
 import type { Block } from "@/lib/news";
-import { asset, href, SITE, type Locale } from "@/lib/site";
+import { asset, href, SITE, webp, type Locale } from "@/lib/site";
 import { Icon } from "../icons";
 import { Button, FoxMedallion, PlayBadge } from "../ui";
 import { LiteYouTube } from "./LiteYouTube";
@@ -33,7 +33,7 @@ export function GameCard({ slug, locale }: { slug: string; locale: Locale }) {
   return (
     <div className="flex flex-wrap items-center gap-4 border-t border-line py-4">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={asset(g.icon)} alt="" className="h-20 w-20 flex-none rounded-[22px] object-cover" />
+      <img src={asset(webp(g.icon))} alt="" className="h-20 w-20 flex-none rounded-[22px] object-cover" />
       <div className="flex min-w-0 flex-[1_1_220px] flex-col gap-0.5">
         <span className="text-[14px] font-bold" style={{ color: g.label }}>{g.genre[locale]} · {g.platform === "web" ? "Web" : "Android"}</span>
         <b className="text-[22px] font-black leading-tight">{g.name}</b>

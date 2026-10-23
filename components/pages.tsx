@@ -1,7 +1,7 @@
 import { COPY } from "@/content/copy";
 import { GAMES, type Game } from "@/content/games";
 import { CONTACTS, FOUNDER_PHOTO, SOCIAL, STUDIO_YOUTUBE } from "@/content/studio";
-import { asset, href, SITE, YOUTUBE_URL, type Locale } from "@/lib/site";
+import { asset, href, SITE, webp, YOUTUBE_URL, type Locale } from "@/lib/site";
 import { Footer } from "./Footer";
 import { GameSheetContent } from "./game/GameSheetContent";
 import { SheetProvider } from "./game/SheetProvider";
@@ -183,7 +183,7 @@ export function PressPage({ locale }: { locale: Locale }) {
             {GAMES.map((g) => (
               <div key={g.slug} className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line py-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={asset(g.icon)} alt="" className="h-14 w-14 flex-none rounded-[14px]" />
+                <img src={asset(webp(g.icon))} alt="" className="h-14 w-14 flex-none rounded-[14px]" />
                 <span className="flex min-w-0 flex-[1_1_180px] flex-col"><b className="text-[22px] font-black leading-tight">{g.name}</b><span className="text-[14px] text-muted">{g.genre[locale]} · {g.platform === "web" ? "Web" : "Android"}</span></span>
                 <span className="flex flex-wrap gap-x-5 gap-y-2 text-[15px]">{files(g).map(([label, to]) => <TextLink key={label} href={to}>{label}</TextLink>)}</span>
               </div>

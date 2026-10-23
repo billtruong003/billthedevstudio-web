@@ -10,6 +10,9 @@ const BASE = process.env.NEXT_PUBLIC_BASE_PATH || "";
 
 /** A file in /public, with the base path the site is served under. */
 export const asset = (path: string) => (/^https?:\/\//.test(path) ? path : `${BASE}${path}`);
+/** The WebP copy scripts/images.py makes next to a game JPG/PNG, sized for the page (`small`: the 360 px one).
+ *  The originals stay for og:image and structured data. */
+export const webp = (path: string, small = false) => path.replace(/\.(png|jpe?g)$/i, `${small ? "-sm" : ""}.webp`);
 
 export type Locale = "en" | "vi";
 export const LOCALES: Locale[] = ["en", "vi"];

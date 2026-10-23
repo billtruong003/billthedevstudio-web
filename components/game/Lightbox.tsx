@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { asset } from "@/lib/site";
+import { asset, webp } from "@/lib/site";
 import { Icon } from "../icons";
 
 type Props = { images: string[]; index: number; wide?: boolean; name: string; labels: { close: string; prev: string; next: string }; onIndex: (i: number) => void; onClose: () => void };
@@ -38,7 +38,7 @@ export function Lightbox({ images, index, wide, name, labels, onIndex, onClose }
       <div className="flex min-h-0 flex-1 items-center justify-center gap-6">
         <button type="button" aria-label={labels.prev} onClick={() => go(-1)} className="hidden h-14 w-14 flex-none items-center justify-center rounded-full border border-[#5A5A62] text-white sm:inline-flex"><Icon name="left" /></button>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={asset(images[index])} alt={`${name} screenshot ${index + 1}`} className={wide ? "max-h-full max-w-full rounded-[18px] object-contain" : "h-full max-h-[860px] max-w-full rounded-[18px] object-contain"} />
+        <img src={asset(webp(images[index]))} alt={`${name} screenshot ${index + 1}`} className={wide ? "max-h-full max-w-full rounded-[18px] object-contain" : "h-full max-h-[860px] max-w-full rounded-[18px] object-contain"} />
         <button type="button" aria-label={labels.next} onClick={() => go(1)} className="hidden h-14 w-14 flex-none items-center justify-center rounded-full border border-[#5A5A62] text-white sm:inline-flex"><Icon name="right" /></button>
       </div>
       <div className="flex items-center justify-center gap-1.5 pt-4">

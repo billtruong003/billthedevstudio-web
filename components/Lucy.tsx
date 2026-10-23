@@ -155,7 +155,7 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
           <button type="button" onClick={openIt} aria-label={`${t.ask}, ${t.role}`} tabIndex={shown ? 0 : -1} className="group block">
             <span className="lucy-sway block origin-bottom transition-transform duration-300 [transition-timing-function:cubic-bezier(.34,1.56,.64,1)] group-hover:-translate-y-2 group-hover:scale-105">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={asset("/img/lucy/lucy-wave.webp")} alt="" className="lucy-breathe -mb-3 block w-[104px] origin-bottom sm:w-[140px]" />
+              <img src={asset("/img/lucy/lucy-wave-sm.webp")} alt="" width={140} height={140} className="lucy-breathe -mb-3 block w-[104px] origin-bottom sm:w-[140px]" />
             </span>
           </button>
         </div>
