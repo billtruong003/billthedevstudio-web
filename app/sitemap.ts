@@ -10,10 +10,14 @@ export const dynamic = "force-static";
 const url = (p: string) => `${SITE.url}${p}`;
 
 // The privacy pages are plain HTML in public/privacy/<name>/ (one language each), so they are listed
-// from the folder rather than from the app's routes.
+// from the folder rather than from the app's routes. A page marked noindex (a game's policy, kept out of
+// search on purpose) stays out of the sitemap too: listing it sends Google two opposite signals.
 function privacyPages(): string[] {
   const dir = path.join(process.cwd(), "public", "privacy");
-  const names = fs.readdirSync(dir, { withFileTypes: true }).filter((d) => d.isDirectory() && fs.existsSync(path.join(dir, d.name, "index.html")));
+  const names = fs.readdirSync(dir, { withFileTypes: true }).filter((d) => {
+    const file = path.join(dir, d.name, "index.html");
+    return d.isDirectory() && fs.existsSync(file) && !/<meta name="robots" content="[^"]*noindex/.test(fs.readFileSync(file, "utf8"));
+  });
   return ["/privacy/", ...names.map((d) => `/privacy/${d.name}/`)];
 }
 
