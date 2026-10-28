@@ -36,19 +36,19 @@ export type Game = {
   info: Record<Locale, [string, string][]>;
 };
 
-const androidInfo = (vi: boolean): [string, string][] =>
+const androidInfo = (vi: boolean, live = false): [string, string][] =>
   vi
     ? [["Nền tảng", "Android, trên Google Play"], ["Giá", "Miễn phí · có quảng cáo · mua trong ứng dụng"], ["Người chơi", "1"],
-       ["Ngôn ngữ", "English, Tiếng Việt"], ["Trạng thái", "Đang thử nghiệm trên Google Play"], ["Nhà phát triển", "Bill The Dev"]]
+       ["Ngôn ngữ", "English, Tiếng Việt"], ["Trạng thái", live ? "Đã có trên Google Play" : "Đang thử nghiệm trên Google Play"], ["Nhà phát triển", "Bill The Dev"]]
     : [["Platform", "Android, on Google Play"], ["Price", "Free · contains ads · in-app purchases"], ["Players", "1"],
-       ["Languages", "English, Tiếng Việt"], ["Status", "Testing on Google Play"], ["Developer", "Bill The Dev"]];
+       ["Languages", "English, Tiếng Việt"], ["Status", live ? "Out now on Google Play" : "Testing on Google Play"], ["Developer", "Bill The Dev"]];
 
 const shots = (slug: string) => [1, 2, 3].map((n) => `/img/games/${slug}/shot${n}.jpg`).concat(`/img/games/${slug}/cover.jpg`);
 
 export const GAMES: Game[] = [
   {
     slug: "meh-merge", name: "Meh Merge", accent: "#B7A6FF", label: "#B7A6FF", onAccent: "#111111", platform: "android",
-    status: { en: "Android · Google Play testing", vi: "Android · đang thử nghiệm trên Google Play" },
+    status: { en: "Android · on Google Play", vi: "Android · đã có trên Google Play" },
     genre: { en: "Drop and merge puzzle", vi: "Puzzle thả và gộp" },
     tagline: { en: "Two mehs make a bigger meh.", vi: "Hai meh gộp thành meh to hơn." },
     short: { en: "Drop balls in a jar. Two the same merge into a bigger one. Chain combos and don't let it fill up.",
@@ -64,8 +64,8 @@ export const GAMES: Game[] = [
       vi: [["Thả và gộp", "Hai quả giống nhau thành một quả to hơn. Chọn chỗ thả cho từng quả."], ["Chuỗi combo", "Một lần gộp kéo theo lần sau. Chuỗi dài, điểm cao."], ["Xu và skin", "Kiếm xu khi chơi và mở khoá giao diện mới."]],
     },
     icon: "/img/games/meh-merge/icon.png", keyArt: "/img/games/meh-merge/feature.jpg", media: shots("meh-merge"),
-    trailer: "U5scIFVhbkg", playPackage: "com.billthedev.mehmerge", privacy: "/privacy/meh-merge/",
-    info: { en: androidInfo(false), vi: androidInfo(true) },
+    trailer: "U5scIFVhbkg", playPackage: "com.billthedev.mehmerge", storeLive: true, privacy: "/privacy/meh-merge/",
+    info: { en: androidInfo(false, true), vi: androidInfo(true, true) },
   },
   {
     slug: "nah-blocks", name: "Nah Blocks", accent: "#3DDC97", label: "#3DDC97", onAccent: "#111111", platform: "android",
@@ -90,7 +90,7 @@ export const GAMES: Game[] = [
   },
   {
     slug: "bruh-arrows", name: "Bruh Arrows", accent: "#FF5A5F", label: "#FF7A7E", onAccent: "#FFFFFF", platform: "android",
-    status: { en: "Android · Google Play testing", vi: "Android · đang thử nghiệm trên Google Play" },
+    status: { en: "Android · on Google Play", vi: "Android · đã có trên Google Play" },
     genre: { en: "Path puzzle", vi: "Puzzle đường đi" },
     tagline: { en: "Tap. Yeet. Bruh.", vi: "Chạm. Bay. Bruh." },
     short: { en: "Tap an arrow and it flies off the board, if its path is clear. Find the right order and clear them all.",
@@ -106,8 +106,8 @@ export const GAMES: Game[] = [
       vi: [["Thứ tự là tất cả", "Mũi tên chỉ bay khi đường trống."], ["Màn chơi lớn dần", "Bàn nhỏ trước, rồi rối dần lên."], ["Skin mũi tên", "Mở kiểu mũi tên mới bằng xu kiếm được."]],
     },
     icon: "/img/games/bruh-arrows/icon.png", keyArt: "/img/games/bruh-arrows/feature.jpg", media: shots("bruh-arrows"),
-    trailer: "BLJmR8OaI2I", playPackage: "com.billthedev.bruharrows", privacy: "/privacy/bruh-arrows/",
-    info: { en: androidInfo(false), vi: androidInfo(true) },
+    trailer: "BLJmR8OaI2I", playPackage: "com.billthedev.bruharrows", storeLive: true, privacy: "/privacy/bruh-arrows/",
+    info: { en: androidInfo(false, true), vi: androidInfo(true, true) },
   },
   {
     slug: "duck-drip", name: "Duck Drip", soon: true, accent: "#FFC531", label: "#FFD25E", onAccent: "#111111", platform: "android",

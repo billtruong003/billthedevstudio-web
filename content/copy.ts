@@ -30,8 +30,8 @@ const en = {
     ] as [string, string, string][],
   },
   games: {
-    title: "The games", heading: ["Four games out.", "Duck Drip is next."], lede: "All free. The three puzzle games are in testing on Google Play, Duck Drip is coming soon, and Flip Flop Slam plays in your browser today.",
-    testing: "In testing", soon: "Coming soon", workbench: "One more is being built now. It gets a page here the day it is ready to play.", note: "Android and web · free to play", details: "Details", play: "Play in the browser", playShort: "Play now",
+    title: "The games", heading: ["Four games out.", "Duck Drip is next."], lede: "All free. Meh Merge and Bruh Arrows are out on Google Play, Nah Blocks is in testing, Duck Drip is coming soon, and Flip Flop Slam plays in your browser today.",
+    testing: "In testing", live: "On Google Play", soon: "Coming soon", workbench: "One more is being built now. It gets a page here the day it is ready to play.", note: "Android and web · free to play", details: "Details", play: "Play in the browser", playShort: "Play now",
     collabKicker: "Collaborations", collabBy: "a HIT Studio game",
     collabText: "Bill The Dev built feature and gameplay systems for HIT Studio's strategy game.", collabCta: "Play it in the arcade",
   },
@@ -142,8 +142,8 @@ const vi: Copy = {
     ],
   },
   games: {
-    title: "Các game", heading: ["Bốn game đã ra.", "Tiếp theo: Duck Drip."], lede: "Đều miễn phí. Ba game puzzle đang thử nghiệm trên Google Play, Duck Drip sắp ra mắt, còn Flip Flop Slam (Dép Lào Tuổi Thơ) chơi được ngay trên trình duyệt.",
-    testing: "Đang thử", soon: "Sắp ra mắt", workbench: "Một game nữa đang được làm. Chơi được là có trang ở đây ngay hôm đó.", note: "Android và web · chơi miễn phí", details: "Chi tiết", play: "Chơi trên trình duyệt", playShort: "Chơi ngay",
+    title: "Các game", heading: ["Bốn game đã ra.", "Tiếp theo: Duck Drip."], lede: "Đều miễn phí. Meh Merge và Bruh Arrows đã có trên Google Play, Nah Blocks đang thử nghiệm, Duck Drip sắp ra mắt, còn Flip Flop Slam (Dép Lào Tuổi Thơ) chơi được ngay trên trình duyệt.",
+    testing: "Đang thử", live: "Đã lên Play", soon: "Sắp ra mắt", workbench: "Một game nữa đang được làm. Chơi được là có trang ở đây ngay hôm đó.", note: "Android và web · chơi miễn phí", details: "Chi tiết", play: "Chơi trên trình duyệt", playShort: "Chơi ngay",
     collabKicker: "Hợp tác", collabBy: "game của HIT Studio",
     collabText: "Bill The Dev làm hệ thống tính năng và gameplay cho game chiến thuật của HIT Studio.", collabCta: "Chơi trong arcade",
   },

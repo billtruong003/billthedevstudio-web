@@ -86,7 +86,7 @@ export function Games({ locale }: { locale: Locale }) {
                   <span className="text-[15px] text-muted">{g.genre[locale]} · Android</span>
                   <span className="text-[15px] text-soft">{g.tagline[locale]}</span>
                 </span>
-                <span className="flex-none text-[14px] font-bold text-label">{g.soon ? t.games.soon : t.games.testing}</span>
+                <span className="flex-none text-[14px] font-bold text-label">{g.soon ? t.games.soon : g.storeLive ? t.games.live : t.games.testing}</span>
               </GameLink>
             ))}
             <p className="m-0 border-t border-line pt-[18px] text-[15px] leading-normal text-muted">{t.games.workbench}</p>
