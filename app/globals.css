@@ -59,23 +59,40 @@ a:hover { color: #FFB84D; }
 @keyframes hero-fade { from { opacity: 0; transform: translateY(14px); } }
 @media (prefers-reduced-motion: reduce) { .hero-fade { animation: none; } }
 
-/* The three game screens in the hero: dealt in once on load, the hovered one lifts out of the hand, the rest dim.
-   fill-mode backwards, so after the deal the hover transition owns transform. */
-.hero-card { position: absolute; display: block; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 18px;
-  box-shadow: 0 24px 48px rgb(var(--c-shadow) / .55); transform: rotate(var(--rot));
-  transition: transform .45s cubic-bezier(.34, 1.56, .64, 1), filter .2s ease;
-  animation: hero-deal .7s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards; }
-.hero-card--l { --rot: -7deg; --delay: .3s; left: 0; top: 12%; width: 38%; }
-.hero-card--c { --rot: 2deg; --delay: .15s; left: 30%; top: 0; width: 40%; z-index: 2; outline: 3px solid #FFB84D; outline-offset: -3px;
-  animation: hero-deal .7s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards, hero-bob 5s ease-in-out 1.2s infinite; }
-@keyframes hero-bob { 50% { translate: 0 -10px; } }
-.hero-card--r { --rot: 8deg; --delay: .45s; right: 0; top: 16%; width: 36%; }
-@keyframes hero-deal { from { opacity: 0; transform: translateY(80px) rotate(var(--rot)); } }
+/* The three game screens in the hero. Each card is a wrapper and its image, so the moves never fight:
+   the wrapper is dealt in once (transform), drifts with the mouse by its depth and fans out when the hand is hovered
+   (translate); the image lifts, straightens and grows when it is the card under the mouse (transform), and the centre
+   one bobs (translate). The whole hand tilts toward the mouse in 3D. */
+.hero-cards { perspective: 1600px; }
+.hero-cards > .hero-card { position: absolute; display: block; aspect-ratio: 9 / 16; rotate: var(--rot);
+  translate: calc(var(--mx, 0) * var(--depth) + var(--fan, 0%)) calc(var(--my, 0) * var(--depth));
+  transition: translate .6s cubic-bezier(.22, 1, .36, 1), rotate .6s cubic-bezier(.34, 1.56, .64, 1), filter .25s ease;
+  animation: hero-deal .8s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards; }
+.hero-card img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 22px;
+  box-shadow: 0 30px 60px rgb(var(--c-shadow) / .6); transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), box-shadow .5s ease; }
+.hero-card--l { --rot: -8deg; --depth: 14px; --delay: .3s; left: 0; top: 13%; width: 37%; }
+.hero-card--c { --rot: 2deg; --depth: 26px; --delay: .15s; left: 30%; top: 0; width: 40%; z-index: 2; }
+.hero-card--c img { outline: 3px solid #FFB84D; outline-offset: -3px; animation: hero-bob 5s ease-in-out 1.2s infinite; }
+.hero-card--r { --rot: 9deg; --depth: 20px; --delay: .45s; right: 0; top: 16%; width: 36%; }
+@keyframes hero-deal { from { opacity: 0; transform: translateY(90px) rotate(6deg); } }
+@keyframes hero-bob { 50% { translate: 0 -12px; } }
+/* the hand turns to the mouse; the deal and the hover springs run inside it */
+.hero-cards { transform: rotateY(calc(var(--mx, 0) * 9deg)) rotateX(calc(var(--my, 0) * -7deg)); transform-style: preserve-3d;
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1); }
 @media (hover: hover) {
-  .hero-cards:hover .hero-card { filter: brightness(.7); }
-  .hero-cards .hero-card:hover { filter: none; z-index: 3; transform: translateY(-36px) scale(1.08) rotate(calc(var(--rot) * .2)); }
+  /* hovering the hand fans the cards apart; the one under the mouse stands up and comes forward, the others step back */
+  .hero-cards:hover .hero-card--l { --fan: -14%; rotate: -13deg; }
+  .hero-cards:hover .hero-card--r { --fan: 14%; rotate: 14deg; }
+  .hero-cards:hover .hero-card { filter: brightness(.62) saturate(.8); }
+  .hero-cards .hero-card:hover { filter: none; z-index: 3; rotate: 0deg; }
+  .hero-cards .hero-card:hover img { transform: translateY(-34px) scale(1.12); box-shadow: 0 50px 90px rgb(var(--c-shadow) / .75), 0 0 0 1px rgb(255 184 77 / .35), 0 0 60px rgb(255 184 77 / .25); }
 }
-@media (prefers-reduced-motion: reduce) { .hero-card { animation: none; transition: filter .2s; } .hero-cards .hero-card:hover { transform: rotate(var(--rot)); } }
+/* with reduced motion the hand stays still (no deal, bob or tilt; HeroHand does not follow the mouse), but hovering
+   still fans the cards and lifts the one under the mouse, which only moves while the mouse asks it to */
+@media (prefers-reduced-motion: reduce) {
+  .hero-cards > .hero-card, .hero-card img { animation: none; }
+  .hero-cards { transform: none; }
+}
 
 /* Lucy (timings from the motion board): she breathes, the bubble pops once, the dialog rises from her corner,
    her pose cross-fades, three dots wave while she thinks, the answer wipes in left to right. */

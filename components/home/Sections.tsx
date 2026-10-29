@@ -5,7 +5,7 @@ import { COLLAB, CONTACTS, FOUNDER_PHOTO, SOCIAL } from "@/content/studio";
 import { FollowRow } from "../Social";
 import { asset, href, SITE, webp, type Locale } from "@/lib/site";
 import { Fox } from "../Fox";
-import { CountUp, HeroTitle } from "../motion";
+import { CountUp, HeroHand, HeroTitle } from "../motion";
 import { Button, Container, T, TextLink } from "../ui";
 import { GameLink } from "./GameCard";
 
@@ -22,12 +22,13 @@ export function Hero({ locale }: { locale: Locale }) {
   const live = GAMES.filter((g) => g.storeLive);
   return (
     <section className="relative isolate overflow-hidden">
-      <Container className="flex min-h-[calc(100svh-73px)] flex-wrap items-center gap-x-16 gap-y-10 py-[clamp(40px,6vw,88px)]">
+      {/* wider than the rest of the page, so on a big screen the first view is filled edge to edge */}
+      <div className="mx-auto flex min-h-[calc(100svh-73px)] w-full max-w-[2240px] flex-wrap items-center gap-x-[clamp(40px,5vw,112px)] gap-y-10 px-4 py-[clamp(40px,6vw,88px)] sm:px-8 lg:px-10 2xl:px-20">
         <div className="flex min-w-0 flex-[1.3_1_440px] flex-col items-start gap-[22px]">
           {/* the page's heading says what the studio is (for search engines and screen readers); the slogan stays the big line */}
-          <h1 className="m-0 text-[17px] font-bold leading-normal text-label">{t.hero.intro}</h1>
+          <h1 className="m-0 text-[clamp(17px,.95vw,22px)] font-bold leading-normal text-label">{t.hero.intro}</h1>
           <HeroTitle as="p" lines={[t.slogan[0], t.slogan[1]]} className={`${T.hero} whitespace-nowrap`} />
-          <p className={`${T.lead} hero-fade max-w-[34ch] [--delay:.9s]`}>{t.hero.lede}</p>
+          <p className={`${T.lead} hero-fade max-w-[34ch] min-[1800px]:text-[clamp(19px,1.1vw,26px)] [--delay:.9s]`}>{t.hero.lede}</p>
           <div className="hero-fade flex flex-wrap items-center gap-x-6 gap-y-3 [--delay:1.05s]">
             <Button href="#games" size="lg">{t.hero.games}</Button>
             <TextLink href="#services" className="text-[17px]">{t.hero.hireLink}</TextLink>
@@ -35,13 +36,15 @@ export function Hero({ locale }: { locale: Locale }) {
           <FollowRow label={t.hero.follow} className="hero-fade -ml-1 -mt-1 [--delay:1.2s]" />
         </div>
         <div className="flex min-w-0 flex-[1_1_360px] flex-col items-center gap-8">
-          <div aria-hidden="true" className="hero-cards relative aspect-[5/4] w-full max-w-[640px]">
+          <HeroHand className="hero-cards relative aspect-[5/4] w-full max-w-[1040px]">
             <div className="hero-glow" />
             {cards.map(([src, cls]) => (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img key={src} src={asset(webp(src, true))} alt="" width={360} height={640} className={cls} draggable={false} />
+              <span key={src} className={cls}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={asset(webp(src, true))} alt="" width={360} height={640} draggable={false} />
+              </span>
             ))}
-          </div>
+          </HeroHand>
           <p className="hero-fade m-0 text-center text-[14px] font-extrabold uppercase tracking-[.06em] text-muted [--delay:1.3s]">
             {t.hero.onPlay}
             {live.map((g) => (
@@ -49,7 +52,7 @@ export function Hero({ locale }: { locale: Locale }) {
             ))}
           </p>
         </div>
-      </Container>
+      </div>
     </section>
   );
 }

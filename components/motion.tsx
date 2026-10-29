@@ -27,6 +27,27 @@ export function HeroTitle({ lines, className, as: Tag = "h1" }: { lines: [string
   );
 }
 
+/** The hero's hand of game screens follows the mouse anywhere on the page: the hand tilts in 3D and each card
+ *  drifts by its own depth. Writes --mx/--my (-1..1) on the element; the CSS does the moving. */
+export function HeroHand({ className, children }: { className?: string; children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) return;
+    let frame = 0;
+    const move = (e: PointerEvent) => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        el.style.setProperty("--mx", ((e.clientX / innerWidth) * 2 - 1).toFixed(3));
+        el.style.setProperty("--my", ((e.clientY / innerHeight) * 2 - 1).toFixed(3));
+      });
+    };
+    addEventListener("pointermove", move);
+    return () => { removeEventListener("pointermove", move); cancelAnimationFrame(frame); };
+  }, []);
+  return <div ref={ref} aria-hidden="true" className={className}>{children}</div>;
+}
+
 const FAN = [
   { x: -36, y: 70, r: -14, w: "19%", z: 0 },
   { x: -16, y: 22, r: -7, w: "19%", z: 1 },
