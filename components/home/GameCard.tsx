@@ -31,8 +31,8 @@ export function GameLink({ slug, locale, className, children, ...rest }: { slug:
 export function GameCard({ game, locale }: { game: Game; locale: Locale }) {
   const t = COPY[locale];
   return (
-    <article className="flex w-full flex-col overflow-hidden rounded-3xl border border-line bg-card">
-      <GameLink slug={game.slug} locale={locale} aria-label={`${game.name}: ${t.games.details}`} className="block">
+    <article className="flex w-full flex-col overflow-hidden rounded-3xl border border-line bg-card transition-[translate,border-color] duration-300 hover:-translate-y-1 hover:border-line3">
+      <GameLink slug={game.slug} locale={locale} aria-label={`${game.name}: ${t.games.details}`} data-tilt className="block overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={asset(webp(game.keyArt))} loading="lazy" alt={`${game.name} key art`} className="aspect-[1024/500] w-full object-cover" />
       </GameLink>

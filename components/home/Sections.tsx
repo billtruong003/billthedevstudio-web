@@ -77,7 +77,7 @@ export function Games({ locale }: { locale: Locale }) {
         </div>
         <div className="flex flex-wrap items-start gap-x-12 gap-y-7">
           <article data-reveal style={nth(1)} className="flex min-w-0 flex-[1.5_1_520px] flex-col gap-[18px]">
-            <GameLink slug={slam.slug} locale={locale} className="block overflow-hidden rounded-2xl bg-[#F6EEDB]">
+            <GameLink slug={slam.slug} locale={locale} data-tilt className="block overflow-hidden rounded-2xl bg-[#F6EEDB]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={asset(webp(slam.keyArt))} width={1024} height={500} loading="lazy" alt={`${slam.name} key art`} style={{ objectPosition: slam.keyArtPos }} className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-[1.02]" />
             </GameLink>
@@ -97,7 +97,7 @@ export function Games({ locale }: { locale: Locale }) {
           </article>
           <div className="flex min-w-0 flex-[1_1_360px] flex-col">
             {android.map((g, i) => (
-              <GameLink key={g.slug} slug={g.slug} locale={locale} data-reveal style={nth(i + 2)} className="group flex items-center gap-[18px] border-t border-line py-[18px] text-white no-underline">
+              <GameLink key={g.slug} slug={g.slug} locale={locale} data-reveal style={nth(i + 2)} className="group relative flex items-center gap-[18px] border-t border-line py-[18px] text-white no-underline">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={asset(webp(g.icon))} alt="" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] flex-none rounded-[18px] transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105" />
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -105,7 +105,11 @@ export function Games({ locale }: { locale: Locale }) {
                   <span className="text-[15px] text-muted">{g.genre[locale]} · Android</span>
                   <span className="text-[15px] text-soft">{g.tagline[locale]}</span>
                 </span>
-                <span className="flex-none text-[14px] font-bold text-label">{g.soon ? t.games.soon : g.storeLive ? t.games.live : t.games.testing}</span>
+                <span aria-hidden="true" className="row-peek max-md:hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  {g.media.slice(0, 3).map((m) => <img key={m} src={asset(webp(m, true))} alt="" loading="lazy" />)}
+                </span>
+                <span className="row-status flex-none text-[14px] font-bold text-label">{g.soon ? t.games.soon : g.storeLive ? t.games.live : t.games.testing}</span>
               </GameLink>
             ))}
             <p data-reveal style={nth(android.length + 2)} className="m-0 border-t border-line pt-[18px] text-[15px] leading-normal text-muted">{t.games.workbench}</p>
@@ -179,8 +183,10 @@ export function Services({ locale }: { locale: Locale }) {
         </div>
         <div className="flex flex-wrap items-start gap-x-14 gap-y-7">
           <article data-reveal style={nth(1)} className="min-w-0 flex-[1.3_1_480px] overflow-hidden rounded-2xl bg-card">
+            <div data-tilt className="overflow-hidden">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={asset(webp(game("meh-merge").keyArt))} width={1024} height={500} loading="lazy" alt="Meh Merge key art" className="aspect-[1024/500] w-full object-cover" />
+            </div>
             <div className="flex flex-col gap-3 px-[clamp(20px,3vw,32px)] pb-[30px] pt-[26px]">
               <span className="text-[14px] font-bold text-label">{t.mainLabel}</span>
               <h3 className="m-0 text-[clamp(32px,3.4vw,42px)] font-black leading-none">{main[0]}</h3>

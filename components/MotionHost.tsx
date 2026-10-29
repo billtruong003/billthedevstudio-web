@@ -7,6 +7,7 @@ import { isLite } from "@/lib/lite";
 
 /** The site's page-wide motion, one listener each, mounted once in the Shell. Pages only mark elements:
  *  - `data-reveal` rises in when it scrolls into view (`--i` staggers siblings; the CSS does the moving);
+ *  - `data-tilt` turns toward the mouse with a light on it;
  *  - links to `#section` glide there (Chrome drops CSS smooth scrolling whenever the OS has its animations off).
  *  A weak device (`.lite`, see lib/lite) gets none of it. */
 export function MotionHost() {
@@ -36,6 +37,31 @@ export function MotionHost() {
     };
     addEventListener("click", glide);
     return () => removeEventListener("click", glide);
+  }, []);
+
+  // tilt: a `data-tilt` element under the mouse turns toward it and a soft light follows (--tx/--ty -1..1, --gx/--gy 0..1)
+  useEffect(() => {
+    if (isLite() || !matchMedia("(hover: hover)").matches) return;
+    let on: HTMLElement | null = null;
+    let frame = 0;
+    const move = (e: PointerEvent) => {
+      const el = (e.target as Element).closest?.<HTMLElement>("[data-tilt]") ?? null;
+      if (on && on !== el) { on.classList.remove("is-tilting"); ["--tx", "--ty"].forEach((p) => on!.style.removeProperty(p)); }
+      on = el;
+      if (!el) return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const r = el.getBoundingClientRect();
+        const gx = (e.clientX - r.left) / r.width, gy = (e.clientY - r.top) / r.height;
+        el.classList.add("is-tilting");
+        el.style.setProperty("--gx", gx.toFixed(3));
+        el.style.setProperty("--gy", gy.toFixed(3));
+        el.style.setProperty("--tx", (gx * 2 - 1).toFixed(3));
+        el.style.setProperty("--ty", (gy * 2 - 1).toFixed(3));
+      });
+    };
+    addEventListener("pointermove", move, { passive: true });
+    return () => { removeEventListener("pointermove", move); cancelAnimationFrame(frame); };
   }, []);
 
   return null;

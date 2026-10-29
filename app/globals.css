@@ -45,6 +45,27 @@ html.lite { scroll-behavior: auto; }
 .js:not(.lite) [data-reveal].is-in { animation: reveal .8s cubic-bezier(.22, 1, .36, 1) calc(var(--i, 0) * 90ms) both; }
 @keyframes reveal { from { opacity: 0; transform: translateY(32px); } }
 
+/* [data-tilt] turns toward the mouse (MotionHost writes --tx/--ty and the light's spot --gx/--gy) */
+[data-tilt] { position: relative; isolation: isolate; transform: perspective(1000px) rotateX(calc(var(--ty, 0) * -5deg)) rotateY(calc(var(--tx, 0) * 7deg));
+  transition: transform .6s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease; }
+[data-tilt].is-tilting { transition-duration: .15s, .4s; box-shadow: 0 30px 60px rgb(var(--c-shadow) / .55); }
+[data-tilt]::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit; opacity: 0; transition: opacity .3s ease;
+  background: radial-gradient(circle at calc(var(--gx, .5) * 100%) calc(var(--gy, .5) * 100%), rgb(255 255 255 / .28), rgb(255 255 255 / 0) 50%); }
+[data-tilt].is-tilting::after { opacity: 1; }
+
+/* a home game row, hovered: its status steps aside and three of its screens pop up in its place like a small hand of cards */
+.row-peek { position: absolute; right: 10px; top: 50%; translate: 0 -50%; display: flex; pointer-events: none; }
+.row-status { transition: opacity .2s ease, translate .3s ease; }
+@media (min-width: 768px) { .group:hover .row-status { opacity: 0; translate: 12px 0; } }
+.row-peek img { width: 62px; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 9px; margin-left: -18px; box-shadow: 0 14px 28px rgb(var(--c-shadow) / .6);
+  opacity: 0; translate: 0 26px; rotate: 0deg; transition: opacity .25s ease, translate .45s cubic-bezier(.34, 1.56, .64, 1), rotate .45s cubic-bezier(.34, 1.56, .64, 1); }
+.group:hover .row-peek img { opacity: 1; translate: 0 0; }
+.group:hover .row-peek img:nth-child(1) { rotate: -12deg; translate: 0 8px; }
+.group:hover .row-peek img:nth-child(2) { rotate: 0deg; transition-delay: .04s; }
+.group:hover .row-peek img:nth-child(3) { rotate: 12deg; translate: 0 8px; transition-delay: .08s; }
+.lite .row-peek { display: none; }
+.lite .group:hover .row-status { opacity: 1; translate: none; }
+
 /* the glint that crosses the fox's shades every few seconds */
 .fox-glint { animation: fox-glint 7s ease-in-out 1.4s infinite; }
 @keyframes fox-glint { 0% { transform: skewX(-20deg) translateX(0); } 14%, 100% { transform: skewX(-20deg) translateX(330px); } }
