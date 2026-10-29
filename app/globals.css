@@ -110,44 +110,31 @@ html.lite { scroll-behavior: auto; }
 @keyframes hero-fade { from { opacity: 0; transform: translateY(14px); } }
 .lite .hero-fade { animation: none; }
 
-/* The three game screens in the hero. Each card is a wrapper and its image, so the moves never fight:
-   the wrapper is dealt in once (transform), drifts with the mouse by its depth and fans out when the hand is hovered
-   (translate); the image lifts, straightens and grows when it is the card under the mouse (transform), and the centre
-   one bobs (translate). The whole hand tilts toward the mouse in 3D. */
-.hero-cards { perspective: 1600px; }
-.hero-cards > .hero-card { position: absolute; display: block; aspect-ratio: 9 / 16; rotate: calc(var(--rot) + var(--sy, 0) * var(--spin, 0deg));
-  translate: calc(var(--mx, 0) * var(--depth) + var(--fan, 0%) + var(--sy, 0) * var(--spread, 0%)) calc(var(--my, 0) * var(--depth) + var(--sy, 0) * var(--drop, 0px));
-  transition: translate .6s cubic-bezier(.22, 1, .36, 1), rotate .6s cubic-bezier(.34, 1.56, .64, 1), filter .25s ease;
-  animation: hero-deal .8s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards; }
+/* The five game screens in the hero. Each card is a wrapper and its image, so the moves never fight: the wrapper is
+   dealt in once (transform), then HeroHand moves it from one eased loop (translate, rotate: mouse drift, the fan on
+   hover, the spread on scroll); the image lifts and grows when its card is picked (transform, also from the loop) and
+   the centre one bobs (translate). No CSS transitions on those: restarted every frame, they shook the cards. */
+.hero-cards { perspective: 1600px; transform-style: preserve-3d; }
+.hero-cards > .hero-card { position: absolute; display: block; aspect-ratio: 9 / 16; rotate: var(--rot);
+  transition: filter .3s ease; animation: hero-deal .8s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards; }
 .hero-card img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 22px;
-  box-shadow: 0 30px 60px rgb(var(--c-shadow) / .6); transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), box-shadow .5s ease; }
-.hero-card--ll { --rot: -15deg; --depth: 8px; --delay: .55s; --spread: -45%; --drop: 70px; --spin: -14deg; left: 0; top: 24%; width: 26%; }
-.hero-card--l { --rot: -7deg; --depth: 14px; --delay: .35s; --spread: -22%; --drop: 20px; --spin: -7deg; left: 14%; top: 10%; width: 29%; z-index: 1; }
-.hero-card--c { --rot: 1deg; --depth: 26px; --delay: .15s; --drop: -50px; left: 35%; top: 0; width: 31%; z-index: 2; }
+  box-shadow: 0 30px 60px rgb(var(--c-shadow) / .6); transition: box-shadow .4s ease; }
+.hero-card--ll { --rot: -15deg; --delay: .55s; left: 0; top: 24%; width: 26%; }
+.hero-card--l { --rot: -7deg; --delay: .35s; left: 14%; top: 10%; width: 29%; z-index: 1; }
+.hero-card--c { --rot: 1deg; --delay: .15s; left: 35%; top: 0; width: 31%; z-index: 2; }
 .hero-card--c img { outline: 3px solid #FFB84D; outline-offset: -3px; animation: hero-bob 5s ease-in-out 1.2s infinite; }
-.hero-card--r { --rot: 8deg; --depth: 20px; --delay: .45s; --spread: 22%; --drop: 20px; --spin: 7deg; right: 14%; top: 11%; width: 28%; z-index: 1; }
-.hero-card--rr { --rot: 16deg; --depth: 10px; --delay: .65s; --spread: 45%; --drop: 70px; --spin: 14deg; right: 0; top: 26%; width: 25%; }
+.hero-card--r { --rot: 8deg; --delay: .45s; right: 14%; top: 11%; width: 28%; z-index: 1; }
+.hero-card--rr { --rot: 16deg; --delay: .65s; right: 0; top: 26%; width: 25%; }
 @keyframes hero-deal { from { opacity: 0; transform: translateY(90px) rotate(6deg); } }
 @keyframes hero-bob { 50% { translate: 0 -12px; } }
-/* scrolling the first screen away (--sy 0..1): the hand fans out wide (above), the words drift up slower and fade */
+/* the picked card comes forward lit, the rest of the hand steps back */
+.hero-cards.is-over > .hero-card:not(.is-hot) { filter: brightness(.62) saturate(.8); }
+.hero-cards > .hero-card.is-hot { z-index: 3; }
+.hero-card.is-hot img { box-shadow: 0 50px 90px rgb(var(--c-shadow) / .75), 0 0 0 1px rgb(255 184 77 / .35), 0 0 60px rgb(255 184 77 / .25); }
+/* scrolling the first screen away (--sy 0..1): the words drift up slower and fade (the hand spreads in HeroHand) */
 .hero-copy { translate: 0 calc(var(--sy, 0) * 120px); opacity: calc(1 - var(--sy, 0) * 1.1); }
-/* the hand turns to the mouse; the deal and the hover springs run inside it */
-.hero-cards { transform: rotateY(calc(var(--mx, 0) * 9deg)) rotateX(calc(var(--my, 0) * -7deg)); transform-style: preserve-3d;
-  transition: transform .4s cubic-bezier(.22, 1, .36, 1); }
-@media (hover: hover) {
-  /* hovering the hand fans the cards apart; the one under the mouse stands up and comes forward, the others step back */
-  .hero-cards:hover .hero-card--ll { --fan: -22%; rotate: -21deg; }
-  .hero-cards:hover .hero-card--l { --fan: -10%; rotate: -11deg; }
-  .hero-cards:hover .hero-card--r { --fan: 10%; rotate: 12deg; }
-  .hero-cards:hover .hero-card--rr { --fan: 22%; rotate: 22deg; }
-  .hero-cards:hover .hero-card { filter: brightness(.62) saturate(.8); }
-  .hero-cards .hero-card:hover { filter: none; z-index: 3; rotate: 0deg; }
-  .hero-cards .hero-card:hover img { transform: translateY(-34px) scale(1.12); box-shadow: 0 50px 90px rgb(var(--c-shadow) / .75), 0 0 0 1px rgb(255 184 77 / .35), 0 0 60px rgb(255 184 77 / .25); }
-}
-/* on a weak device (.lite) the hand stays still (no deal, bob or tilt; HeroHand does not follow the mouse), but hovering
-   still fans the cards and lifts the one under the mouse, which only moves while the mouse asks it to */
+/* on a weak device (.lite) the hand stays still: no deal, bob, drift or fan */
 .lite .hero-cards > .hero-card, .lite .hero-card img { animation: none; }
-.lite .hero-cards { transform: none; }
 
 /* "Scroll for more": a label over an amber ring whose arrow keeps dropping, pinned to the bottom centre of the
    screen (clear of Lucy in the right corner); fades in after the hero has played and out on the first scroll */

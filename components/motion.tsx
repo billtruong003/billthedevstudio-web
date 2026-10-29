@@ -36,23 +36,88 @@ export function HeroTitle({ lines, className, as: Tag = "h1" }: { lines: [string
   );
 }
 
-/** The hero's hand of game screens follows the mouse anywhere on the page: the hand tilts in 3D and each card
- *  drifts by its own depth. Writes --mx/--my (-1..1) on the element; the CSS does the moving. */
+/** How each hero card (left to right) moves: drift = px it follows the mouse by, fan = how far it slides aside
+ *  (card widths) and the turn it takes when the hand is hovered, spread/drop/spin = where it ends up once the first
+ *  screen has scrolled away, z = which card wins where they overlap. */
+const HAND = [
+  { rot: -15, drift: 8, fan: -0.22, fanRot: -21, spread: -0.45, drop: 70, spin: -14, z: 0 },
+  { rot: -7, drift: 14, fan: -0.1, fanRot: -11, spread: -0.22, drop: 20, spin: -7, z: 1 },
+  { rot: 1, drift: 26, fan: 0, fanRot: 1, spread: 0, drop: -50, spin: 0, z: 2 },
+  { rot: 8, drift: 20, fan: 0.1, fanRot: 12, spread: 0.22, drop: 20, spin: 7, z: 1 },
+  { rot: 16, drift: 10, fan: 0.22, fanRot: 22, spread: 0.45, drop: 70, spin: 14, z: 0 },
+];
+
+/** The hero's hand of game screens, moved by one eased loop so mouse, hover and scroll never fight: the hand tilts
+ *  toward the mouse and each card drifts by its depth; hovering fans the cards and the one under the mouse stands up
+ *  and comes forward; scrolling the first screen away spreads the hand wide. The picked card is found from where the
+ *  cards sit, not where they have moved to, so a card that lifts away from the mouse does not lose it and flicker. */
 export function HeroHand({ className, children }: { className?: string; children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const el = ref.current;
-    if (!el || isLite() || !matchMedia("(hover: hover)").matches) return;
-    let frame = 0;
-    const move = (e: PointerEvent) => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        el.style.setProperty("--mx", ((e.clientX / innerWidth) * 2 - 1).toFixed(3));
-        el.style.setProperty("--my", ((e.clientY / innerHeight) * 2 - 1).toFixed(3));
-      });
+    const hand = ref.current;
+    if (!hand || isLite()) return;
+    const cards = [...hand.querySelectorAll<HTMLElement>(":scope > .hero-card")];
+    const imgs = cards.map((c) => c.querySelector("img")!);
+    const hover = matchMedia("(hover: hover)").matches;
+    const goal = { mx: 0, my: 0, over: false, hot: -1 };
+    const now = { mx: 0, my: 0, sy: 0, cards: HAND.map((h) => ({ x: 0, y: 0, r: h.rot, lift: 0 })) };
+    let frame = 0, last = 0;
+
+    const pick = (x: number, y: number) => {
+      const r = hand.getBoundingClientRect();
+      if (x < r.left || x > r.right || y < r.top || y > r.bottom) return -1;
+      const px = ((x - r.left) / r.width) * hand.offsetWidth, py = ((y - r.top) / r.height) * hand.offsetHeight;
+      const inside = (i: number, pad: number) => {
+        const c = cards[i], dx = HAND[i].fan * c.offsetWidth;
+        return px > c.offsetLeft + dx - pad && px < c.offsetLeft + dx + c.offsetWidth + pad && py > c.offsetTop - pad && py < c.offsetTop + c.offsetHeight + pad;
+      };
+      if (goal.hot >= 0 && inside(goal.hot, 16)) return goal.hot;
+      let best = -1;
+      cards.forEach((_, i) => { if (inside(i, 0) && (best < 0 || HAND[i].z > HAND[best].z)) best = i; });
+      return best;
     };
-    addEventListener("pointermove", move);
-    return () => { removeEventListener("pointermove", move); cancelAnimationFrame(frame); };
+
+    const tick = (t: number) => {
+      const k = 1 - Math.pow(0.86, Math.min(t - last || 16, 50) / 16.7);
+      last = t;
+      const sy = Math.min(scrollY / innerHeight, 1);
+      let moving = Math.abs(sy - now.sy) > 0.001;
+      const ease = (a: number, b: number) => { const d = b - a; if (Math.abs(d) > 0.05) moving = true; return a + d * k; };
+      now.sy = ease(now.sy, sy);
+      now.mx = ease(now.mx, goal.mx);
+      now.my = ease(now.my, goal.my);
+      hand.style.transform = `rotateY(${(now.mx * 9).toFixed(2)}deg) rotateX(${(now.my * -7).toFixed(2)}deg)`;
+      HAND.forEach((h, i) => {
+        const c = now.cards[i], w = cards[i].offsetWidth, hot = goal.hot === i;
+        c.x = ease(c.x, now.mx * h.drift + (goal.over ? h.fan * w : 0) + now.sy * h.spread * w);
+        c.y = ease(c.y, now.my * h.drift + now.sy * h.drop);
+        c.r = ease(c.r, (hot ? 0 : goal.over ? h.fanRot : h.rot) + now.sy * h.spin);
+        c.lift = ease(c.lift * 100, hot ? 100 : 0) / 100;
+        cards[i].style.translate = `${c.x.toFixed(1)}px ${c.y.toFixed(1)}px`;
+        cards[i].style.rotate = `${c.r.toFixed(2)}deg`;
+        imgs[i].style.transform = c.lift > 0.002 ? `translateY(${(-34 * c.lift).toFixed(1)}px) scale(${(1 + 0.12 * c.lift).toFixed(3)})` : "";
+      });
+      frame = moving ? requestAnimationFrame(tick) : 0;
+    };
+    const wake = () => { if (!frame) { last = 0; frame = requestAnimationFrame(tick); } };
+
+    const set = (mx: number, my: number, hot: number) => {
+      if (hot !== goal.hot) { cards[goal.hot]?.classList.remove("is-hot"); cards[hot]?.classList.add("is-hot"); }
+      if (hot >= 0 !== goal.over) hand.classList.toggle("is-over", hot >= 0);
+      Object.assign(goal, { mx, my, hot, over: hot >= 0 });
+      wake();
+    };
+    const move = (e: PointerEvent) => set((e.clientX / innerWidth) * 2 - 1, (e.clientY / innerHeight) * 2 - 1, pick(e.clientX, e.clientY));
+    const leave = () => set(0, 0, -1);
+    if (hover) { addEventListener("pointermove", move, { passive: true }); document.documentElement.addEventListener("pointerleave", leave); }
+    addEventListener("scroll", wake, { passive: true });
+    wake();
+    return () => {
+      removeEventListener("pointermove", move);
+      document.documentElement.removeEventListener("pointerleave", leave);
+      removeEventListener("scroll", wake);
+      cancelAnimationFrame(frame);
+    };
   }, []);
   return <div ref={ref} aria-hidden="true" className={className}>{children}</div>;
 }
