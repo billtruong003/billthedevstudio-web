@@ -3,6 +3,7 @@
 import { animate, motion, useInView, useMotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { asset } from "@/lib/site";
+import { Icon } from "./icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -46,6 +47,24 @@ export function HeroHand({ className, children }: { className?: string; children
     return () => { removeEventListener("pointermove", move); cancelAnimationFrame(frame); };
   }, []);
   return <div ref={ref} aria-hidden="true" className={className}>{children}</div>;
+}
+
+/** "Scroll for more", pinned to the bottom of the first screen at any size (on a phone the hero is taller than the
+ *  screen, so it cannot sit at the end of the section); it goes away once the visitor starts scrolling. */
+export function ScrollCue({ href, label }: { href: string; label: string }) {
+  const [gone, setGone] = useState(false);
+  useEffect(() => {
+    const check = () => setGone(scrollY > 60);
+    check();
+    addEventListener("scroll", check, { passive: true });
+    return () => removeEventListener("scroll", check);
+  }, []);
+  return (
+    <a href={href} aria-hidden={gone || undefined} tabIndex={gone ? -1 : undefined} className={`hero-cue${gone ? " is-gone" : ""}`}>
+      <span>{label}</span>
+      <span className="hero-cue__ring"><Icon name="down" size={20} stroke={2.6} className="hero-cue__arrow" /></span>
+    </a>
+  );
 }
 
 const FAN = [
