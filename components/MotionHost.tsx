@@ -7,7 +7,7 @@ import { isLite } from "@/lib/lite";
 
 /** The site's page-wide motion, one listener each, mounted once in the Shell. Pages only mark elements:
  *  - `data-reveal` rises in when it scrolls into view (`--i` staggers siblings; the CSS does the moving);
- *  - `data-tilt` turns toward the mouse with a light on it;
+ *  - `data-tilt` turns toward the mouse with a light on it, and `data-magnet` (the amber buttons) leans after it;
  *  - `--sy` on <html> is how far the first screen has scrolled away (0..1), for the hero's parallax, and
  *    `.scrolled` is on once the page has moved at all, for the header;
  *  - links to `#section` glide there (Chrome drops CSS smooth scrolling whenever the OS has its animations off).
@@ -58,21 +58,22 @@ export function MotionHost() {
     return () => { removeEventListener("scroll", onScroll); cancelAnimationFrame(frame); };
   }, []);
 
-  // tilt: a `data-tilt` element under the mouse turns toward it and a soft light follows (--tx/--ty -1..1, --gx/--gy 0..1)
+  // the `data-tilt` or `data-magnet` element under the mouse learns where it is on it (--tx/--ty -1..1, --gx/--gy 0..1)
+  // and gets .is-on; the CSS turns a tilt toward the mouse and pulls a magnet after it
   useEffect(() => {
     if (isLite() || !matchMedia("(hover: hover)").matches) return;
     let on: HTMLElement | null = null;
     let frame = 0;
     const move = (e: PointerEvent) => {
-      const el = (e.target as Element).closest?.<HTMLElement>("[data-tilt]") ?? null;
-      if (on && on !== el) { on.classList.remove("is-tilting"); ["--tx", "--ty"].forEach((p) => on!.style.removeProperty(p)); }
+      const el = (e.target as Element).closest?.<HTMLElement>("[data-tilt], [data-magnet]") ?? null;
+      if (on && on !== el) { on.classList.remove("is-on"); ["--tx", "--ty"].forEach((p) => on!.style.removeProperty(p)); }
       on = el;
       if (!el) return;
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
         const r = el.getBoundingClientRect();
         const gx = (e.clientX - r.left) / r.width, gy = (e.clientY - r.top) / r.height;
-        el.classList.add("is-tilting");
+        el.classList.add("is-on");
         el.style.setProperty("--gx", gx.toFixed(3));
         el.style.setProperty("--gy", gy.toFixed(3));
         el.style.setProperty("--tx", (gx * 2 - 1).toFixed(3));

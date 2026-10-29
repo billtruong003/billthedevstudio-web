@@ -24,6 +24,7 @@ export function Button({ variant = "amber", size = "md", icon, className, childr
         variant === "dark" && "rounded-full bg-ink px-6 font-bold text-white",
         className,
       )}
+      data-magnet={variant === "amber" || undefined}
       {...rest}
     >
       {icon && <Icon name="play" size={14} stroke={0} className="fill-current" />}

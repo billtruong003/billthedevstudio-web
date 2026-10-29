@@ -33,7 +33,8 @@ a:not([class]) { text-decoration-line: underline; font-weight: 700; }
 a:hover { color: #FFB84D; }
 /* white on amber, with a burnt-orange drop like the games' own titles; plain white on #FFB84D alone is 1.7:1 */
 /* a large amber fill under white text reads paler than amber type, so filled buttons use a deeper amber (picked 2026-10-16) */
-.on-amber { color: #FFFFFF; background-color: #FCA334; text-shadow: 0 2px 0 #B3631C, 0 0 1px #B3631C; }
+.on-amber, a.on-amber:hover { color: #FFFFFF; } /* a:hover would turn the words amber on amber */
+.on-amber { background-color: #FCA334; text-shadow: 0 2px 0 #B3631C, 0 0 1px #B3631C; }
 .on-amber svg { filter: drop-shadow(0 2px 0 #B3631C); }
 :focus-visible { outline: 3px solid #FFB84D; outline-offset: 3px; border-radius: 6px; }
 /* dialogs take focus when they open so keyboard users land inside; that focus is not a thing to highlight */
@@ -56,10 +57,21 @@ html.lite { scroll-behavior: auto; }
 /* [data-tilt] turns toward the mouse (MotionHost writes --tx/--ty and the light's spot --gx/--gy) */
 [data-tilt] { position: relative; isolation: isolate; transform: perspective(1000px) rotateX(calc(var(--ty, 0) * -5deg)) rotateY(calc(var(--tx, 0) * 7deg));
   transition: transform .6s cubic-bezier(.22, 1, .36, 1), box-shadow .4s ease; }
-[data-tilt].is-tilting { transition-duration: .15s, .4s; box-shadow: 0 30px 60px rgb(var(--c-shadow) / .55); }
+[data-tilt].is-on { transition-duration: .15s, .4s; box-shadow: 0 30px 60px rgb(var(--c-shadow) / .55); }
 [data-tilt]::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit; opacity: 0; transition: opacity .3s ease;
   background: radial-gradient(circle at calc(var(--gx, .5) * 100%) calc(var(--gy, .5) * 100%), rgb(255 255 255 / .28), rgb(255 255 255 / 0) 50%); }
-[data-tilt].is-tilting::after { opacity: 1; }
+[data-tilt].is-on::after { opacity: 1; }
+
+/* an amber button leans after the mouse, a sheen sweeps across it on hover and it squashes, then springs, on a press */
+[data-magnet][data-magnet] { position: relative; overflow: hidden; isolation: isolate;
+  translate: calc(var(--tx, 0) * 7px) calc(var(--ty, 0) * 5px);
+  transition: translate .5s cubic-bezier(.34, 1.56, .64, 1), scale .45s cubic-bezier(.34, 1.56, .64, 1), filter .2s ease; }
+[data-magnet].is-on { transition-duration: .18s, .45s, .2s; }
+[data-magnet]::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; translate: -120% 0;
+  background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / .45) 50%, transparent 70%); }
+[data-magnet]:hover::after { translate: 120% 0; transition: translate .7s ease; }
+[data-magnet][data-magnet]:active { scale: .93; transition-duration: .5s, .08s, .2s; }
+.lite [data-magnet]::after { display: none; }
 
 /* a home game row, hovered: its status steps aside and three of its screens pop up in its place like a small hand of cards */
 .row-peek { position: absolute; right: 10px; top: 50%; translate: 0 -50%; display: flex; pointer-events: none; }
