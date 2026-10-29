@@ -43,7 +43,8 @@ const androidInfo = (vi: boolean, live = false): [string, string][] =>
     : [["Platform", "Android, on Google Play"], ["Price", "Free · contains ads · in-app purchases"], ["Players", "1"],
        ["Languages", "English, Tiếng Việt"], ["Status", live ? "Out now on Google Play" : "Testing on Google Play"], ["Developer", "Bill The Dev"]];
 
-const shots = (slug: string) => [1, 2, 3].map((n) => `/img/games/${slug}/shot${n}.jpg`).concat(`/img/games/${slug}/cover.jpg`);
+/** The eight captioned Google Play screens. */
+const playShots = (slug: string) => [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `/img/games/${slug}/play${n}.jpg`);
 
 export const GAMES: Game[] = [
   {
@@ -63,8 +64,8 @@ export const GAMES: Game[] = [
       en: [["Drop and merge", "Two balls the same become a bigger one. Pick where each one lands."], ["Chain combos", "One merge can set off the next. Long chains, big scores."], ["Coins and skins", "Earn coins as you play and unlock new looks."]],
       vi: [["Thả và gộp", "Hai quả giống nhau thành một quả to hơn. Chọn chỗ thả cho từng quả."], ["Chuỗi combo", "Một lần gộp kéo theo lần sau. Chuỗi dài, điểm cao."], ["Xu và skin", "Kiếm xu khi chơi và mở khoá giao diện mới."]],
     },
-    icon: "/img/games/meh-merge/icon.png", keyArt: "/img/games/meh-merge/feature.jpg", media: shots("meh-merge"),
-    trailer: "U5scIFVhbkg", playPackage: "com.billthedev.mehmerge", storeLive: true, privacy: "/privacy/meh-merge/",
+    icon: "/img/games/meh-merge/icon.png", keyArt: "/img/games/meh-merge/feature.jpg", media: playShots("meh-merge"),
+    trailer: "M3JXoXfuPvw", playPackage: "com.billthedev.mehmerge", storeLive: true, privacy: "/privacy/meh-merge/",
     info: { en: androidInfo(false, true), vi: androidInfo(true, true) },
   },
   {
@@ -84,8 +85,8 @@ export const GAMES: Game[] = [
       en: [["Drag and clear", "Fill a row or a column and it clears."], ["Board blasts", "Clear the whole board for a blast and a bonus tray."], ["A rescue when stuck", "Out of room? A rescue gives you one more go."]],
       vi: [["Kéo và xoá", "Lấp đầy hàng hoặc cột là xoá."], ["Nổ cả bàn", "Xoá sạch bàn để nổ to và nhận khay thưởng."], ["Cứu khi kẹt", "Hết chỗ? Được cứu thêm một lượt."]],
     },
-    icon: "/img/games/nah-blocks/icon.png", keyArt: "/img/games/nah-blocks/feature.jpg", media: shots("nah-blocks"),
-    trailer: "iilWXRwL5cQ", playPackage: "com.billthedev.nahblocks", privacy: "/privacy/nah-blocks/",
+    icon: "/img/games/nah-blocks/icon.png", keyArt: "/img/games/nah-blocks/feature.jpg", media: playShots("nah-blocks"),
+    trailer: "MzKyiu0qgWU", playPackage: "com.billthedev.nahblocks", privacy: "/privacy/nah-blocks/",
     info: { en: androidInfo(false), vi: androidInfo(true) },
   },
   {
@@ -105,8 +106,8 @@ export const GAMES: Game[] = [
       en: [["Order matters", "An arrow only flies if its path is clear."], ["Levels that grow", "Small boards first, then bigger and bigger tangles."], ["Arrow skins", "Unlock new arrow styles with the coins you earn."]],
       vi: [["Thứ tự là tất cả", "Mũi tên chỉ bay khi đường trống."], ["Màn chơi lớn dần", "Bàn nhỏ trước, rồi rối dần lên."], ["Skin mũi tên", "Mở kiểu mũi tên mới bằng xu kiếm được."]],
     },
-    icon: "/img/games/bruh-arrows/icon.png", keyArt: "/img/games/bruh-arrows/feature.jpg", media: shots("bruh-arrows"),
-    trailer: "BLJmR8OaI2I", playPackage: "com.billthedev.bruharrows", storeLive: true, privacy: "/privacy/bruh-arrows/",
+    icon: "/img/games/bruh-arrows/icon.png", keyArt: "/img/games/bruh-arrows/feature.jpg", media: playShots("bruh-arrows"),
+    trailer: "hPeMVKr5c7E", playPackage: "com.billthedev.bruharrows", storeLive: true, privacy: "/privacy/bruh-arrows/",
     info: { en: androidInfo(false, true), vi: androidInfo(true, true) },
   },
   {
@@ -126,7 +127,7 @@ export const GAMES: Game[] = [
       en: [["Real ripples", "Every drop sends out ripples. Where it lands decides where she floats."], ["200 levels, 10 worlds", "From the bathtub to the beach: soap, mud, hair dryers, whirlpools, tide pools."], ["Par crowns", "Bring all three babies home in par drops to win the crown."]],
       vi: [["Sóng gợn thật", "Mỗi giọt nước tạo sóng gợn. Rơi chỗ nào quyết định vịt trôi về đâu."], ["200 màn, 10 thế giới", "Từ bồn tắm ra bãi biển: xà phòng, bùn, máy sấy, xoáy nước, vũng thuỷ triều."], ["Vương miện par", "Đưa đủ ba vịt con về trong số giọt par để nhận vương miện."]],
     },
-    icon: "/img/games/duck-drip/icon.png", keyArt: "/img/games/duck-drip/feature.jpg", media: shots("duck-drip"),
+    icon: "/img/games/duck-drip/icon.png", keyArt: "/img/games/duck-drip/feature.jpg", media: ["cover", "shot1", "shot2", "shot3"].map((n) => `/img/games/duck-drip/${n}.jpg`),
     trailerFile: "/video/duck-drip-trailer.mp4", playPackage: "com.billthedev.dripduck", privacy: "/privacy/duck-drip/",
     info: {
       en: [["Platform", "Android, on Google Play"], ["Price", "Free · contains ads · in-app purchases"], ["Players", "1"], ["Levels", "200 in 10 worlds"], ["Status", "Coming soon"], ["Developer", "Bill The Dev"]],
