@@ -52,6 +52,13 @@ a:hover { color: #FFB84D; }
 @keyframes hero-stamp { from { opacity: 0; transform: scale(1.35) rotate(-4deg); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .hero-up, .hero-stamp { animation: none; } }
 
+/* the hero fills the first screen: one soft amber spotlight behind the cards, the rest fades in after the title */
+.hero-glow { position: absolute; z-index: -1; inset: -30% -35%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 184, 77, .2), rgba(255, 184, 77, 0)); }
+.hero-fade { animation: hero-fade .6s ease var(--delay, .9s) both; }
+@keyframes hero-fade { from { opacity: 0; transform: translateY(14px); } }
+@media (prefers-reduced-motion: reduce) { .hero-fade { animation: none; } }
+
 /* The three game screens in the hero: dealt in once on load, the hovered one lifts out of the hand, the rest dim.
    fill-mode backwards, so after the deal the hover transition owns transform. */
 .hero-card { position: absolute; display: block; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 18px;
@@ -59,7 +66,9 @@ a:hover { color: #FFB84D; }
   transition: transform .45s cubic-bezier(.34, 1.56, .64, 1), filter .2s ease;
   animation: hero-deal .7s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards; }
 .hero-card--l { --rot: -7deg; --delay: .3s; left: 0; top: 12%; width: 38%; }
-.hero-card--c { --rot: 2deg; --delay: .15s; left: 30%; top: 0; width: 40%; z-index: 2; outline: 3px solid #FFB84D; outline-offset: -3px; }
+.hero-card--c { --rot: 2deg; --delay: .15s; left: 30%; top: 0; width: 40%; z-index: 2; outline: 3px solid #FFB84D; outline-offset: -3px;
+  animation: hero-deal .7s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards, hero-bob 5s ease-in-out 1.2s infinite; }
+@keyframes hero-bob { 50% { translate: 0 -10px; } }
 .hero-card--r { --rot: 8deg; --delay: .45s; right: 0; top: 16%; width: 36%; }
 @keyframes hero-deal { from { opacity: 0; transform: translateY(80px) rotate(var(--rot)); } }
 @media (hover: hover) {

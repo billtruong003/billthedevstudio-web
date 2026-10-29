@@ -84,7 +84,7 @@ export function TextLink({ className, children, ...rest }: React.AnchorHTMLAttri
 
 /** Section titles: one size per role. */
 export const T = {
-  hero: "m-0 font-black leading-[0.9] tracking-[-0.025em] text-[clamp(54px,7.4vw,112px)]",
+  hero: "m-0 font-black leading-[0.9] tracking-[-0.025em] text-[clamp(54px,7.8vw,128px)]",
   h1: "m-0 font-black leading-[0.95] tracking-[-0.02em] text-[clamp(44px,6vw,84px)]",
   h2: "m-0 font-black leading-none tracking-[-0.01em] text-[clamp(32px,4.6vw,60px)]",
   h3: "m-0 font-black leading-[1.05] text-[clamp(26px,2.6vw,32px)]",

@@ -13,7 +13,7 @@ const en = {
   menuHints: { games: "4 games · Android and web", services: "Unity, web, AI, tech art", studio: "One developer: Bill", contact: "Email, Zalo, Messenger…", news: "Studio news and launches", press: "Facts, logos, trailers" },
   slogan: ["Shades on.", "Ship it."],
   hero: {
-    follow: "Follow us on",
+    follow: "Follow us on", onPlay: "Out now on Google Play",
     kicker: "Bill The Dev · one-man game studio · Vietnam",
     sub: "Bill The Dev is a one-man game studio from Vietnam. I make my own games, and I build Unity, web and AI projects for clients.",
     intro: "A one-man game studio in Ho Chi Minh City, run by Bill.",
@@ -125,7 +125,7 @@ const vi: Copy = {
   menuHints: { games: "4 game · Android và web", services: "Unity, web, AI, tech art", studio: "Một người: Bill", contact: "Email, Zalo, Messenger…", news: "Tin tức và ra mắt của studio", press: "Thông tin, logo, trailer" },
   slogan: ["Shades on.", "Ship it."],
   hero: {
-    follow: "Theo dõi studio trên",
+    follow: "Theo dõi studio trên", onPlay: "Đã có trên Google Play",
     kicker: "Bill The Dev · studio game một người · Việt Nam",
     sub: "Bill The Dev là studio game một người ở Việt Nam. Mình làm game của riêng mình, và nhận làm dự án Unity, web, AI cho khách.",
     intro: "Studio game một người ở TP. Hồ Chí Minh, do Bill làm.",

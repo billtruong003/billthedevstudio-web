@@ -11,7 +11,7 @@ import { GameLink } from "./GameCard";
 
 const game = (slug: string) => GAMES.find((g) => g.slug === slug)!;
 
-/** Headline left, three real game screens right; one amber button, the other way in is a text link. */
+/** One full screen under the sticky header: headline left, three real game screens right in an amber spotlight. */
 export function Hero({ locale }: { locale: Locale }) {
   const t = COPY[locale];
   const cards: [string, string][] = [
@@ -19,25 +19,35 @@ export function Hero({ locale }: { locale: Locale }) {
     ["/img/games/nah-blocks/shiny.jpg", "hero-card hero-card--c"],
     [game("bruh-arrows").media[0], "hero-card hero-card--r"],
   ];
+  const live = GAMES.filter((g) => g.storeLive);
   return (
-    <section>
-      <Container className="flex flex-wrap items-center gap-x-16 gap-y-10 pb-[clamp(48px,6vw,88px)] pt-[clamp(40px,6vw,80px)]">
+    <section className="relative isolate overflow-hidden">
+      <Container className="flex min-h-[calc(100svh-73px)] flex-wrap items-center gap-x-16 gap-y-10 py-[clamp(40px,6vw,88px)]">
         <div className="flex min-w-0 flex-[1.3_1_440px] flex-col items-start gap-[22px]">
           {/* the page's heading says what the studio is (for search engines and screen readers); the slogan stays the big line */}
-          <h1 className={T.small}>{t.hero.intro}</h1>
+          <h1 className="m-0 text-[17px] font-bold leading-normal text-label">{t.hero.intro}</h1>
           <HeroTitle as="p" lines={[t.slogan[0], t.slogan[1]]} className={`${T.hero} whitespace-nowrap`} />
-          <p className={`${T.lead} max-w-[34ch]`}>{t.hero.lede}</p>
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+          <p className={`${T.lead} hero-fade max-w-[34ch] [--delay:.9s]`}>{t.hero.lede}</p>
+          <div className="hero-fade flex flex-wrap items-center gap-x-6 gap-y-3 [--delay:1.05s]">
             <Button href="#games" size="lg">{t.hero.games}</Button>
             <TextLink href="#services" className="text-[17px]">{t.hero.hireLink}</TextLink>
           </div>
-          <FollowRow label={t.hero.follow} className="-ml-1 -mt-1" />
+          <FollowRow label={t.hero.follow} className="hero-fade -ml-1 -mt-1 [--delay:1.2s]" />
         </div>
-        <div aria-hidden="true" className="hero-cards relative h-[clamp(380px,46vw,560px)] min-w-0 flex-[1_1_360px]">
-          {cards.map(([src, cls]) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img key={src} src={asset(webp(src, true))} alt="" width={360} height={640} className={cls} draggable={false} />
-          ))}
+        <div className="flex min-w-0 flex-[1_1_360px] flex-col items-center gap-8">
+          <div aria-hidden="true" className="hero-cards relative aspect-[5/4] w-full max-w-[640px]">
+            <div className="hero-glow" />
+            {cards.map(([src, cls]) => (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img key={src} src={asset(webp(src, true))} alt="" width={360} height={640} className={cls} draggable={false} />
+            ))}
+          </div>
+          <p className="hero-fade m-0 text-center text-[14px] font-extrabold uppercase tracking-[.06em] text-muted [--delay:1.3s]">
+            {t.hero.onPlay}
+            {live.map((g) => (
+              <span key={g.slug}> · <GameLink slug={g.slug} locale={locale} className="text-text no-underline hover:text-amber">{g.name}</GameLink></span>
+            ))}
+          </p>
         </div>
       </Container>
     </section>
