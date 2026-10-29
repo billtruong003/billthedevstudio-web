@@ -1,18 +1,19 @@
 "use client";
 
 import { animate, motion, useInView, useMotionValue, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { isLite } from "@/lib/lite";
 import { asset } from "@/lib/site";
 import { Icon } from "./icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-/** True on a weak device (see lib/lite); stands in for framer-motion's useReducedMotion. */
+/** True on a weak device (see lib/lite); stands in for framer-motion's useReducedMotion. False while hydrating,
+ *  like the static HTML, so the page never mismatches (React would throw it away and rebuild <html> without `lite`). */
 export function useLite() {
-  const [lite] = useState(isLite);
-  return lite;
+  return useSyncExternalStore(noop, isLite, () => false);
 }
+const noop = () => () => {};
 
 /** Fades and lifts its children in, once, when they scroll into view. */
 export function Reveal({ children, className, delay = 0, y = 16 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
