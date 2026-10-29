@@ -8,7 +8,8 @@ import { isLite } from "@/lib/lite";
 /** The site's page-wide motion, one listener each, mounted once in the Shell. Pages only mark elements:
  *  - `data-reveal` rises in when it scrolls into view (`--i` staggers siblings; the CSS does the moving);
  *  - `data-tilt` turns toward the mouse with a light on it;
- *  - `--sy` on <html> is how far the first screen has scrolled away (0..1), for the hero's parallax;
+ *  - `--sy` on <html> is how far the first screen has scrolled away (0..1), for the hero's parallax, and
+ *    `.scrolled` is on once the page has moved at all, for the header;
  *  - links to `#section` glide there (Chrome drops CSS smooth scrolling whenever the OS has its animations off).
  *  A weak device (`.lite`, see lib/lite) gets none of it. */
 export function MotionHost() {
@@ -49,6 +50,7 @@ export function MotionHost() {
       frame = requestAnimationFrame(() => {
         const sy = Math.round(Math.min(scrollY / innerHeight, 1) * 1000) / 1000;
         if (sy !== last) root.style.setProperty("--sy", String((last = sy)));
+        root.classList.toggle("scrolled", scrollY > 8);
       });
     };
     onScroll();

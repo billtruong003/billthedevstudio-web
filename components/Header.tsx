@@ -41,7 +41,7 @@ export function Header({ locale }: { locale: Locale }) {
   }, [menu]);
 
   return (
-    <header className="sticky top-0 z-[45] border-b border-line bg-ink">
+    <header className="site-header sticky top-0 z-[45] border-b border-line bg-ink">
       <Container className="flex min-h-[72px] items-center justify-between gap-3">
         <Logo locale={locale} />
         <nav aria-label="Main" className="flex items-center gap-2 text-[15px] font-bold sm:gap-6">

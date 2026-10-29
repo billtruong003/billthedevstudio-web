@@ -40,6 +40,14 @@ a:hover { color: #FFB84D; }
 [role="dialog"]:focus-visible { outline: none; }
 html.lite { scroll-behavior: auto; }
 
+/* once the page scrolls, the header turns to frosted glass with a shadow and the logo steps down a size
+   (its height stays, so nothing under it moves) */
+.site-header { transition: background-color .35s ease, box-shadow .35s ease, border-color .35s ease; }
+.site-header > div > a:first-child { transform-origin: left center; transition: scale .35s cubic-bezier(.22, 1, .36, 1); }
+.scrolled .site-header { background: rgb(var(--c-base) / .72); backdrop-filter: blur(16px) saturate(1.5); -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  border-color: rgb(255 255 255 / .06); box-shadow: 0 10px 30px rgb(var(--c-shadow) / .45); }
+.scrolled .site-header > div > a:first-child { scale: .9; }
+
 /* [data-reveal] rises in once it scrolls into view (MotionHost adds .is-in); --i staggers siblings */
 .js:not(.lite) [data-reveal]:not(.is-in) { opacity: 0; }
 .js:not(.lite) [data-reveal].is-in { animation: reveal .8s cubic-bezier(.22, 1, .36, 1) calc(var(--i, 0) * 90ms) both; }
