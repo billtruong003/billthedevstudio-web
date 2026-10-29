@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useInView, useReducedMotion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useLite } from "./motion";
 import { useEffect, useId, useRef, useState } from "react";
 
 // The fox mark as parts, so the shades can do the slogan: they drop on when the fox comes into view
@@ -15,7 +16,7 @@ const SHINE = "M70 112 L82 112 L66 144 L56 144 Z M88 112 L94 112 L80 144 L74 144
 export function Fox({ className, label = "The Bill The Dev fox, in shades" }: { className?: string; label?: string }) {
   const ref = useRef<SVGSVGElement>(null);
   const seen = useInView(ref, { once: true, amount: 0.6 });
-  const reduce = useReducedMotion();
+  const reduce = useLite();
   const clip = useId().replace(/:/g, "");
   const [armed, setArmed] = useState(false);
   useEffect(() => { if (!reduce && !seen) setArmed(true); }, []); // eslint-disable-line react-hooks/exhaustive-deps

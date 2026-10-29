@@ -1,15 +1,22 @@
 "use client";
 
-import { animate, motion, useInView, useMotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { animate, motion, useInView, useMotionValue, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { isLite } from "@/lib/lite";
 import { asset } from "@/lib/site";
 import { Icon } from "./icons";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+/** True on a weak device (see lib/lite); stands in for framer-motion's useReducedMotion. */
+export function useLite() {
+  const [lite] = useState(isLite);
+  return lite;
+}
+
 /** Fades and lifts its children in, once, when they scroll into view. */
 export function Reveal({ children, className, delay = 0, y = 16 }: { children: React.ReactNode; className?: string; delay?: number; y?: number }) {
-  const reduce = useReducedMotion();
+  const reduce = useLite();
   return (
     <motion.div className={className} initial={reduce ? false : { opacity: 0, y }} whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.05, margin: "0px 0px -40px 0px" }} transition={{ duration: 0.45, ease: EASE, delay }}>
@@ -34,7 +41,7 @@ export function HeroHand({ className, children }: { className?: string; children
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const el = ref.current;
-    if (!el || !matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) return;
+    if (!el || isLite() || !matchMedia("(hover: hover)").matches) return;
     let frame = 0;
     const move = (e: PointerEvent) => {
       cancelAnimationFrame(frame);
@@ -57,7 +64,19 @@ export function ScrollCue({ href, label }: { href: string; label: string }) {
     const check = () => setGone(scrollY > 60);
     check();
     addEventListener("scroll", check, { passive: true });
-    return () => removeEventListener("scroll", check);
+    // links to a section of this page glide there: Chrome drops CSS smooth scrolling whenever the OS has its
+    // animations off, so the page does it itself (only a weak device jumps)
+    const glide = (e: MouseEvent) => {
+      const a = (e.target as Element).closest?.("a[href^='#']");
+      const to = a && document.getElementById(a.getAttribute("href")!.slice(1));
+      if (!to || isLite() || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
+      e.preventDefault();
+      history.pushState(null, "", a.getAttribute("href"));
+      const top = to.getBoundingClientRect().top + scrollY - parseFloat(getComputedStyle(to).scrollMarginTop);
+      animate(scrollY, top, { duration: Math.min(1.1, 0.5 + Math.abs(top - scrollY) / 3000), ease: [0.65, 0, 0.35, 1], onUpdate: (y) => scrollTo({ top: y, behavior: "instant" }) });
+    };
+    addEventListener("click", glide);
+    return () => { removeEventListener("scroll", check); removeEventListener("click", glide); };
   }, []);
   return (
     <a href={href} aria-hidden={gone || undefined} tabIndex={gone ? -1 : undefined} className={`hero-cue${gone ? " is-gone" : ""}`}>
@@ -97,7 +116,7 @@ function FanCard({ src, i, progress, reduce }: { src: string; i: number; progres
 /** Five gameplay screens dealt in from below, fanning out a little as the page scrolls. */
 export function HeroFan({ images }: { images: string[] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useLite();
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const progress = useTransform(scrollYProgress, [0.5, 1], [0, 1]);
   return (
@@ -111,7 +130,7 @@ export function HeroFan({ images }: { images: string[] }) {
 export function CountUp({ value, className }: { value: string; className?: string }) {
   const ref = useRef<HTMLElement>(null);
   const seen = useInView(ref, { once: true, amount: 0.6 });
-  const reduce = useReducedMotion();
+  const reduce = useLite();
   const m = value.match(/^(\d+(?:\.\d+)?)(.*)$/);
   const target = m ? Number(m[1]) : 0;
   const mv = useMotionValue(0);
@@ -135,7 +154,7 @@ const ICON_MOTION = [
 
 /** A rule card for "How Bill The Dev works": flies in from its side, its connector draws to the fox, its icon does its move. */
 export function RuleMotion({ i, side, children, icon }: { i: number; side: "L" | "R"; children: React.ReactNode; icon: React.ReactNode }) {
-  const reduce = useReducedMotion();
+  const reduce = useLite();
   const ref = useRef<HTMLDivElement>(null);
   const seen = useInView(ref, { once: true, amount: 0.5 });
   const on = reduce || seen;

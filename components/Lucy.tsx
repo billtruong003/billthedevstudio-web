@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useAnimationControls, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
+import { useLite } from "./motion";
 import { COPY } from "@/content/copy";
 import { asset, SITE, type Locale } from "@/lib/site";
 import { Icon } from "./icons";
@@ -39,7 +40,7 @@ export function Lucy({ locale, page = "home" }: { locale: Locale; page?: LucyPag
   const [tease, setTease] = useState(false);
   const log = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useLite();
   // "Send to Bill": opens when the visitor wants to reach him (the service says so), or from the link under the chat
   const [form, setForm] = useState<"closed" | "open" | "sending" | "sent" | "failed" | "limited" | "badContact">("closed");
   // the live form state for callbacks: ask() resolves after renders its closure never saw

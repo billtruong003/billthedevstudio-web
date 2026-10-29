@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useLite } from "../motion";
 import { gameBySlug } from "@/content/games";
 import { href, type Locale } from "@/lib/site";
 import { GameSheetContent } from "./GameSheetContent";
@@ -18,7 +19,7 @@ export function SheetProvider({ locale, children }: { locale: Locale; children: 
   const pushed = useRef(false);
   const back = useRef<HTMLElement | null>(null);
   const dialog = useRef<HTMLDivElement>(null);
-  const reduce = useReducedMotion();
+  const reduce = useLite();
   const url = (s: string) => `${BASE}${href(locale, `/games/${s}/`)}`;
 
   const open = useCallback((s: string) => {

@@ -38,26 +38,26 @@ a:hover { color: #FFB84D; }
 :focus-visible { outline: 3px solid #FFB84D; outline-offset: 3px; border-radius: 6px; }
 /* dialogs take focus when they open so keyboard users land inside; that focus is not a thing to highlight */
 [role="dialog"]:focus-visible { outline: none; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+html.lite { scroll-behavior: auto; }
 
 /* the glint that crosses the fox's shades every few seconds */
 .fox-glint { animation: fox-glint 7s ease-in-out 1.4s infinite; }
 @keyframes fox-glint { 0% { transform: skewX(-20deg) translateX(0); } 14%, 100% { transform: skewX(-20deg) translateX(330px); } }
-@media (prefers-reduced-motion: reduce) { .fox-glint { animation: none; display: none; } }
+.lite .fox-glint { animation: none; display: none; }
 
 /* The hero title runs in CSS, so it plays as soon as the page paints, before any script has loaded. */
 .hero-up { animation: hero-up .7s cubic-bezier(.22,1,.36,1) both; }
 .hero-stamp { animation: hero-stamp .5s cubic-bezier(.34,1.56,.64,1) .55s both; }
 @keyframes hero-up { from { transform: translateY(105%); } to { transform: none; } }
 @keyframes hero-stamp { from { opacity: 0; transform: scale(1.35) rotate(-4deg); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .hero-up, .hero-stamp { animation: none; } }
+.lite .hero-up, .lite .hero-stamp { animation: none; }
 
 /* the hero fills the first screen: one soft amber spotlight behind the cards, the rest fades in after the title */
 .hero-glow { position: absolute; z-index: -1; inset: -30% -35%; pointer-events: none;
   background: radial-gradient(closest-side, rgba(255, 184, 77, .2), rgba(255, 184, 77, 0)); }
 .hero-fade { animation: hero-fade .6s ease var(--delay, .9s) both; }
 @keyframes hero-fade { from { opacity: 0; transform: translateY(14px); } }
-@media (prefers-reduced-motion: reduce) { .hero-fade { animation: none; } }
+.lite .hero-fade { animation: none; }
 
 /* The three game screens in the hero. Each card is a wrapper and its image, so the moves never fight:
    the wrapper is dealt in once (transform), drifts with the mouse by its depth and fans out when the hand is hovered
@@ -91,12 +91,10 @@ a:hover { color: #FFB84D; }
   .hero-cards .hero-card:hover { filter: none; z-index: 3; rotate: 0deg; }
   .hero-cards .hero-card:hover img { transform: translateY(-34px) scale(1.12); box-shadow: 0 50px 90px rgb(var(--c-shadow) / .75), 0 0 0 1px rgb(255 184 77 / .35), 0 0 60px rgb(255 184 77 / .25); }
 }
-/* with reduced motion the hand stays still (no deal, bob or tilt; HeroHand does not follow the mouse), but hovering
+/* on a weak device (.lite) the hand stays still (no deal, bob or tilt; HeroHand does not follow the mouse), but hovering
    still fans the cards and lifts the one under the mouse, which only moves while the mouse asks it to */
-@media (prefers-reduced-motion: reduce) {
-  .hero-cards > .hero-card, .hero-card img { animation: none; }
-  .hero-cards { transform: none; }
-}
+.lite .hero-cards > .hero-card, .lite .hero-card img { animation: none; }
+.lite .hero-cards { transform: none; }
 
 /* "Scroll for more": a label over an amber ring whose arrow keeps dropping, pinned to the bottom centre of the
    screen (clear of Lucy in the right corner); fades in after the hero has played and out on the first scroll */
@@ -117,7 +115,7 @@ a:hover { color: #FFB84D; }
 /* on a phone the cards already peek up from the bottom: the ring alone, no label over the screens */
 @media (max-height: 560px), (max-width: 640px) { .hero-cue > span:first-child { display: none; } }
 @media (max-width: 640px) { .hero-cue__ring { width: 42px; height: 42px; background: rgb(var(--c-base) / .85); } }
-@media (prefers-reduced-motion: reduce) { .hero-cue > span, .hero-cue__ring, .hero-cue__arrow { animation: none; } }
+.lite .hero-cue > span, .lite .hero-cue__ring, .lite .hero-cue__arrow { animation: none; }
 
 /* Lucy (timings from the motion board): she breathes, the bubble pops once, the dialog rises from her corner,
    her pose cross-fades, three dots wave while she thinks, the answer wipes in left to right. */
@@ -143,4 +141,4 @@ a:hover { color: #FFB84D; }
 @keyframes lucy-swap { from { opacity: 0; transform: translateY(6px); } }
 @keyframes lucy-type { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 @keyframes lucy-dot { 0%, 60%, 100% { opacity: .25; transform: none; } 30% { opacity: 1; transform: translateY(-3px); } }
-@media (prefers-reduced-motion: reduce) { .lucy-breathe, .lucy-breathe-soft, .lucy-idle, .lucy-think, .lucy-sway, .lucy-pop, .lucy-rise, .lucy-swap, .lucy-type, .lucy-dot { animation: none; } .lucy-dot { opacity: .8; } }
+.lite :is(.lucy-breathe, .lucy-breathe-soft, .lucy-idle, .lucy-think, .lucy-sway, .lucy-pop, .lucy-rise, .lucy-swap, .lucy-type, .lucy-dot) { animation: none; } .lite .lucy-dot { opacity: .8; }
