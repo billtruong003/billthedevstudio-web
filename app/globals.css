@@ -49,6 +49,11 @@ html.lite { scroll-behavior: auto; }
   border-color: rgb(255 255 255 / .06); box-shadow: 0 10px 30px rgb(var(--c-shadow) / .45); }
 .scrolled .site-header > div > a:first-child { scale: .9; }
 
+/* moving to another page inside the site, the new one fades in (PageFade) */
+.page-in { animation: page-in .45s ease both; }
+@keyframes page-in { from { opacity: 0; } }
+.lite .page-in { animation: none; }
+
 /* [data-reveal] rises in once it scrolls into view (MotionHost adds .is-in); --i staggers siblings */
 .js:not(.lite) [data-reveal]:not(.is-in) { opacity: 0; }
 .js:not(.lite) [data-reveal].is-in { animation: reveal .8s cubic-bezier(.22, 1, .36, 1) calc(var(--i, 0) * 90ms) both; }
