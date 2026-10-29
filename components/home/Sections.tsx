@@ -14,12 +14,12 @@ const game = (slug: string) => GAMES.find((g) => g.slug === slug)!;
 /** One full screen under the sticky header: headline left, a hand of the five games' real screens right in an amber spotlight. */
 export function Hero({ locale }: { locale: Locale }) {
   const t = COPY[locale];
-  // all five games, each on its first store screen, Nah Blocks in the middle of the hand
+  // all five games on their title art, not gameplay, Nah Blocks in the middle of the hand
   const cards: [string, string][] = [
     [game("duck-drip").media[0], "hero-card hero-card--ll"],
-    [game("meh-merge").media[0], "hero-card hero-card--l"],
-    [game("nah-blocks").media[0], "hero-card hero-card--c"],
-    [game("bruh-arrows").media[0], "hero-card hero-card--r"],
+    ["/img/games/meh-merge/poster.jpg", "hero-card hero-card--l"],
+    ["/img/games/nah-blocks/poster.jpg", "hero-card hero-card--c"],
+    ["/img/games/bruh-arrows/poster.jpg", "hero-card hero-card--r"],
     [game("slam-cards").media[0], "hero-card hero-card--rr"],
   ];
   const live = GAMES.filter((g) => g.storeLive);
