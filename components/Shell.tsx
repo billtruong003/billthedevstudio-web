@@ -1,6 +1,7 @@
 import Script from "next/script";
 import { Nunito } from "next/font/google";
 import { LITE_SCRIPT } from "@/lib/lite";
+import { MotionHost } from "./MotionHost";
 import type { Locale } from "@/lib/site";
 import "@/app/globals.css";
 
@@ -17,6 +18,7 @@ export function Shell({ locale, children }: { locale: Locale; children: React.Re
       </head>
       <body className="min-h-screen overflow-x-clip bg-ink font-sans text-white antialiased">
         {children}
+        <MotionHost />
         {/* AdSense loads after the page has painted: on a slow phone its 250 KB used to compete with the first screen */}
         <Script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6751218490710547" crossOrigin="anonymous" strategy="lazyOnload" />
       </body>

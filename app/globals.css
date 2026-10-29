@@ -40,6 +40,11 @@ a:hover { color: #FFB84D; }
 [role="dialog"]:focus-visible { outline: none; }
 html.lite { scroll-behavior: auto; }
 
+/* [data-reveal] rises in once it scrolls into view (MotionHost adds .is-in); --i staggers siblings */
+.js:not(.lite) [data-reveal]:not(.is-in) { opacity: 0; }
+.js:not(.lite) [data-reveal].is-in { animation: reveal .8s cubic-bezier(.22, 1, .36, 1) calc(var(--i, 0) * 90ms) both; }
+@keyframes reveal { from { opacity: 0; transform: translateY(32px); } }
+
 /* the glint that crosses the fox's shades every few seconds */
 .fox-glint { animation: fox-glint 7s ease-in-out 1.4s infinite; }
 @keyframes fox-glint { 0% { transform: skewX(-20deg) translateX(0); } 14%, 100% { transform: skewX(-20deg) translateX(330px); } }

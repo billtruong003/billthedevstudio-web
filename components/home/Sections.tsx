@@ -10,6 +10,8 @@ import { Button, Container, T, TextLink } from "../ui";
 import { GameLink } from "./GameCard";
 
 const game = (slug: string) => GAMES.find((g) => g.slug === slug)!;
+/** For a `data-reveal` element: its place in a row of siblings that rise in one after another. */
+const nth = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
 /** One full screen under the sticky header: headline left, a hand of the five games' real screens right in an amber spotlight. */
 export function Hero({ locale }: { locale: Locale }) {
@@ -69,12 +71,12 @@ export function Games({ locale }: { locale: Locale }) {
   return (
     <section id="games" className="scroll-mt-20">
       <Container className="flex flex-col gap-9 pb-[clamp(48px,6vw,96px)] pt-[clamp(40px,5vw,72px)]">
-        <div className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
+        <div data-reveal className="flex flex-wrap items-end justify-between gap-x-10 gap-y-4">
           <h2 className={T.h2}>{t.games.heading[0]}<br />{t.games.heading[1]}</h2>
           <p className="m-0 max-w-[40ch] text-[17px] leading-normal text-muted">{t.games.lede}</p>
         </div>
         <div className="flex flex-wrap items-start gap-x-12 gap-y-7">
-          <article className="flex min-w-0 flex-[1.5_1_520px] flex-col gap-[18px]">
+          <article data-reveal style={nth(1)} className="flex min-w-0 flex-[1.5_1_520px] flex-col gap-[18px]">
             <GameLink slug={slam.slug} locale={locale} className="block overflow-hidden rounded-2xl bg-[#F6EEDB]">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={asset(webp(slam.keyArt))} width={1024} height={500} loading="lazy" alt={`${slam.name} key art`} style={{ objectPosition: slam.keyArtPos }} className="aspect-video w-full object-cover transition-transform duration-300 hover:scale-[1.02]" />
@@ -94,8 +96,8 @@ export function Games({ locale }: { locale: Locale }) {
             </div>
           </article>
           <div className="flex min-w-0 flex-[1_1_360px] flex-col">
-            {android.map((g) => (
-              <GameLink key={g.slug} slug={g.slug} locale={locale} className="group flex items-center gap-[18px] border-t border-line py-[18px] text-white no-underline">
+            {android.map((g, i) => (
+              <GameLink key={g.slug} slug={g.slug} locale={locale} data-reveal style={nth(i + 2)} className="group flex items-center gap-[18px] border-t border-line py-[18px] text-white no-underline">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={asset(webp(g.icon))} alt="" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] flex-none rounded-[18px] transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105" />
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -106,8 +108,8 @@ export function Games({ locale }: { locale: Locale }) {
                 <span className="flex-none text-[14px] font-bold text-label">{g.soon ? t.games.soon : g.storeLive ? t.games.live : t.games.testing}</span>
               </GameLink>
             ))}
-            <p className="m-0 border-t border-line pt-[18px] text-[15px] leading-normal text-muted">{t.games.workbench}</p>
-            <a href={COLLAB.href} className="mt-5 flex items-center gap-4 rounded-xl bg-card p-3 text-white no-underline hover:bg-raise hover:text-white">
+            <p data-reveal style={nth(android.length + 2)} className="m-0 border-t border-line pt-[18px] text-[15px] leading-normal text-muted">{t.games.workbench}</p>
+            <a href={COLLAB.href} data-reveal style={nth(android.length + 3)} className="mt-5 flex items-center gap-4 rounded-xl bg-card p-3 text-white no-underline hover:bg-raise hover:text-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={asset(webp(COLLAB.image))} width={96} height={56} loading="lazy" alt={COLLAB.name} className="h-14 w-24 flex-none rounded-lg object-cover" />
               <span className="flex min-w-0 flex-col"><b className="text-[17px]">{COLLAB.name} <span className="font-normal text-muted">· {t.games.collabBy}</span></b>
@@ -129,7 +131,7 @@ export function Stats({ locale }: { locale: Locale }) {
         {/* four equal columns, number over label, all on one top line; 2 × 2 on phones */}
         <dl className="m-0 grid grid-cols-2 gap-y-8 border-y border-line py-[30px] md:grid-cols-4">
           {[0, 2, 1, 3].map((i, n) => (
-            <div key={stats[i][1]} className={`flex flex-col gap-2.5 pr-4 ${n % 2 ? "pl-5 border-l border-line md:pl-6" : n ? "md:pl-6 md:border-l md:border-line" : ""}`}>
+            <div key={stats[i][1]} data-reveal style={nth(n)} className={`flex flex-col gap-2.5 pr-4 ${n % 2 ? "pl-5 border-l border-line md:pl-6" : n ? "md:pl-6 md:border-l md:border-line" : ""}`}>
               <dt className="order-2 m-0 max-w-[22ch] text-[15px] leading-snug text-muted">{stats[i][1]}</dt>
               <dd className="order-1 m-0"><CountUp value={stats[i][0]} className="text-[clamp(40px,4.4vw,60px)] font-black leading-none" /></dd>
             </div>
@@ -146,14 +148,14 @@ export function Values({ locale }: { locale: Locale }) {
   return (
     <section aria-label={t.kicker}>
       <Container className="flex flex-wrap gap-x-16 gap-y-7 py-[clamp(64px,8vw,120px)]">
-        <div className="flex min-w-0 flex-[1_1_300px] flex-col gap-4 self-start">
+        <div data-reveal className="flex min-w-0 flex-[1_1_300px] flex-col gap-4 self-start">
           <h2 className="m-0 text-[clamp(34px,3.8vw,50px)] font-black leading-none">{t.kicker}</h2>
           <p className="m-0 text-[17px] text-muted">{t.sub}</p>
           <Fox className="mt-3 h-24 w-24" />
         </div>
         <div className="min-w-0 flex-[2_1_520px]">
-          {t.items.map(([word, text]) => (
-            <div key={word} className="flex flex-wrap items-baseline gap-x-7 gap-y-1.5 border-t border-line py-[22px]">
+          {t.items.map(([word, text], i) => (
+            <div key={word} data-reveal style={nth(i + 1)} className="flex flex-wrap items-baseline gap-x-7 gap-y-1.5 border-t border-line py-[22px]">
               <b className="flex-[0_0_210px] text-[clamp(32px,3.4vw,44px)] font-black leading-none">{word}<span className="text-amber">.</span></b>
               <span className="min-w-0 flex-[1_1_280px] text-[17px] leading-relaxed text-soft">{text}</span>
             </div>
@@ -171,12 +173,12 @@ export function Services({ locale }: { locale: Locale }) {
   return (
     <section id="services" className="scroll-mt-20 border-y border-line bg-sheet">
       <Container className="flex flex-col gap-10 py-[clamp(64px,8vw,112px)]">
-        <div className="flex max-w-[760px] flex-col gap-4">
+        <div data-reveal className="flex max-w-[760px] flex-col gap-4">
           <h2 className={T.h2}>{t.title}</h2>
           <p className={`${T.lead} max-w-[52ch]`}>{t.sub}</p>
         </div>
         <div className="flex flex-wrap items-start gap-x-14 gap-y-7">
-          <article className="min-w-0 flex-[1.3_1_480px] overflow-hidden rounded-2xl bg-card">
+          <article data-reveal style={nth(1)} className="min-w-0 flex-[1.3_1_480px] overflow-hidden rounded-2xl bg-card">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={asset(webp(game("meh-merge").keyArt))} width={1024} height={500} loading="lazy" alt="Meh Merge key art" className="aspect-[1024/500] w-full object-cover" />
             <div className="flex flex-col gap-3 px-[clamp(20px,3vw,32px)] pb-[30px] pt-[26px]">
@@ -187,8 +189,8 @@ export function Services({ locale }: { locale: Locale }) {
             </div>
           </article>
           <div className="min-w-0 flex-[1_1_340px]">
-            {rest.map(([title, pitch, , built]) => (
-              <div key={title} className="flex flex-col gap-1.5 border-t border-line py-5">
+            {rest.map(([title, pitch, , built], i) => (
+              <div key={title} data-reveal style={nth(i + 2)} className="flex flex-col gap-1.5 border-t border-line py-5">
                 <h3 className={T.item}>{title}</h3>
                 <p className={T.body}>{pitch}</p>
                 <span className="text-[14px] text-muted">{t.built} {built}</span>
@@ -197,13 +199,13 @@ export function Services({ locale }: { locale: Locale }) {
           </div>
         </div>
         <div className="flex flex-col gap-[22px]">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div data-reveal className="flex flex-wrap items-center justify-between gap-3">
             <h3 className={T.item}>{t.howTitle}</h3>
             <Button href="#contact" variant="outline">{t.start}</Button>
           </div>
           <ol className="m-0 flex list-none flex-wrap gap-x-7 gap-y-6 p-0">
             {t.steps.map(([title, text], i) => (
-              <li key={title} className={`flex min-w-0 flex-[1_1_200px] flex-col gap-1.5 border-t-2 pt-4 ${i === 0 ? "border-amber" : "border-line2"}`}>
+              <li key={title} data-reveal style={nth(i + 1)} className={`flex min-w-0 flex-[1_1_200px] flex-col gap-1.5 border-t-2 pt-4 ${i === 0 ? "border-amber" : "border-line2"}`}>
                 <span className="text-[15px] font-black text-faint">{locale === "vi" ? "Bước" : "Step"} {i + 1}</span>
                 <b className="text-[17px] font-black">{title}</b>
                 <span className="text-[15px] leading-normal text-muted">{text}</span>
@@ -222,7 +224,7 @@ export function Studio({ locale }: { locale: Locale }) {
   return (
     <section id="studio" className="scroll-mt-20">
       <Container className="flex flex-wrap items-start gap-x-16 gap-y-8 pb-[clamp(48px,6vw,88px)] pt-[clamp(64px,8vw,120px)]">
-        <figure className="m-0 flex min-w-0 max-w-[340px] flex-[0_1_340px] flex-col gap-2.5">
+        <figure data-reveal className="m-0 flex min-w-0 max-w-[340px] flex-[0_1_340px] flex-col gap-2.5">
           <div className="flex aspect-[4/5] items-end justify-center overflow-hidden rounded-2xl bg-raise">
             {FOUNDER_PHOTO
               // eslint-disable-next-line @next/next/no-img-element
@@ -231,7 +233,7 @@ export function Studio({ locale }: { locale: Locale }) {
           </div>
           <figcaption className="text-[14px] text-faint">Trương Ngọc Châu · Bill</figcaption>
         </figure>
-        <div className="flex min-w-0 flex-[1.4_1_460px] flex-col gap-[18px]">
+        <div data-reveal style={nth(1)} className="flex min-w-0 flex-[1.4_1_460px] flex-col gap-[18px]">
           <h2 className={T.h2}>{t.title2[0]}<br />{t.title2[1]}</h2>
           <p className="m-0 max-w-[56ch] text-[18px] leading-relaxed text-soft">{t.body} {t.before}</p>
           <ul className="m-0 mt-2 list-none border-b border-line p-0">
@@ -258,7 +260,7 @@ export function Latest({ locale, story }: { locale: Locale; story?: LatestStory 
   return (
     <section aria-label={t.label}>
       <Container className="pb-[clamp(48px,6vw,88px)]">
-        <Link href={href(locale, `/news/${story.slug}/`)} className="group flex flex-wrap items-baseline gap-x-7 gap-y-1.5 border-y border-line py-6 text-white no-underline hover:text-white">
+        <Link href={href(locale, `/news/${story.slug}/`)} data-reveal className="group flex flex-wrap items-baseline gap-x-7 gap-y-1.5 border-y border-line py-6 text-white no-underline hover:text-white">
           <span className="flex-[0_0_180px] text-[14px] font-bold text-faint">{t.label} · {story.date}</span>
           <span className="flex min-w-0 flex-[1_1_420px] flex-col gap-1"><b className="text-[28px] font-black leading-[1.1] group-hover:text-amber">{story.title}</b>
             <span className="text-[17px] text-muted">{story.dek}</span></span>
@@ -275,10 +277,10 @@ export function Contact({ locale }: { locale: Locale }) {
   return (
     <section id="contact" className="scroll-mt-20">
       <Container className="flex flex-col gap-[22px] pb-[clamp(72px,9vw,128px)] pt-[clamp(40px,5vw,72px)]">
-        <h2 className="m-0 text-[clamp(48px,7vw,96px)] font-black leading-[0.92] tracking-[-0.015em]">{t.title}<br /><span className="text-amber">{t.ship}</span></h2>
-        <p className={`${T.lead} max-w-[48ch]`}>{t.sub}</p>
-        <a href={CONTACTS[0].href} className="self-start text-[clamp(24px,3.4vw,44px)] font-bold leading-tight text-white underline decoration-amber decoration-[3px] underline-offset-8 [overflow-wrap:anywhere] hover:text-amber">{SITE.email}</a>
-        <div className="mt-1.5 flex flex-wrap items-center gap-3">
+        <h2 data-reveal className="m-0 text-[clamp(48px,7vw,96px)] font-black leading-[0.92] tracking-[-0.015em]">{t.title}<br /><span className="text-amber">{t.ship}</span></h2>
+        <p data-reveal style={nth(1)} className={`${T.lead} max-w-[48ch]`}>{t.sub}</p>
+        <a href={CONTACTS[0].href} data-reveal style={nth(2)} className="self-start text-[clamp(24px,3.4vw,44px)] font-bold leading-tight text-white underline decoration-amber decoration-[3px] underline-offset-8 [overflow-wrap:anywhere] hover:text-amber">{SITE.email}</a>
+        <div data-reveal style={nth(3)} className="mt-1.5 flex flex-wrap items-center gap-3">
           <Button href={CONTACTS[0].href} size="lg">{t.email}</Button>
           <Button href={CONTACTS[2].href} size="lg" variant="outline">{t.zalo}</Button>
         </div>

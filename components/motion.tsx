@@ -64,19 +64,7 @@ export function ScrollCue({ href, label }: { href: string; label: string }) {
     const check = () => setGone(scrollY > 60);
     check();
     addEventListener("scroll", check, { passive: true });
-    // links to a section of this page glide there: Chrome drops CSS smooth scrolling whenever the OS has its
-    // animations off, so the page does it itself (only a weak device jumps)
-    const glide = (e: MouseEvent) => {
-      const a = (e.target as Element).closest?.("a[href^='#']");
-      const to = a && document.getElementById(a.getAttribute("href")!.slice(1));
-      if (!to || isLite() || e.button || e.metaKey || e.ctrlKey || e.shiftKey) return;
-      e.preventDefault();
-      history.pushState(null, "", a.getAttribute("href"));
-      const top = to.getBoundingClientRect().top + scrollY - parseFloat(getComputedStyle(to).scrollMarginTop);
-      animate(scrollY, top, { duration: Math.min(1.1, 0.5 + Math.abs(top - scrollY) / 3000), ease: [0.65, 0, 0.35, 1], onUpdate: (y) => scrollTo({ top: y, behavior: "instant" }) });
-    };
-    addEventListener("click", glide);
-    return () => { removeEventListener("scroll", check); removeEventListener("click", glide); };
+    return () => removeEventListener("scroll", check);
   }, []);
   return (
     <a href={href} aria-hidden={gone || undefined} tabIndex={gone ? -1 : undefined} className={`hero-cue${gone ? " is-gone" : ""}`}>
