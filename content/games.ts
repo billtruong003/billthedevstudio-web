@@ -70,7 +70,7 @@ export const GAMES: Game[] = [
   },
   {
     slug: "nah-blocks", name: "Nah Blocks", accent: "#3DDC97", label: "#3DDC97", onAccent: "#111111", platform: "android",
-    status: { en: "Android · Google Play testing", vi: "Android · đang thử nghiệm trên Google Play" },
+    status: { en: "Android · on Google Play", vi: "Android · đã có trên Google Play" },
     genre: { en: "Block puzzle", vi: "Puzzle xếp khối" },
     tagline: { en: "Line 'em up. They say nah.", vi: "Xếp hàng đi. Chúng bảo nah." },
     short: { en: "Drag blocks onto the board and fill a line to clear it. The blocks have opinions about it.",
@@ -86,8 +86,8 @@ export const GAMES: Game[] = [
       vi: [["Kéo và xoá", "Lấp đầy hàng hoặc cột là xoá."], ["Nổ cả bàn", "Xoá sạch bàn để nổ to và nhận khay thưởng."], ["Cứu khi kẹt", "Hết chỗ? Được cứu thêm một lượt."]],
     },
     icon: "/img/games/nah-blocks/icon.png", keyArt: "/img/games/nah-blocks/feature.jpg", media: playShots("nah-blocks"),
-    trailer: "MzKyiu0qgWU", playPackage: "com.billthedev.nahblocks", privacy: "/privacy/nah-blocks/",
-    info: { en: androidInfo(false), vi: androidInfo(true) },
+    trailer: "MzKyiu0qgWU", playPackage: "com.billthedev.nahblocks", storeLive: true, privacy: "/privacy/nah-blocks/",
+    info: { en: androidInfo(false, true), vi: androidInfo(true, true) },
   },
   {
     slug: "bruh-arrows", name: "Bruh Arrows", accent: "#FF5A5F", label: "#FF7A7E", onAccent: "#FFFFFF", platform: "android",

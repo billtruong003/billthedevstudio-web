@@ -30,12 +30,12 @@ const en = {
     ] as [string, string, string][],
   },
   games: {
-    title: "The games", heading: ["Four games out.", "Duck Drip is next."], lede: "All free. Meh Merge and Bruh Arrows are out on Google Play, Nah Blocks is in testing, Duck Drip is coming soon, and Flip Flop Slam plays in your browser today.",
+    title: "The games", heading: ["Four games out.", "Duck Drip is next."], lede: "All free. Meh Merge, Nah Blocks and Bruh Arrows are out on Google Play, Duck Drip is coming soon, and Flip Flop Slam plays in your browser today.",
     testing: "In testing", live: "On Google Play", soon: "Coming soon", workbench: "One more is being built now. It gets a page here the day it is ready to play.", note: "Android and web · free to play", details: "Details", play: "Play in the browser", playShort: "Play now",
     collabKicker: "Collaborations", collabBy: "a HIT Studio game",
     collabText: "Bill The Dev built feature and gameplay systems for HIT Studio's strategy game.", collabCta: "Play it in the arcade",
   },
-  stats: [["6+", "studio games, some still in testing"], ["2.5M+", "views on Bill's YouTube channels"], ["100K+", "downloads"], ["5+", "years making games"]] as [string, string][],
+  stats: [["6+", "studio games, one more on the way"], ["2.5M+", "views on Bill's YouTube channels"], ["100K+", "downloads"], ["5+", "years making games"]] as [string, string][],
   services: {
     kicker: "Services · outsourcing",
     title: "Need it built? Hire the dev behind the games.",
@@ -90,7 +90,7 @@ const en = {
   press: { kicker: "Press kit", title: "Bill The Dev, for press and partners", sub: "Facts, logos, key art, screenshots and trailers. Free to use when you write about the studio or its games.",
            all: "Email for press materials", facts: "Fact sheet", about: "About the studio", history: "History", historyText: "Bill spent his first years in games building parts of other studios' games: Applaydu at Gameloft, Animal Push Royale at FPT IS, Shmackle VR at CurlyBlue. In 2026 he started Bill The Dev to ship games of his own, end to end, and to build for clients the same way.",
            founder: "Founder", founderText: "Trương Ngọc Châu (Bill), founder and the whole team. Making games for 5+ years, including at Gameloft, FPT IS and CurlyBlue (Shmackle VR).",
-           aboutText: "Bill The Dev is a one-man game studio in Ho Chi Minh City, Vietnam: Bill designs, codes, draws and runs every game, servers and analytics included. The studio also takes outsourcing work in Unity, web, AI and tech art. Its puzzle games Meh Merge, Nah Blocks and Bruh Arrows are in testing on Google Play, and Flip Flop Slam, a Vietnamese schoolyard game made for the browser, is in open beta.",
+           aboutText: "Bill The Dev is a one-man game studio in Ho Chi Minh City, Vietnam: Bill designs, codes, draws and runs every game, servers and analytics included. The studio also takes outsourcing work in Unity, web, AI and tech art. Its puzzle games Meh Merge, Nah Blocks and Bruh Arrows are out on Google Play, Duck Drip is coming soon, and Flip Flop Slam, a Vietnamese schoolyard game made for the browser, is in open beta.",
            games: "Games", trailer: "Trailer on YouTube", shots: "Screenshots (.zip)", art: "Icon and key art (.zip)", logos: "Logos and icons", foxDark: "Fox mark, on dark", foxLight: "Fox mark, on light",
            wordmark: "Wordmark, Bill The Dev", toMake: "Still to make", icons: "Game icons", studioLogos: "Studio logo", logoDark: "Logo, on dark", logoLight: "Logo, on light", markColour: "Fox mark", markWhite: "Fox mark, white", markBlack: "Fox mark, black", youtube: "Trailers on the studio's YouTube", need: "Need something that isn't here?", needSub: "Interviews, review builds, other sizes: write to the studio.",
            factRows: [["Developer", "Bill The Dev, a one-man studio"], ["Based in", "Ho Chi Minh City, Vietnam"], ["Founded", "2026"], ["Founder", "Trương Ngọc Châu (Bill), Unity engineer"],
@@ -142,12 +142,12 @@ const vi: Copy = {
     ],
   },
   games: {
-    title: "Các game", heading: ["Bốn game đã ra.", "Tiếp theo: Duck Drip."], lede: "Đều miễn phí. Meh Merge và Bruh Arrows đã có trên Google Play, Nah Blocks đang thử nghiệm, Duck Drip sắp ra mắt, còn Flip Flop Slam (Dép Lào Tuổi Thơ) chơi được ngay trên trình duyệt.",
+    title: "Các game", heading: ["Bốn game đã ra.", "Tiếp theo: Duck Drip."], lede: "Đều miễn phí. Meh Merge, Nah Blocks và Bruh Arrows đã có trên Google Play, Duck Drip sắp ra mắt, còn Flip Flop Slam (Dép Lào Tuổi Thơ) chơi được ngay trên trình duyệt.",
     testing: "Đang thử", live: "Đã lên Play", soon: "Sắp ra mắt", workbench: "Một game nữa đang được làm. Chơi được là có trang ở đây ngay hôm đó.", note: "Android và web · chơi miễn phí", details: "Chi tiết", play: "Chơi trên trình duyệt", playShort: "Chơi ngay",
     collabKicker: "Hợp tác", collabBy: "game của HIT Studio",
     collabText: "Bill The Dev làm hệ thống tính năng và gameplay cho game chiến thuật của HIT Studio.", collabCta: "Chơi trong arcade",
   },
-  stats: [["6+", "game của studio, vài game đang thử nghiệm"], ["2.5M+", "lượt xem trên các kênh YouTube của Bill"], ["100K+", "lượt tải"], ["5+", "năm làm game"]],
+  stats: [["6+", "game của studio, thêm một game sắp ra"], ["2.5M+", "lượt xem trên các kênh YouTube của Bill"], ["100K+", "lượt tải"], ["5+", "năm làm game"]],
   services: {
     kicker: "Dịch vụ · outsource",
     title: "Cần làm sản phẩm? Thuê luôn người làm ra các game này.",

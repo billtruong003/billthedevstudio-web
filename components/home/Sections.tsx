@@ -51,7 +51,7 @@ export function Hero({ locale }: { locale: Locale }) {
           <p className="hero-fade m-0 text-center text-[14px] font-extrabold uppercase tracking-[.06em] text-muted [--delay:1.3s]">
             {t.hero.onPlay}
             {live.map((g) => (
-              <span key={g.slug}> · <GameLink slug={g.slug} locale={locale} className="text-text no-underline hover:text-amber">{g.name}</GameLink></span>
+              <span key={g.slug}> · <GameLink slug={g.slug} locale={locale} className="whitespace-nowrap text-text no-underline hover:text-amber">{g.name}</GameLink></span>
             ))}
           </p>
         </div>
@@ -61,11 +61,11 @@ export function Hero({ locale }: { locale: Locale }) {
   );
 }
 
-/** Flip Flop Slam plays today, so it leads; the three games in testing are a list, not a grid of equal cards. */
+/** Flip Flop Slam plays today, so it leads; the Android games are a list, not a grid of equal cards. */
 export function Games({ locale }: { locale: Locale }) {
   const t = COPY[locale];
   const slam = game("slam-cards");
-  const testing = GAMES.filter((g) => g.platform === "android");
+  const android = GAMES.filter((g) => g.platform === "android");
   return (
     <section id="games" className="scroll-mt-20">
       <Container className="flex flex-col gap-9 pb-[clamp(48px,6vw,96px)] pt-[clamp(40px,5vw,72px)]">
@@ -94,7 +94,7 @@ export function Games({ locale }: { locale: Locale }) {
             </div>
           </article>
           <div className="flex min-w-0 flex-[1_1_360px] flex-col">
-            {testing.map((g) => (
+            {android.map((g) => (
               <GameLink key={g.slug} slug={g.slug} locale={locale} className="group flex items-center gap-[18px] border-t border-line py-[18px] text-white no-underline">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={asset(webp(g.icon))} alt="" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] flex-none rounded-[18px] transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105" />
