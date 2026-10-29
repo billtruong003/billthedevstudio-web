@@ -8,6 +8,7 @@ import { isLite } from "@/lib/lite";
 /** The site's page-wide motion, one listener each, mounted once in the Shell. Pages only mark elements:
  *  - `data-reveal` rises in when it scrolls into view (`--i` staggers siblings; the CSS does the moving);
  *  - `data-tilt` turns toward the mouse with a light on it;
+ *  - `--sy` on <html> is how far the first screen has scrolled away (0..1), for the hero's parallax;
  *  - links to `#section` glide there (Chrome drops CSS smooth scrolling whenever the OS has its animations off).
  *  A weak device (`.lite`, see lib/lite) gets none of it. */
 export function MotionHost() {
@@ -37,6 +38,22 @@ export function MotionHost() {
     };
     addEventListener("click", glide);
     return () => removeEventListener("click", glide);
+  }, []);
+
+  useEffect(() => {
+    if (isLite()) return;
+    const root = document.documentElement;
+    let frame = 0, last = -1;
+    const onScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const sy = Math.round(Math.min(scrollY / innerHeight, 1) * 1000) / 1000;
+        if (sy !== last) root.style.setProperty("--sy", String((last = sy)));
+      });
+    };
+    onScroll();
+    addEventListener("scroll", onScroll, { passive: true });
+    return () => { removeEventListener("scroll", onScroll); cancelAnimationFrame(frame); };
   }, []);
 
   // tilt: a `data-tilt` element under the mouse turns toward it and a soft light follows (--tx/--ty -1..1, --gx/--gy 0..1)

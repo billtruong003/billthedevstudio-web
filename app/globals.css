@@ -90,20 +90,22 @@ html.lite { scroll-behavior: auto; }
    (translate); the image lifts, straightens and grows when it is the card under the mouse (transform), and the centre
    one bobs (translate). The whole hand tilts toward the mouse in 3D. */
 .hero-cards { perspective: 1600px; }
-.hero-cards > .hero-card { position: absolute; display: block; aspect-ratio: 9 / 16; rotate: var(--rot);
-  translate: calc(var(--mx, 0) * var(--depth) + var(--fan, 0%)) calc(var(--my, 0) * var(--depth));
+.hero-cards > .hero-card { position: absolute; display: block; aspect-ratio: 9 / 16; rotate: calc(var(--rot) + var(--sy, 0) * var(--spin, 0deg));
+  translate: calc(var(--mx, 0) * var(--depth) + var(--fan, 0%) + var(--sy, 0) * var(--spread, 0%)) calc(var(--my, 0) * var(--depth) + var(--sy, 0) * var(--drop, 0px));
   transition: translate .6s cubic-bezier(.22, 1, .36, 1), rotate .6s cubic-bezier(.34, 1.56, .64, 1), filter .25s ease;
   animation: hero-deal .8s cubic-bezier(.22, 1, .36, 1) var(--delay) backwards; }
 .hero-card img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 22px;
   box-shadow: 0 30px 60px rgb(var(--c-shadow) / .6); transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), box-shadow .5s ease; }
-.hero-card--ll { --rot: -15deg; --depth: 8px; --delay: .55s; left: 0; top: 24%; width: 26%; }
-.hero-card--l { --rot: -7deg; --depth: 14px; --delay: .35s; left: 14%; top: 10%; width: 29%; z-index: 1; }
-.hero-card--c { --rot: 1deg; --depth: 26px; --delay: .15s; left: 35%; top: 0; width: 31%; z-index: 2; }
+.hero-card--ll { --rot: -15deg; --depth: 8px; --delay: .55s; --spread: -45%; --drop: 70px; --spin: -14deg; left: 0; top: 24%; width: 26%; }
+.hero-card--l { --rot: -7deg; --depth: 14px; --delay: .35s; --spread: -22%; --drop: 20px; --spin: -7deg; left: 14%; top: 10%; width: 29%; z-index: 1; }
+.hero-card--c { --rot: 1deg; --depth: 26px; --delay: .15s; --drop: -50px; left: 35%; top: 0; width: 31%; z-index: 2; }
 .hero-card--c img { outline: 3px solid #FFB84D; outline-offset: -3px; animation: hero-bob 5s ease-in-out 1.2s infinite; }
-.hero-card--r { --rot: 8deg; --depth: 20px; --delay: .45s; right: 14%; top: 11%; width: 28%; z-index: 1; }
-.hero-card--rr { --rot: 16deg; --depth: 10px; --delay: .65s; right: 0; top: 26%; width: 25%; }
+.hero-card--r { --rot: 8deg; --depth: 20px; --delay: .45s; --spread: 22%; --drop: 20px; --spin: 7deg; right: 14%; top: 11%; width: 28%; z-index: 1; }
+.hero-card--rr { --rot: 16deg; --depth: 10px; --delay: .65s; --spread: 45%; --drop: 70px; --spin: 14deg; right: 0; top: 26%; width: 25%; }
 @keyframes hero-deal { from { opacity: 0; transform: translateY(90px) rotate(6deg); } }
 @keyframes hero-bob { 50% { translate: 0 -12px; } }
+/* scrolling the first screen away (--sy 0..1): the hand fans out wide (above), the words drift up slower and fade */
+.hero-copy { translate: 0 calc(var(--sy, 0) * 120px); opacity: calc(1 - var(--sy, 0) * 1.1); }
 /* the hand turns to the mouse; the deal and the hover springs run inside it */
 .hero-cards { transform: rotateY(calc(var(--mx, 0) * 9deg)) rotateX(calc(var(--my, 0) * -7deg)); transform-style: preserve-3d;
   transition: transform .4s cubic-bezier(.22, 1, .36, 1); }

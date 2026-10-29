@@ -29,7 +29,7 @@ export function Hero({ locale }: { locale: Locale }) {
     <section className="relative isolate overflow-hidden">
       {/* wider than the rest of the page, so on a big screen the first view is filled edge to edge */}
       <div className="mx-auto flex min-h-[calc(100svh-73px)] w-full max-w-[2240px] flex-wrap items-center gap-x-[clamp(40px,5vw,112px)] gap-y-10 px-4 py-[clamp(40px,6vw,88px)] sm:px-8 lg:px-10 2xl:px-20">
-        <div className="flex min-w-0 flex-[1.3_1_440px] flex-col items-start gap-[22px]">
+        <div className="hero-copy flex min-w-0 flex-[1.3_1_440px] flex-col items-start gap-[22px]">
           {/* the page's heading says what the studio is (for search engines and screen readers); the slogan stays the big line */}
           <h1 className="m-0 text-[clamp(17px,.95vw,22px)] font-bold leading-normal text-label">{t.hero.intro}</h1>
           <HeroTitle as="p" lines={[t.slogan[0], t.slogan[1]]} className={`${T.hero} whitespace-nowrap`} />
