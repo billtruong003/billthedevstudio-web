@@ -1,5 +1,5 @@
 import { COPY } from "@/content/copy";
-import { GAMES, type Game } from "@/content/games";
+import { GAMES, platformName, type Game } from "@/content/games";
 import { CONTACTS, FOUNDER_PHOTO, SOCIAL, STUDIO_YOUTUBE } from "@/content/studio";
 import { asset, href, SITE, webp, YOUTUBE_URL, type Locale } from "@/lib/site";
 import { Footer } from "./Footer";
@@ -51,12 +51,13 @@ export function HomePage({ locale }: { locale: Locale }) {
       <main>
         <JsonLd nodes={[website, organization, founder]} />
         <Hero locale={locale} />
+        {/* the newest story sits right under the first screen, so news like a launch is on the front page */}
+        <Latest locale={locale} story={story} />
         <Games locale={locale} />
         <Stats locale={locale} />
         <Values locale={locale} />
         <Services locale={locale} />
         <Studio locale={locale} />
-        <Latest locale={locale} story={story} />
         <Contact locale={locale} />
       </main>
       <Footer locale={locale} />
@@ -108,7 +109,7 @@ export function GamePage({ game, locale }: { game: Game; locale: Locale }) {
         <JsonLd nodes={[
           videoGame(game, locale, game.short[locale]),
           breadcrumbs(locale, [[COPY[locale].pages.games.title, "/games/"], [game.name, `/games/${game.slug}/`]]),
-          ...[trailer(game, locale, TRAILER_DATE)].filter((v) => v !== null),
+          ...[trailer(game, locale, game.trailerDate ?? TRAILER_DATE)].filter((v) => v !== null),
         ]} />
         <GameSheetContent game={game} locale={locale} mode="page" />
       </main>
@@ -122,7 +123,7 @@ export function PressPage({ locale }: { locale: Locale }) {
   const t = COPY[locale].press;
   const files = (g: Game): [string, string][] => [
     ...(g.trailer ? [[t.trailer, YOUTUBE_URL(g.trailer)] as [string, string]] : []),
-    [t.icons, asset(g.platform === "android" ? `/press/${g.slug}-icon.png` : `/press/${g.slug}-icon.jpg`)],
+    [t.icons, asset(g.platform === "web" ? `/press/${g.slug}-icon.jpg` : `/press/${g.slug}-icon.png`)],
     [t.shots, `mailto:${SITE.email}?subject=${encodeURIComponent(g.name + " screenshots")}`],
   ];
   return (
@@ -175,7 +176,7 @@ export function PressPage({ locale }: { locale: Locale }) {
             { label: t.markBlack, src: "/press/fox-mark-black.svg", bg: "bg-paper", fit: "w-[38%]", file: "SVG" },
           ]} />
           <AssetGroup title={t.icons} items={GAMES.map((g) => (
-            { label: g.name, src: g.platform === "android" ? `/press/${g.slug}-icon.png` : `/press/${g.slug}-icon.jpg`, bg: "bg-card", fit: "w-[42%] rounded-[22%]", file: g.platform === "android" ? "PNG 1024" : "JPG 256" }))} />
+            { label: g.name, src: g.platform === "web" ? `/press/${g.slug}-icon.jpg` : `/press/${g.slug}-icon.png`, bg: "bg-card", fit: "w-[42%] rounded-[22%]", file: g.platform === "android" ? "PNG 1024" : g.platform === "quest" ? "PNG 512" : "JPG 256" }))} />
         </Container>
         <Container className="flex flex-col gap-3 pb-24">
           <h2 className={T.h2}>{t.games}</h2>
@@ -184,7 +185,7 @@ export function PressPage({ locale }: { locale: Locale }) {
               <div key={g.slug} className="flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-line py-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={asset(webp(g.icon))} alt="" className="h-14 w-14 flex-none rounded-[14px]" />
-                <span className="flex min-w-0 flex-[1_1_180px] flex-col"><b className="text-[22px] font-black leading-tight">{g.name}</b><span className="text-[14px] text-muted">{g.genre[locale]} · {g.platform === "web" ? "Web" : "Android"}</span></span>
+                <span className="flex min-w-0 flex-[1_1_180px] flex-col"><b className="text-[22px] font-black leading-tight">{g.name}</b><span className="text-[14px] text-muted">{g.genre[locale]} · {platformName(g)}</span></span>
                 <span className="flex flex-wrap gap-x-5 gap-y-2 text-[15px]">{files(g).map(([label, to]) => <TextLink key={label} href={to}>{label}</TextLink>)}</span>
               </div>
             ))}

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { COPY } from "@/content/copy";
-import { GAMES } from "@/content/games";
+import { GAMES, platformName } from "@/content/games";
 import { COLLAB, CONTACTS, FOUNDER_PHOTO, SOCIAL } from "@/content/studio";
 import { FollowRow } from "../Social";
 import { asset, href, SITE, webp, type Locale } from "@/lib/site";
@@ -13,14 +13,15 @@ const game = (slug: string) => GAMES.find((g) => g.slug === slug)!;
 /** For a `data-reveal` element: its place in a row of siblings that rise in one after another. */
 const nth = (i: number) => ({ "--i": i }) as React.CSSProperties;
 
-/** One full screen under the sticky header: headline left, a hand of the five games' real screens right in an amber spotlight. */
+/** One full screen under the sticky header: headline left, a hand of the six games' title art right in an amber spotlight. */
 export function Hero({ locale }: { locale: Locale }) {
   const t = COPY[locale];
-  // all five games on their title art, not gameplay, Duck Drip in the middle of the hand
+  // all six games on their title art, not gameplay; the newest, Holo Bastion, is the lit card in the middle of the hand
   const cards: [string, string][] = [
     ["/img/games/nah-blocks/poster.jpg", "hero-card hero-card--ll"],
     ["/img/games/meh-merge/poster.jpg", "hero-card hero-card--l"],
-    [game("duck-drip").media[0], "hero-card hero-card--c"],
+    ["/img/games/holo-bastion/poster.jpg", "hero-card hero-card--c"],
+    [game("duck-drip").media[0], "hero-card hero-card--c2"],
     ["/img/games/bruh-arrows/poster.jpg", "hero-card hero-card--r"],
     [game("slam-cards").media[0], "hero-card hero-card--rr"],
   ];
@@ -63,11 +64,11 @@ export function Hero({ locale }: { locale: Locale }) {
   );
 }
 
-/** Flip Flop Slam plays today, so it leads; the Android games are a list, not a grid of equal cards. */
+/** Flip Flop Slam plays today, so it leads; the Quest and Android games are a list, not a grid of equal cards. */
 export function Games({ locale }: { locale: Locale }) {
   const t = COPY[locale];
   const slam = game("slam-cards");
-  const android = GAMES.filter((g) => g.platform === "android");
+  const android = GAMES.filter((g) => g.platform !== "web");
   return (
     <section id="games" className="scroll-mt-20">
       <Container className="flex flex-col gap-9 pb-[clamp(48px,6vw,96px)] pt-[clamp(40px,5vw,72px)]">
@@ -102,10 +103,10 @@ export function Games({ locale }: { locale: Locale }) {
                 <img src={asset(webp(g.icon))} alt="" width={72} height={72} loading="lazy" className="h-[72px] w-[72px] flex-none rounded-[18px] transition-transform duration-200 group-hover:-rotate-3 group-hover:scale-105" />
                 <span className="flex min-w-0 flex-1 flex-col gap-0.5">
                   <b className="text-[28px] font-black leading-[1.05] group-hover:text-amber">{g.name}</b>
-                  <span className="text-[15px] text-muted">{g.genre[locale]} · Android</span>
+                  <span className="text-[15px] text-muted">{g.genre[locale]} · {platformName(g)}</span>
                   <span className="text-[15px] text-soft">{g.tagline[locale]}</span>
                 </span>
-                <span aria-hidden="true" className="row-peek max-md:hidden">
+                <span aria-hidden="true" className={`row-peek max-md:hidden${g.wide ? " row-peek--wide" : ""}`}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   {g.media.slice(0, 3).map((m) => <img key={m} src={asset(webp(m, true))} alt="" loading="lazy" />)}
                 </span>

@@ -40,11 +40,12 @@ export function HeroTitle({ lines, className, as: Tag = "h1" }: { lines: [string
  *  (card widths) and the turn it takes when the hand is hovered, spread/drop/spin = where it ends up once the first
  *  screen has scrolled away, z = which card wins where they overlap. */
 const HAND = [
-  { rot: -15, drift: 8, fan: -0.22, fanRot: -21, spread: -0.45, drop: 70, spin: -14, z: 0 },
-  { rot: -7, drift: 14, fan: -0.1, fanRot: -11, spread: -0.22, drop: 20, spin: -7, z: 1 },
-  { rot: 1, drift: 26, fan: 0, fanRot: 1, spread: 0, drop: -50, spin: 0, z: 2 },
-  { rot: 8, drift: 20, fan: 0.1, fanRot: 12, spread: 0.22, drop: 20, spin: 7, z: 1 },
-  { rot: 16, drift: 10, fan: 0.22, fanRot: 22, spread: 0.45, drop: 70, spin: 14, z: 0 },
+  { rot: -16, drift: 8, fan: -0.24, fanRot: -22, spread: -0.5, drop: 75, spin: -15, z: 0 },
+  { rot: -9, drift: 14, fan: -0.12, fanRot: -13, spread: -0.28, drop: 30, spin: -8, z: 1 },
+  { rot: -1, drift: 26, fan: -0.03, fanRot: -2, spread: -0.08, drop: -50, spin: -2, z: 3 },
+  { rot: 5, drift: 22, fan: 0.05, fanRot: 7, spread: 0.1, drop: -30, spin: 3, z: 2 },
+  { rot: 10, drift: 16, fan: 0.13, fanRot: 14, spread: 0.28, drop: 30, spin: 8, z: 1 },
+  { rot: 17, drift: 10, fan: 0.24, fanRot: 23, spread: 0.5, drop: 75, spin: 15, z: 0 },
 ];
 
 /** The hero's hand of game screens, moved by one eased loop so mouse, hover and scroll never fight: the hand tilts

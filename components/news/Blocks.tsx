@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Fragment } from "react";
 import { COPY } from "@/content/copy";
-import { gameBySlug } from "@/content/games";
+import { gameBySlug, platformName } from "@/content/games";
 import type { Block } from "@/lib/news";
 import { asset, href, SITE, webp, type Locale } from "@/lib/site";
 import { Icon } from "../icons";
@@ -35,12 +35,13 @@ export function GameCard({ slug, locale }: { slug: string; locale: Locale }) {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={asset(webp(g.icon))} alt="" className="h-20 w-20 flex-none rounded-[22px] object-cover" />
       <div className="flex min-w-0 flex-[1_1_220px] flex-col gap-0.5">
-        <span className="text-[14px] font-bold" style={{ color: g.label }}>{g.genre[locale]} · {g.platform === "web" ? "Web" : "Android"}</span>
+        <span className="text-[14px] font-bold" style={{ color: g.label }}>{g.genre[locale]} · {platformName(g)}</span>
         <b className="text-[22px] font-black leading-tight">{g.name}</b>
         <span className="text-[16px] text-muted">{g.tagline[locale]}</span>
       </div>
       <div className="flex flex-wrap items-center gap-2">
-        {g.playPackage ? <PlayBadge pkg={g.playPackage} live={g.storeLive} name={g.name} height={46} /> : <Button href={g.playUrl} icon style={{ background: g.accent, color: g.onAccent }}>{t.games.play}</Button>}
+        {g.platform === "quest" ? <span className="inline-flex min-h-[46px] items-center rounded-full border-2 px-5 text-[16px] font-extrabold" style={{ borderColor: g.accent, color: g.label }}>{t.games.quest}</span>
+          : g.playPackage ? <PlayBadge pkg={g.playPackage} live={g.storeLive} name={g.name} height={46} /> : <Button href={g.playUrl} icon style={{ background: g.accent, color: g.onAccent }}>{t.games.play}</Button>}
         <Link href={href(locale, `/games/${g.slug}/`)} className="inline-flex min-h-[46px] items-center px-2 text-[16px] font-bold text-white underline decoration-amber/60 underline-offset-4">{t.games.details}</Link>
       </div>
     </div>
@@ -128,9 +129,10 @@ export function BlockView({ b, locale }: { b: Block; locale: Locale }) {
       );
     case "gallery":
       return (
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-3">
+        // ":::gallery wide" for landscape screens (a headset game), phone screens otherwise
+        <div className={`grid ${arg === "wide" ? "grid-cols-[repeat(auto-fit,minmax(240px,1fr))]" : "grid-cols-[repeat(auto-fit,minmax(150px,1fr))]"} gap-3`}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          {lines.map((src) => <img key={src} src={asset(src.trim())} alt="" loading="lazy" className="aspect-[9/16] w-full rounded-[18px] border border-line object-cover" />)}
+          {lines.map((src) => <img key={src} src={asset(src.trim())} alt="" loading="lazy" className={`${arg === "wide" ? "aspect-video" : "aspect-[9/16]"} w-full rounded-[18px] border border-line object-cover`} />)}
         </div>
       );
     case "facts":

@@ -63,15 +63,15 @@ export function breadcrumbs(locale: Locale, trail: [string, string][]) {
 export function videoGame(game: Game, locale: Locale, description: string) {
   const web = game.platform === "web";
   return {
-    "@type": ["VideoGame", web ? "WebApplication" : "MobileApplication"],
+    "@type": ["VideoGame", web ? "WebApplication" : game.platform === "quest" ? "SoftwareApplication" : "MobileApplication"],
     "@id": `${SITE.url}/games/${game.slug}/#game`,
     name: game.name,
     description,
     url: `${SITE.url}${href(locale, `/games/${game.slug}/`)}`,
     image: `${SITE.url}${game.keyArt}`,
     applicationCategory: "GameApplication",
-    operatingSystem: web ? "Any (web browser)" : "Android",
-    gamePlatform: web ? "Web browser" : "Android",
+    operatingSystem: web ? "Any (web browser)" : game.platform === "quest" ? "Meta Horizon OS" : "Android",
+    gamePlatform: web ? "Web browser" : game.platform === "quest" ? "Meta Quest" : "Android",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     author: { "@id": ORG_ID },
     publisher: { "@id": ORG_ID },

@@ -9,7 +9,7 @@ export type Game = {
   /** Accent readable as text on the dark ground. */
   label: string;
   onAccent: string;
-  platform: "android" | "web";
+  platform: "android" | "web" | "quest";
   status: Text;
   genre: Text;
   tagline: Text;
@@ -24,6 +24,8 @@ export type Game = {
   media: string[];
   wide?: boolean;
   trailer?: string;
+  /** When that trailer went up, if later than the first trailers (16/10/2026). */
+  trailerDate?: string;
   /** A trailer hosted with the site (16:9 mp4), for games whose video is not on YouTube yet. */
   trailerFile?: string;
   playPackage?: string;
@@ -46,7 +48,35 @@ const androidInfo = (vi: boolean, live = false): [string, string][] =>
 /** The eight captioned Google Play screens. */
 const playShots = (slug: string) => [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `/img/games/${slug}/play${n}.jpg`);
 
+/** How a game's platform reads in labels ("Puzzle · Android"). */
+export const platformName = (g: Pick<Game, "platform">) => (g.platform === "web" ? "Web" : g.platform === "quest" ? "Meta Quest" : "Android");
+
 export const GAMES: Game[] = [
+  {
+    slug: "holo-bastion", name: "Holo Bastion", soon: true, accent: "#5FE8FF", label: "#5FE8FF", onAccent: "#03141A", platform: "quest",
+    status: { en: "Meta Quest · Coming soon", vi: "Meta Quest · Sắp ra mắt" },
+    genre: { en: "Mixed reality tower defense", vi: "Thủ thành thực tế hỗn hợp" },
+    tagline: { en: "Defend your table.", vi: "Giữ lấy cái bàn của bạn." },
+    short: { en: "A holographic island lands on your real table. Build turrets, cast skills with your bare hands and hold the Core against a whole swarm.",
+             vi: "Một hòn đảo hologram đáp xuống cái bàn thật của bạn. Đặt súng, tung skill bằng tay không và giữ Core trước cả một bầy quái." },
+    about: {
+      en: ["A holographic island lands on your real table. Rifts tear open, swarms march on your Core, and the only controllers you need are your hands.",
+           "Pinch turret cards from the tray and merge them up to tier 4, shoot drones down with a finger gun, and pull skill orbs out to slam, chop, burn and frame a Prism beam. Weather fronts reshape the island mid-fight, and the Brood Mother crashes the party."],
+      vi: ["Một hòn đảo hologram đáp xuống cái bàn thật của bạn. Khe nứt mở ra, bầy quái kéo về phía Core, và thứ điều khiển duy nhất bạn cần là đôi tay.",
+           "Chụm ngón kéo thẻ súng từ khay, gộp lên tới cấp 4, bắn rơi drone bằng súng ngón tay, rút quả cầu skill ra để đấm, chém, phun lửa và khung tay bắn tia Prism. Thời tiết đổi giữa trận làm đảo biến dạng, và Brood Mother xuất hiện phá đám."],
+    },
+    features: {
+      en: [["Hands only", "No controllers. Pinch, slam, chop, push a palm or frame a Prism with both hands."], ["Your table, your map", "The island snaps onto a real table in your room, or wherever you press your palm."], ["Mixed Reality or Full Dive", "Fight on your desk in passthrough, or take the island into deep space."]],
+      vi: [["Chỉ dùng tay", "Không tay cầm. Chụm, đấm, chém, đẩy lòng bàn tay hoặc khung hai tay thành Prism."], ["Bàn của bạn là bản đồ", "Hòn đảo bám lên cái bàn thật trong phòng, hoặc chỗ nào bạn đặt lòng bàn tay xuống."], ["Mixed Reality hoặc Full Dive", "Đánh ngay trên bàn qua passthrough, hoặc đưa cả hòn đảo ra ngoài vũ trụ."]],
+    },
+    icon: "/img/games/holo-bastion/icon.png", keyArt: "/img/games/holo-bastion/feature.jpg",
+    media: [1, 2, 3, 4, 5, 6].map((n) => `/img/games/holo-bastion/shot${n}.jpg`), wide: true,
+    trailer: "1U1WmmL50uo", trailerDate: "2026-11-17T18:15:00+07:00",
+    info: {
+      en: [["Platform", "Meta Quest 3 and 3S, mixed reality"], ["Controls", "Hand tracking only"], ["Players", "1"], ["Engine", "Unity 6, Meta XR SDK"], ["Status", "Coming soon · Meta VR Start Developer Competition 2026"], ["Developer", "Bill The Dev"]],
+      vi: [["Nền tảng", "Meta Quest 3 và 3S, thực tế hỗn hợp"], ["Điều khiển", "Chỉ dùng tay (hand tracking)"], ["Người chơi", "1"], ["Engine", "Unity 6, Meta XR SDK"], ["Trạng thái", "Sắp ra mắt · Meta VR Start Developer Competition 2026"], ["Nhà phát triển", "Bill The Dev"]],
+    },
+  },
   {
     slug: "meh-merge", name: "Meh Merge", accent: "#B7A6FF", label: "#B7A6FF", onAccent: "#111111", platform: "android",
     status: { en: "Android · on Google Play", vi: "Android · đã có trên Google Play" },

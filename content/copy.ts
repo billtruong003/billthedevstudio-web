@@ -5,12 +5,12 @@ import { SITE } from "@/lib/site";
 const en = {
   langName: "English",
   pages: {
-    games: { title: "Games by Bill The Dev", lede: "Free games from a one-man studio in Ho Chi Minh City: three puzzle games for Android, Duck Drip on the way, and Flip Flop Slam, a party game you play in the browser with friends.", meta: "All Bill The Dev games: Meh Merge, Nah Blocks and Bruh Arrows for Android, Duck Drip, and the browser party game Flip Flop Slam (Dép Lào Tuổi Thơ)." },
+    games: { title: "Games by Bill The Dev", lede: "Free games from a one-man studio in Ho Chi Minh City: three puzzle games for Android, Duck Drip on the way, Flip Flop Slam, a party game you play in the browser with friends, and Holo Bastion, a hands-only mixed reality game for Meta Quest.", meta: "All Bill The Dev games: Meh Merge, Nah Blocks and Bruh Arrows for Android, Duck Drip, the browser party game Flip Flop Slam (Dép Lào Tuổi Thơ), and Holo Bastion for Meta Quest." },
     about: { title: "About Bill The Dev", lede: "Bill The Dev is a one-man game studio in Ho Chi Minh City, Vietnam. Bill (Trương Ngọc Châu) designs, codes, draws and ships every game himself, and builds Unity, web and AI projects for other studios.", meta: "Bill The Dev is a one-man indie game studio in Ho Chi Minh City, Vietnam, run by Bill (Trương Ngọc Châu): its story, its games and how it works." },
     contact: { title: "Contact Bill The Dev", lede: "For games, press, partnerships or client work, write to the studio. Bill answers himself, usually within a day.", meta: "Contact Bill The Dev, an indie game studio in Ho Chi Minh City: email, Zalo, Messenger, LinkedIn, Discord and Telegram." },
   },
   nav: { games: "Games", services: "Services", studio: "Studio", news: "News", press: "Press kit", contact: "Contact", hire: "Hire the studio", menu: "Open the menu", close: "Close the menu" },
-  menuHints: { games: "4 games · Android and web", services: "Unity, web, AI, tech art", studio: "One developer: Bill", contact: "Email, Zalo, Messenger…", news: "Studio news and launches", press: "Facts, logos, trailers" },
+  menuHints: { games: "5 games · Android, web and Meta Quest", services: "Unity, web, AI, tech art", studio: "One developer: Bill", contact: "Email, Zalo, Messenger…", news: "Studio news and launches", press: "Facts, logos, trailers" },
   slogan: ["Shades on.", "Ship it."],
   hero: {
     follow: "Follow us on", onPlay: "Out now on Google Play", scroll: "Scroll for more",
@@ -30,8 +30,8 @@ const en = {
     ] as [string, string, string][],
   },
   games: {
-    title: "The games", heading: ["Four games out.", "Duck Drip is next."], lede: "All free. Meh Merge, Nah Blocks and Bruh Arrows are out on Google Play, Duck Drip is coming soon, and Flip Flop Slam plays in your browser today.",
-    testing: "In testing", live: "On Google Play", soon: "Coming soon", workbench: "One more is being built now. It gets a page here the day it is ready to play.", note: "Android and web · free to play", details: "Details", play: "Play in the browser", playShort: "Play now",
+    title: "The games", heading: ["Four games out.", "Holo Bastion is next."], lede: "All free. Meh Merge, Nah Blocks and Bruh Arrows are out on Google Play, Flip Flop Slam plays in your browser today, and Holo Bastion, a hands-only mixed reality game for Meta Quest, is coming soon.",
+    testing: "In testing", live: "On Google Play", soon: "Coming soon", workbench: "One more is being built now. It gets a page here the day it is ready to play.", note: "Android and web · free to play", details: "Details", play: "Play in the browser", playShort: "Play now", quest: "Coming soon on Meta Quest", questShort: "Coming soon",
     collabKicker: "Collaborations", collabBy: "a HIT Studio game",
     collabText: "Bill The Dev built feature and gameplay systems for HIT Studio's strategy game.", collabCta: "Play it in the arcade",
   },
@@ -90,7 +90,7 @@ const en = {
   press: { kicker: "Press kit", title: "Bill The Dev, for press and partners", sub: "Facts, logos, key art, screenshots and trailers. Free to use when you write about the studio or its games.",
            all: "Email for press materials", facts: "Fact sheet", about: "About the studio", history: "History", historyText: "Bill spent his first years in games building parts of other studios' games: Applaydu at Gameloft, Animal Push Royale at FPT IS, Shmackle VR at CurlyBlue. In 2026 he started Bill The Dev to ship games of his own, end to end, and to build for clients the same way.",
            founder: "Founder", founderText: "Trương Ngọc Châu (Bill), founder and the whole team. Making games for 5+ years, including at Gameloft, FPT IS and CurlyBlue (Shmackle VR).",
-           aboutText: "Bill The Dev is a one-man game studio in Ho Chi Minh City, Vietnam: Bill designs, codes, draws and runs every game, servers and analytics included. The studio also takes outsourcing work in Unity, web, AI and tech art. Its puzzle games Meh Merge, Nah Blocks and Bruh Arrows are out on Google Play, Duck Drip is coming soon, and Flip Flop Slam, a Vietnamese schoolyard game made for the browser, is in open beta.",
+           aboutText: "Bill The Dev is a one-man game studio in Ho Chi Minh City, Vietnam: Bill designs, codes, draws and runs every game, servers and analytics included. The studio also takes outsourcing work in Unity, web, AI and tech art. Its puzzle games Meh Merge, Nah Blocks and Bruh Arrows are out on Google Play, Duck Drip is coming soon, Flip Flop Slam, a Vietnamese schoolyard game made for the browser, is in open beta, and Holo Bastion, a hands-only mixed reality tower defense for Meta Quest, is in the Meta VR Start Developer Competition 2026.",
            games: "Games", trailer: "Trailer on YouTube", shots: "Screenshots (.zip)", art: "Icon and key art (.zip)", logos: "Logos and icons", foxDark: "Fox mark, on dark", foxLight: "Fox mark, on light",
            wordmark: "Wordmark, Bill The Dev", toMake: "Still to make", icons: "Game icons", studioLogos: "Studio logo", logoDark: "Logo, on dark", logoLight: "Logo, on light", markColour: "Fox mark", markWhite: "Fox mark, white", markBlack: "Fox mark, black", youtube: "Trailers on the studio's YouTube", need: "Need something that isn't here?", needSub: "Interviews, review builds, other sizes: write to the studio.",
            factRows: [["Developer", "Bill The Dev, a one-man studio"], ["Based in", "Ho Chi Minh City, Vietnam"], ["Founded", "2026"], ["Founder", "Trương Ngọc Châu (Bill), Unity engineer"],
@@ -117,12 +117,12 @@ export type Copy = typeof en;
 const vi: Copy = {
   langName: "Tiếng Việt",
   pages: {
-    games: { title: "Game của Bill The Dev", lede: "Game miễn phí của một studio một người ở TP. Hồ Chí Minh: ba game puzzle trên Android, Duck Drip sắp ra, và Flip Flop Slam (Dép Lào Tuổi Thơ), game nhóm chơi ngay trên trình duyệt với bạn bè.", meta: "Tất cả game của Bill The Dev: Meh Merge, Nah Blocks, Bruh Arrows trên Android, Duck Drip, và game nhóm trên trình duyệt Dép Lào Tuổi Thơ (Flip Flop Slam)." },
+    games: { title: "Game của Bill The Dev", lede: "Game miễn phí của một studio một người ở TP. Hồ Chí Minh: ba game puzzle trên Android, Duck Drip sắp ra, Flip Flop Slam (Dép Lào Tuổi Thơ), game nhóm chơi ngay trên trình duyệt với bạn bè, và Holo Bastion, game thực tế hỗn hợp chơi bằng tay không trên Meta Quest.", meta: "Tất cả game của Bill The Dev: Meh Merge, Nah Blocks, Bruh Arrows trên Android, Duck Drip, game nhóm trên trình duyệt Dép Lào Tuổi Thơ (Flip Flop Slam), và Holo Bastion trên Meta Quest." },
     about: { title: "Về Bill The Dev", lede: "Bill The Dev là studio game một người ở TP. Hồ Chí Minh. Bill (Trương Ngọc Châu) tự thiết kế, lập trình, vẽ và phát hành từng game, và nhận làm dự án Unity, web, AI cho các studio khác.", meta: "Bill The Dev là studio game indie một người ở TP. Hồ Chí Minh do Bill (Trương Ngọc Châu) làm: câu chuyện, các game và cách studio làm việc." },
     contact: { title: "Liên hệ Bill The Dev", lede: "Về game, báo chí, hợp tác hay dự án thuê làm, cứ nhắn cho studio. Bill tự trả lời, thường trong một ngày.", meta: "Liên hệ Bill The Dev, studio game indie ở TP. Hồ Chí Minh: email, Zalo, Messenger, LinkedIn, Discord và Telegram." },
   },
   nav: { games: "Game", services: "Dịch vụ", studio: "Studio", news: "Tin tức", press: "Press kit", contact: "Liên hệ", hire: "Thuê studio", menu: "Mở menu", close: "Đóng menu" },
-  menuHints: { games: "4 game · Android và web", services: "Unity, web, AI, tech art", studio: "Một người: Bill", contact: "Email, Zalo, Messenger…", news: "Tin tức và ra mắt của studio", press: "Thông tin, logo, trailer" },
+  menuHints: { games: "5 game · Android, web và Meta Quest", services: "Unity, web, AI, tech art", studio: "Một người: Bill", contact: "Email, Zalo, Messenger…", news: "Tin tức và ra mắt của studio", press: "Thông tin, logo, trailer" },
   slogan: ["Shades on.", "Ship it."],
   hero: {
     follow: "Theo dõi studio trên", onPlay: "Đã có trên Google Play", scroll: "Cuộn xuống xem thêm",
@@ -142,8 +142,8 @@ const vi: Copy = {
     ],
   },
   games: {
-    title: "Các game", heading: ["Bốn game đã ra.", "Tiếp theo: Duck Drip."], lede: "Đều miễn phí. Meh Merge, Nah Blocks và Bruh Arrows đã có trên Google Play, Duck Drip sắp ra mắt, còn Flip Flop Slam (Dép Lào Tuổi Thơ) chơi được ngay trên trình duyệt.",
-    testing: "Đang thử", live: "Đã lên Play", soon: "Sắp ra mắt", workbench: "Một game nữa đang được làm. Chơi được là có trang ở đây ngay hôm đó.", note: "Android và web · chơi miễn phí", details: "Chi tiết", play: "Chơi trên trình duyệt", playShort: "Chơi ngay",
+    title: "Các game", heading: ["Bốn game đã ra.", "Tiếp theo: Holo Bastion."], lede: "Đều miễn phí. Meh Merge, Nah Blocks và Bruh Arrows đã có trên Google Play, Flip Flop Slam (Dép Lào Tuổi Thơ) chơi được ngay trên trình duyệt, và Holo Bastion, game thực tế hỗn hợp chơi bằng tay không trên Meta Quest, sắp ra mắt.",
+    testing: "Đang thử", live: "Đã lên Play", soon: "Sắp ra mắt", workbench: "Một game nữa đang được làm. Chơi được là có trang ở đây ngay hôm đó.", note: "Android và web · chơi miễn phí", details: "Chi tiết", play: "Chơi trên trình duyệt", playShort: "Chơi ngay", quest: "Sắp có trên Meta Quest", questShort: "Sắp ra mắt",
     collabKicker: "Hợp tác", collabBy: "game của HIT Studio",
     collabText: "Bill The Dev làm hệ thống tính năng và gameplay cho game chiến thuật của HIT Studio.", collabCta: "Chơi trong arcade",
   },

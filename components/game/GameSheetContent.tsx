@@ -14,6 +14,8 @@ type Props = { game: Game; locale: Locale; mode: "modal" | "page"; onSelect?: (s
 
 function Cta({ game, locale, height = 54, short }: { game: Game; locale: Locale; height?: number; short?: boolean }) {
   const t = COPY[locale];
+  if (game.platform === "quest")
+    return <span className="inline-flex items-center rounded-full border-2 px-6 text-[17px] font-black" style={{ borderColor: game.accent, color: game.label, minHeight: height }}>{short ? t.games.questShort : t.games.quest}</span>;
   return game.playPackage
     ? <PlayBadge pkg={game.playPackage} live={game.storeLive} name={game.name} height={height} />
     : <a href={game.playUrl} className="inline-flex items-center rounded-full px-6 text-[18px] font-black text-white no-underline transition-transform active:scale-[0.97]" style={{ background: game.accent, minHeight: height }}>{short ? t.games.playShort : t.games.play}</a>;
@@ -113,7 +115,7 @@ export function GameSheetContent({ game, locale, mode, onSelect, onClose }: Prop
               <Cta game={game} locale={locale} />
               {testing && <TextLink href={`mailto:${SITE.email}?subject=${encodeURIComponent(game.name + " test")}`}>{locale === "vi" ? "Email để tham gia thử nghiệm" : "Email to join the test"}</TextLink>}
             </div>
-            <span className="text-[14px] font-bold text-faint">{game.status[locale]} · {game.playPackage ? t.sheet.priceAndroid : t.sheet.priceWeb}</span>
+            <span className="text-[14px] font-bold text-faint">{game.status[locale]}{game.platform === "quest" ? "" : ` · ${game.playPackage ? t.sheet.priceAndroid : t.sheet.priceWeb}`}</span>
           </div>
           <div className="min-w-0 flex-[1.2_1_440px]"><Trailer game={game} label={t.sheet.trailer} /></div>
         </section>
@@ -178,7 +180,7 @@ export function GameSheetContent({ game, locale, mode, onSelect, onClose }: Prop
 
       {/* phones: the store button stays in reach (sticky, not fixed: fixed would ride along with the sheet's open animation) */}
       <div className="sticky bottom-0 z-20 mt-auto flex items-center justify-between gap-3 border-t border-line bg-ink px-4 pb-4 pt-3 sm:hidden">
-        <span className="flex min-w-0 flex-col leading-tight"><b className="text-[17px]">{game.playPackage ? t.sheet.freeAndroid : game.name}</b><span className="text-[14px] text-muted">{game.playPackage ? t.sheet.adsIap : t.sheet.priceWeb}</span></span>
+        <span className="flex min-w-0 flex-col leading-tight"><b className="text-[17px]">{game.playPackage ? t.sheet.freeAndroid : game.name}</b><span className="text-[14px] text-muted">{game.platform === "quest" ? game.status[locale] : game.playPackage ? t.sheet.adsIap : t.sheet.priceWeb}</span></span>
         <Cta game={game} locale={locale} height={52} short />
       </div>
 
